@@ -1,0 +1,13 @@
+{
+    "env": "dev",
+    "dev": {
+        "debug": true,
+        "cacheBust": true,
+        "routing": true
+    },
+    "prod": {
+        "debug": false,
+        "cacheBust": false,
+        "routing": true
+    }
+}

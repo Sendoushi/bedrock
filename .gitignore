@@ -1,0 +1,9 @@
+/node_modules
+/npm-debug.*
+/components
+/bower_components
+/web/dev/app
+/web/prod/app
+/tmp
+/.idea
+/app/config/config.json
