@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: './app',
+    baseUrl: '/app',
     paths: {
         'backbone': '../bower_components/backbone/backbone',
         'underscore': '../bower_components/underscore/underscore',

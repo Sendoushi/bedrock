@@ -16,13 +16,6 @@
     "request": "~2.27.0",
     "requirejs": "~2.1.2"
   },
-  "dependencies": {
-    "grunt": "^0.4.5",
-    "express": "^4.11.1",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt-contrib-sass": "^0.8.1",
-    "grunt-keepalive": "^0.0.1"
-  },
   "author": "",
   "license": "ISC"
 }

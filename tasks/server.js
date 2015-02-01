@@ -62,7 +62,11 @@ module.exports = function (grunt) {
     // Create server
     grunt.registerTask('createserver', 'Creates server', function () {
         // Check if assets dir exists
-        var site = express();
+        var site = express(),
+            webIndex = path.resolve(path.join(webFolder, 'index.html'));
+
+        // Change cwd to the web folder
+        process.chdir(webFolder);
 
         // Serve utf-8 by default
         site.use(function (req, res, next) {
@@ -72,34 +76,51 @@ module.exports = function (grunt) {
 
         // Serve index
         site.get('/', function (req, res) {
-            return res.sendFile(path.resolve(path.join(webFolder, 'index.html')));
+            return res.sendFile(webIndex);
         });
 
         // Serve files & folders
         site.get('/*', function (req, res) {
             // Get the requested file
             // If there are query parameters, remove them
-            var file = path.resolve(path.join(webFolder, req.url.substr(1)));
-            file = file.split('?')[0];
+            var file = path.resolve(path.join(webFolder, req.url.substr(1))).split('?')[0];
 
+            checkFile(file, function (err, status) {
+                if (status === 404) {
+                    // Let the javascript framework handle the 404
+                    res.sendFile(webIndex);
+                } else if (status === 'file') {
+                    // File is really a file
+                    res.sendFile(file);
+                } else {
+                    // There was a status error
+                    res.sendStatus(status);
+                }
+            });
+
+        });
+
+        /**
+         * Check if file exists and what it is
+         * @param  {*} file
+         * @return {*}
+         */
+        function checkFile(file, cb) {
             fs.stat(file, function (err, stat) {
                 // If file does not exists, serve 404 page
                 if (err) {
-                    if (err.code === 'ENOENT') {
-                        // Backbone will take care of 404s
-                        res.sendFile(path.resolve(path.join(webFolder, 'index.html')));
-                    } else {
-                        res.sendStatus(500);
-                    }
-                // If it exists and is a file, serve it
-                } else if (stat.isFile()) {
-                    res.sendFile(file);
-                // Otherwise is a folder, so we deny the access
-                } else {
-                    res.sendStatus(403);
+                    return cb(null, err.code === 'ENOENT' && 404 || 500);
                 }
+
+                // If it exists and is a file, serve it
+                if (stat.isFile()) {
+                    return cb(null, 'file');
+                }
+
+                // Otherwise is a folder, so we deny the access
+                return cb(null, 403);
             });
-        });
+        }
 
         // Effectively listen
         site.listen(8000, 'localhost');

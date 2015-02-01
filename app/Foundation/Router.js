@@ -23,7 +23,7 @@ define([
 
             // Build routes (states)
             _.each(states, function (val, key) {
-                this.routes[val] = this._stateManager.bind(this, key, val);
+                this.routes[key] = this._stateManager.bind(this, val, key);
             }.bind(this));
 
             // Run the backbone constructor
