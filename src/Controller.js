@@ -1,5 +1,5 @@
 define([
-    'Foundation/utils/logger',
+    './utils/logger',
     'backbone',
     'underscore'
 ], function (logger, config, Backbone, _) {

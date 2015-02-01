@@ -2,10 +2,5 @@
 /npm-debug.*
 /components
 /bower_components
-/web/dev/app
-/web/dev/bower_components
-/web/prod/app
-/web/prod/bower_components
 /tmp
-/.idea
-/app/config/config.json
+.DS_Store
