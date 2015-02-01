@@ -2,12 +2,10 @@
     "env": "dev",
     "dev": {
         "debug": true,
-        "cacheBust": true,
-        "routing": true
+        "cacheBust": true
     },
     "prod": {
         "debug": false,
-        "cacheBust": false,
-        "routing": true
+        "cacheBust": false
     }
 }

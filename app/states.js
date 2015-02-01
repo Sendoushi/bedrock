@@ -3,6 +3,8 @@ define(function () {
     'use strict';
 
     return {
-        index: '/'
+        index: '',
+        post: 'post',
+        postRead: 'post/:id'
     };
 });
