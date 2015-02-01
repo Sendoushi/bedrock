@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     grunt.initConfig({});
 
     // Set app
-    grunt.registerTask('setapp', 'Sets app', function () {
+    grunt.registerTask('set_app', 'Sets app', function () {
         // TODO: This should copy
         // grunt.option('foo', 'bar');
         // grunt.task.run('copy');
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
     });
 
     // Pre process sass
-    grunt.registerTask('preprocess', 'Pre-process sass', function () {
+    grunt.registerTask('pre_process', 'Pre-process sass', function () {
         // TODO: Pre process less / sass
         // grunt.option('foo', 'bar');
         // grunt.task.run('sass');
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
     });
 
     // Create server
-    grunt.registerTask('createserver', 'Creates server', function () {
+    grunt.registerTask('create_server', 'Creates server', function () {
         // Check if assets dir exists
         var site = express(),
             webIndex = path.resolve(path.join(webFolder, 'index.html'));
@@ -125,7 +125,10 @@ module.exports = function (grunt) {
         // Effectively listen
         site.listen(8000, 'localhost');
         console.log('Listening on http://localhost:8000 (dev environment)');
+
+        // Don't let the process die
+        this.async();
     });
 
-    grunt.registerTask('server', ['setapp', 'preprocess', 'createserver', 'keepalive']);
+    grunt.registerTask('server', ['set_app', 'pre_process', 'create_server']);
 };
