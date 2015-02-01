@@ -86,7 +86,8 @@ module.exports = function (grunt) {
                 // If file does not exists, serve 404 page
                 if (err) {
                     if (err.code === 'ENOENT') {
-                        res.sendStatus(404);
+                        // Backbone will take care of 404s
+                        res.sendFile(path.resolve(path.join(webFolder, 'index.html')));
                     } else {
                         res.sendStatus(500);
                     }
