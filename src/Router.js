@@ -2,12 +2,17 @@ define([
     'config',
     'states',
     'backbone',
+    './Rock',
     'underscore'
-], function (config, states, Backbone, _) {
+], function (config, states, Backbone, Rock, _) {
 
     'use strict';
 
-    return Backbone.Router.extend({
+    return Backbone.Router.extend(_.extend({}, Rock, {
+        cid: _.uniqueId('router'),
+
+        _name: 'Router',
+
         _routesOriginal: {
             '404': 'notFound'
         },
@@ -29,9 +34,20 @@ define([
         },
 
         /**
+         * Bedrock router initialize
+         */
+        initialize: function () {
+            Backbone.Router.prototype.initialize.apply(this, arguments);
+
+            return this;
+        },
+
+        /**
          * Starts the router
          */
         start: function () {
+            !this._siblings.length && this._logger.warn(this._name, 'There are no siblings. State won\'t be handled.');
+
             // Listens for the changes
             var historyStart = Backbone.history.start({ pushState: true });
 
@@ -106,7 +122,7 @@ define([
 
                     // Build the state object
                     stateParsed = {
-                        state: this._routesOriginal[routeUrl],
+                        name: this._routesOriginal[routeUrl],
                         route: routeUrl,
                         params: hasParams && paramsObj || undefined,
                         child: stateParsed
@@ -116,13 +132,28 @@ define([
 
             // Add the index
             stateParsed = {
-                state: this._routesOriginal[''],
+                name: this._routesOriginal[''],
                 route: '',
                 child: stateParsed
             };
 
+            // Handle state
+            this._handleState(stateParsed);
+
+        },
+
+        /**
+         * Handle state
+         */
+        _handleState: function (state) {
+            !this._siblings.length && this._logger.warn(this._name, 'There are no siblings. State won\'t be handled.');
+
+            _.each(this._siblings, function (child) {
+                child.setState(state);
+            });
+
             // Finally trigger the statechange
-            this.trigger('statechange', stateParsed);
+            this.trigger('statechange', state);
         }
-    });
+    }));
 });

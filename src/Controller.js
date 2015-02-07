@@ -1,19 +1,34 @@
 define([
-    './utils/logger',
     'backbone',
-    'underscore'
-], function (logger, config, Backbone, _) {
+    'underscore',
+    './Rock'
+], function (Backbone, _, Rock) {
 
     'use strict';
 
-    return Backbone.Controller.extend({
+    /**
+     * Constructor of controller
+     */
+    var Controller = function () {
+        return this.initialize.apply(this, arguments);
+    };
 
+    _.extend(Controller.prototype, Rock, Backbone.Events, {
         _name: 'Controller',
         _states: {},
-        _links: [],
 
-        // Set logger
-        logger: logger,
+        cid: _.uniqueId('controller'),
+
+        // --------------------------------
+
+        /**
+         * Controller initialize
+         * @param  {Obejct} options
+         * @return {this}
+         */
+        initialize: function () {
+            return this;
+        },
 
         /**
          * Gets the current state
@@ -37,11 +52,15 @@ define([
          */
         setState: function (state) {
             if (!this.isState(state)) {
-                logger.log(this._name, 'The state ' + state + 'doesn\'t exist in this controller.');
-                return;
+                return this._logger.warn(this._name, 'The state "' + state + '" doesn\'t exist in this controller.');
             }
 
-            logger.log(this._name, 'Changed state to ' + state + '.');
+            // Set the state
+            this[this._states[state.name]](state);
+            this._logger.log(this._name, 'Changed state to "' + state.name + '".');
+
+            // Set child state
+            state.child && this.setChildState(state.child);
         },
 
         /**
@@ -51,15 +70,20 @@ define([
         setChildState: function (state) {
             var found = false;
 
-            // Go through each link and set the state
-            _.each(this._links, function (val) {
+            // Go through each sible and set the state
+            _.each(this._siblings, function (val) {
                 if (val.isState(state)) {
                     val.setState(state);
                     found = true;
                 }
             });
 
-            !found && logger.log(this._name, 'The state ' + state + 'wasn\'t found.');
+            !found && this._logger.warn(this._name, 'The state "' + state.name + '" wasn\'t found.');
         }
     });
+
+    // Set the extend function
+    Controller.extend = Controller.prototype.extend;
+
+    return Controller;
 });

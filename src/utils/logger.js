@@ -36,7 +36,25 @@ define([
          */
         log: function (module, msg) {
             if (config.debug) {
-                console.log('[foundation-bb][' + module + ']' + msg);
+                if (module) {
+                    msg = '[Bedrock][' + module + '] ' + msg;
+                }
+
+                console.log(msg);
+            }
+        },
+
+        /**
+         * Warns to wherever
+         * @return {String}
+         */
+        warn: function (module, msg) {
+            if (config.debug) {
+                if (module) {
+                    msg = '[Bedrock][' + module + '] ' + msg;
+                }
+
+                console.warn(msg);
             }
         }
     };
