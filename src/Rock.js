@@ -45,14 +45,14 @@ define([
             // Check if he is being double adopted
             if (child.getParent()) {
                 this._logger.warn(this._name, 'Child already has a parent.');
-                return this;
+                return child;
             }
 
             // Check if there is already and warn
             for (var i = 0; i < this._siblings.length; i += 1) {
                 if (child.name === this._siblings[i].name && child.cid === this._siblings[i].cid) {
                     this._logger.warn(this._name, 'Child was already adopted by this.');
-                    return this;
+                    return child;
                 }
             }
 
@@ -62,7 +62,7 @@ define([
             child.setParent(this);
 
             this._logger.log(this._name, 'Child was adopted.');
-            return this;
+            return child;
         },
 
         /**
@@ -72,7 +72,7 @@ define([
         unadopt: function (child) {
             if (!this._siblings || !this._siblings.length) {
                 this._logger.warn(this._name, 'There are no adopted.');
-                return this;
+                return child;
             }
 
             for (var i = 0; i < this._siblings.length; i += 1) {
@@ -81,12 +81,12 @@ define([
                     child.setParent();
 
                     this._logger.log(this._name, 'Child was unadopted.');
-                    return this;
+                    return child;
                 }
             }
 
             this._logger.warn(this._name, 'Child wasn\'t adopted by this.');
-            return this;
+            return child;
         },
 
         /**
