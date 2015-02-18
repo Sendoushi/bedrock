@@ -1,5 +1,7 @@
 {
-    "project": {},
+    "project": {
+        "name": "Bedrock"
+    },
     "files": {
         "src/utils/logger.js": {
             "name": "src/utils/logger.js",

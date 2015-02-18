@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "doc": "./node_modules/yuidocjs/lib/cli.js -c yuidoc.json --themedir ./node_modules/yuidocjs/themes/simple"
+    "doc": "./node_modules/yuidocjs/lib/cli.js -c yuidoc.json"
   },
   "repository": {
     "type": "git",
