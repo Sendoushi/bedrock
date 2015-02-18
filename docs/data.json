@@ -6,21 +6,27 @@
         "src/utils/logger.js": {
             "name": "src/utils/logger.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Logger": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src/Controller.js": {
             "name": "src/Controller.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Controller": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src/Model.js": {
             "name": "src/Model.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Model": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -36,20 +42,67 @@
         "src/Router.js": {
             "name": "src/Router.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Router": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src/View.js": {
             "name": "src/View.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "View": 1
+            },
             "fors": {},
             "namespaces": {}
         }
     },
     "modules": {},
     "classes": {
+        "Logger": {
+            "name": "Logger",
+            "shortname": "Logger",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/utils/logger.js",
+            "line": 32,
+            "description": "Bedrock logger util"
+        },
+        "Controller": {
+            "name": "Controller",
+            "shortname": "Controller",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Controller.js",
+            "line": 9,
+            "description": "Bedrock Controller",
+            "extends": "[Rock, Backbone.Events]",
+            "is_constructor": 1,
+            "return": {
+                "description": "",
+                "type": "This"
+            }
+        },
+        "Model": {
+            "name": "Model",
+            "shortname": "Model",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Model.js",
+            "line": 9,
+            "description": "Bedrock Model",
+            "extends": "[Backbone.Model, Rock]"
+        },
         "Rock": {
             "name": "Rock",
             "shortname": "Rock",
@@ -61,114 +114,225 @@
             "file": "src/Rock.js",
             "line": 9,
             "description": "Base for all Bedrock instances"
+        },
+        "Router": {
+            "name": "Router",
+            "shortname": "Router",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Router.js",
+            "line": 11,
+            "description": "Bedrock Router",
+            "extends": "[Backbone.Router, Rock]"
+        },
+        "View": {
+            "name": "View",
+            "shortname": "View",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/View.js",
+            "line": 14,
+            "description": "Bedrock View",
+            "extends": "[Backbone.View, Rock]"
         }
     },
     "classitems": [
         {
             "file": "src/utils/logger.js",
-            "line": 33,
+            "line": 38,
             "description": "Logs to wherever",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Rock"
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "module",
+                    "description": "Module from where it came",
+                    "type": "String"
+                },
+                {
+                    "name": "msg",
+                    "description": "Message to log",
+                    "type": "String"
+                }
+            ],
+            "class": "Logger"
         },
         {
             "file": "src/utils/logger.js",
-            "line": 47,
+            "line": 54,
             "description": "Warns to wherever",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Rock"
-        },
-        {
-            "file": "src/Controller.js",
-            "line": 9,
-            "description": "Constructor of controller",
-            "class": "Rock"
-        },
-        {
-            "file": "src/Controller.js",
-            "line": 24,
-            "description": "Controller initialize",
+            "itemtype": "method",
+            "name": "warn",
             "params": [
                 {
-                    "name": "options",
-                    "description": "",
-                    "type": "Obejct"
+                    "name": "module",
+                    "description": "Module from where it came",
+                    "type": "String"
+                },
+                {
+                    "name": "msg",
+                    "description": "Message to warn",
+                    "type": "String"
                 }
             ],
+            "class": "Logger"
+        },
+        {
+            "file": "src/utils/logger.js",
+            "line": 70,
+            "description": "Errors to wherever",
+            "itemtype": "method",
+            "name": "error",
+            "params": [
+                {
+                    "name": "module",
+                    "description": "Module from where it came",
+                    "type": "String"
+                },
+                {
+                    "name": "msg",
+                    "description": "Message to error",
+                    "type": "String"
+                }
+            ],
+            "class": "Logger"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 21,
+            "description": "Class name",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "class": "Controller"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 28,
+            "description": "States object of the instance",
+            "type": "{Object}",
+            "class": "Controller"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 34,
+            "description": "Unique id for the instance",
+            "type": "{String}",
+            "class": "Controller"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 42,
+            "description": "Initialize",
+            "itemtype": "method",
+            "name": "initialize",
             "return": {
                 "description": "",
                 "type": "This"
             },
-            "class": "Rock"
+            "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 33,
-            "description": "Gets the current state",
+            "line": 51,
+            "description": "Returns the current state",
+            "itemtype": "method",
+            "name": "getState",
             "return": {
-                "description": "",
-                "type": "String"
+                "description": "The current state",
+                "type": "Object"
             },
-            "class": "Rock"
+            "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 41,
-            "description": "Checks if this is a state in this controller",
+            "line": 60,
+            "description": "Checks if this is a state in this instance",
+            "itemtype": "method",
+            "name": "isState",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "Key to check in the states",
+                    "type": "String"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
             },
-            "class": "Rock"
+            "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 49,
+            "line": 70,
             "description": "Sets state of the controller",
+            "itemtype": "method",
+            "name": "setState",
             "params": [
                 {
                     "name": "state",
-                    "description": "",
+                    "description": "Key to set the state",
                     "type": "String"
                 }
             ],
-            "class": "Rock"
+            "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 66,
+            "line": 88,
             "description": "Sets state in child",
+            "itemtype": "method",
+            "name": "setChildState",
             "params": [
                 {
                     "name": "state",
-                    "description": "",
+                    "description": "Key to be set in the child",
                     "type": "String"
                 }
             ],
-            "class": "Rock"
+            "class": "Controller"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 108,
+            "description": "Set the extend function",
+            "type": "{Function}",
+            "class": "Controller"
         },
         {
             "file": "src/Model.js",
             "line": 16,
-            "description": "Model initialize",
-            "params": [
-                {
-                    "name": "options",
-                    "description": "",
-                    "type": "Obejct"
-                }
-            ],
+            "description": "Class name",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "class": "Model"
+        },
+        {
+            "file": "src/Model.js",
+            "line": 23,
+            "description": "Unique id for the instance",
+            "type": "{String}",
+            "class": "Model"
+        },
+        {
+            "file": "src/Model.js",
+            "line": 31,
+            "description": "Bedrock model initialize",
+            "itemtype": "method",
+            "name": "initialize",
             "return": {
                 "description": "",
                 "type": "This"
             },
-            "class": "Rock"
+            "class": "Model"
         },
         {
             "file": "src/Rock.js",
@@ -180,7 +344,7 @@
         {
             "file": "src/Rock.js",
             "line": 21,
-            "description": "Bedrock logger util",
+            "description": "Bedrock logger util module",
             "itemtype": "method",
             "name": "_logger",
             "access": "private",
@@ -369,59 +533,147 @@
         },
         {
             "file": "src/Router.js",
-            "line": 22,
-            "description": "Foundation router constructor",
-            "class": ""
+            "line": 18,
+            "description": "Class name",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "class": "Router"
         },
         {
             "file": "src/Router.js",
-            "line": 36,
-            "description": "Bedrock router initialize",
-            "class": ""
+            "line": 25,
+            "description": "Unique id for the instance",
+            "type": "{String}",
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 31,
+            "description": "The original routes set by the user with a 404 default",
+            "type": "{Object}",
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 39,
+            "description": "Routes to be populated and used by Backbone",
+            "type": "{Object}",
+            "class": "Router"
         },
         {
             "file": "src/Router.js",
             "line": 45,
-            "description": "Starts the router",
-            "class": ""
-        },
-        {
-            "file": "src/Router.js",
-            "line": 60,
-            "description": "Manages the states of the routes",
-            "class": ""
-        },
-        {
-            "file": "src/Router.js",
-            "line": 145,
-            "description": "Handle state",
-            "class": ""
-        },
-        {
-            "file": "src/View.js",
-            "line": 21,
-            "description": "View initialize",
+            "description": "Router constructor",
+            "is_constructor": 1,
+            "itemtype": "method",
+            "name": "constructor",
             "params": [
                 {
                     "name": "options",
-                    "description": "",
-                    "type": "Obejct"
+                    "description": "Options to be passed to the Backbone router",
+                    "type": "Object"
                 }
             ],
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 62,
+            "description": "Bedrock router initialize",
+            "itemtype": "method",
+            "name": "initialize",
             "return": {
                 "description": "",
                 "type": "This"
             },
-            "class": ""
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 73,
+            "description": "Starts the routing",
+            "itemtype": "method",
+            "name": "start",
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 89,
+            "description": "Manages the states of the routes",
+            "itemtype": "method",
+            "name": "_stateManager",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "State to go to",
+                    "type": "String"
+                },
+                {
+                    "name": "route",
+                    "description": "Route used for the state",
+                    "type": "Route"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Router"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 177,
+            "description": "Handles the state passed",
+            "itemtype": "method",
+            "name": "_handleState",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "State to be passed to the siblings",
+                    "type": "Object"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Router"
         },
         {
             "file": "src/View.js",
-            "line": 30,
-            "description": "View render",
+            "line": 21,
+            "description": "Class name",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "class": "View"
+        },
+        {
+            "file": "src/View.js",
+            "line": 28,
+            "description": "Unique id for the instance",
+            "type": "{String}",
+            "class": "View"
+        },
+        {
+            "file": "src/View.js",
+            "line": 36,
+            "description": "Initialize",
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": "View"
+        },
+        {
+            "file": "src/View.js",
+            "line": 45,
+            "description": "Render",
+            "itemtype": "method",
+            "name": "render",
             "params": [
                 {
                     "name": "data",
-                    "description": "",
+                    "description": "Object to be rendered",
                     "type": "Object"
                 }
             ],
@@ -429,100 +681,85 @@
                 "description": "",
                 "type": "This"
             },
-            "class": ""
+            "class": "View"
         },
         {
             "file": "src/View.js",
-            "line": 59,
+            "line": 75,
             "description": "Creates a basic element for the view",
+            "itemtype": "method",
+            "name": "_createBasicElement",
             "return": {
-                "description": "",
+                "description": "The jQuery result",
                 "type": "JQuery"
             },
-            "class": ""
+            "access": "private",
+            "tagname": "",
+            "class": "View"
         },
         {
             "file": "src/View.js",
-            "line": 80,
-            "class": ""
+            "line": 98,
+            "description": "Removes the _ensureElement from Backbone because we want to do it in the render",
+            "itemtype": "method",
+            "name": "_ensureElement",
+            "access": "private",
+            "tagname": "",
+            "class": "View"
         }
     ],
     "warnings": [
         {
-            "message": "Missing item type\nLogs to wherever",
-            "line": " src/utils/logger.js:33"
+            "message": "Missing item type\nClass name",
+            "line": " src/Controller.js:21"
         },
         {
-            "message": "Missing item type\nWarns to wherever",
-            "line": " src/utils/logger.js:47"
+            "message": "Missing item type\nStates object of the instance",
+            "line": " src/Controller.js:28"
         },
         {
-            "message": "Missing item type\nConstructor of controller",
-            "line": " src/Controller.js:9"
+            "message": "Missing item type\nUnique id for the instance",
+            "line": " src/Controller.js:34"
         },
         {
-            "message": "Missing item type\nController initialize",
-            "line": " src/Controller.js:24"
+            "message": "Missing item type\nSet the extend function",
+            "line": " src/Controller.js:108"
         },
         {
-            "message": "Missing item type\nGets the current state",
-            "line": " src/Controller.js:33"
-        },
-        {
-            "message": "Missing item type\nChecks if this is a state in this controller",
-            "line": " src/Controller.js:41"
-        },
-        {
-            "message": "Missing item type\nSets state of the controller",
-            "line": " src/Controller.js:49"
-        },
-        {
-            "message": "Missing item type\nSets state in child",
-            "line": " src/Controller.js:66"
-        },
-        {
-            "message": "Missing item type\nModel initialize",
+            "message": "Missing item type\nClass name",
             "line": " src/Model.js:16"
+        },
+        {
+            "message": "Missing item type\nUnique id for the instance",
+            "line": " src/Model.js:23"
         },
         {
             "message": "Missing item type\nUnique id for the Rock instance",
             "line": " src/Rock.js:15"
         },
         {
-            "message": "Missing item type\nFoundation router constructor",
-            "line": " src/Router.js:22"
+            "message": "Missing item type\nClass name",
+            "line": " src/Router.js:18"
         },
         {
-            "message": "Missing item type\nBedrock router initialize",
-            "line": " src/Router.js:36"
+            "message": "Missing item type\nUnique id for the instance",
+            "line": " src/Router.js:25"
         },
         {
-            "message": "Missing item type\nStarts the router",
-            "line": " src/Router.js:45"
+            "message": "Missing item type\nThe original routes set by the user with a 404 default",
+            "line": " src/Router.js:31"
         },
         {
-            "message": "Missing item type\nManages the states of the routes",
-            "line": " src/Router.js:60"
+            "message": "Missing item type\nRoutes to be populated and used by Backbone",
+            "line": " src/Router.js:39"
         },
         {
-            "message": "Missing item type\nHandle state",
-            "line": " src/Router.js:145"
-        },
-        {
-            "message": "Missing item type\nView initialize",
+            "message": "Missing item type\nClass name",
             "line": " src/View.js:21"
         },
         {
-            "message": "Missing item type\nView render",
-            "line": " src/View.js:30"
-        },
-        {
-            "message": "Missing item type\nCreates a basic element for the view",
-            "line": " src/View.js:59"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/View.js:80"
+            "message": "Missing item type\nUnique id for the instance",
+            "line": " src/View.js:28"
         }
     ]
 }

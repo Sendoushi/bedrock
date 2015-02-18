@@ -19,7 +19,7 @@ define([
         cid: _.uniqueId('rock'),
 
         /**
-         * Bedrock logger util
+         * Bedrock logger util module
          * @method _logger
          * @private
          */

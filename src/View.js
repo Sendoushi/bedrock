@@ -11,16 +11,31 @@ define([
         interpolate: /\{\{(.+?)\}\}/g
     };
 
+    /**
+    * Bedrock View
+    * @class View
+    * @extends [Backbone.View, Rock]
+    */
+
     return Backbone.View.extend(_.extend({}, Rock, {
+        /**
+         * Class name
+         * @type {String}
+         * @private
+         */
         _name: 'View',
 
+        /**
+         * Unique id for the instance
+         * @type {String}
+         */
         cid: _.uniqueId('view'),
 
         // --------------------------------
 
         /**
-         * View initialize
-         * @param  {Obejct} options
+         * Initialize
+         * @method initialize
          * @return {this}
          */
         initialize: function () {
@@ -28,8 +43,9 @@ define([
         },
 
         /**
-         * View render
-         * @param  {Object} data
+         * Render
+         * @method render
+         * @param  {Object} data Object to be rendered
          * @return {this}
          */
         render: function (data) {
@@ -58,7 +74,9 @@ define([
 
         /**
          * Creates a basic element for the view
-         * @return {jQuery}
+         * @method  _createBasicElement
+         * @return  {jQuery} The jQuery result
+         * @private
          */
         _createBasicElement: function () {
             var attrs = _.extend({}, _.result(this, 'attributes'));
@@ -78,7 +96,9 @@ define([
         // Changes to backbone methods
 
         /**
-         *
+         * Removes the _ensureElement from Backbone because we want to do it in the render
+         * @method  _ensureElement
+         * @private
          */
         _ensureElement: function () {
             // Removed all because i want to this in the render

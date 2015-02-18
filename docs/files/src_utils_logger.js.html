@@ -38,7 +38,12 @@
                 </div>
                 <div class="bd">
                     <ul>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/Logger.html">Logger</a></li>
+                            <li><a href="../classes/Model.html">Model</a></li>
                             <li><a href="../classes/Rock.html">Rock</a></li>
+                            <li><a href="../classes/Router.html">Router</a></li>
+                            <li><a href="../classes/View.html">View</a></li>
                     </ul>
                 </div>
             </div>
@@ -93,10 +98,17 @@ define([
         }
     }
 
+    /**
+     * Bedrock logger util
+     * @class Logger
+     */
+
     return {
         /**
          * Logs to wherever
-         * @return {String}
+         * @method log
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to log
          */
         log: function (module, msg) {
             if (config.debug) {
@@ -110,7 +122,9 @@ define([
 
         /**
          * Warns to wherever
-         * @return {String}
+         * @method warn
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to warn
          */
         warn: function (module, msg) {
             if (config.debug) {
@@ -119,6 +133,22 @@ define([
                 }
 
                 console.warn(msg);
+            }
+        },
+
+        /**
+         * Errors to wherever
+         * @method error
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to error
+         */
+        error: function (module, msg) {
+            if (config.debug) {
+                if (module) {
+                    msg = &#x27;[Bedrock][&#x27; + module + &#x27;] &#x27; + msg;
+                }
+
+                console.error(msg);
             }
         }
     };

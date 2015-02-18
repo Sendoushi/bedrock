@@ -8,19 +8,45 @@ define([
 
     'use strict';
 
-    return Backbone.Router.extend(_.extend({}, Rock, {
-        cid: _.uniqueId('router'),
+    /**
+    * Bedrock Router
+    * @class Router
+    * @extends [Backbone.Router, Rock]
+    */
 
+    return Backbone.Router.extend(_.extend({}, Rock, {
+        /**
+         * Class name
+         * @type {String}
+         * @private
+         */
         _name: 'Router',
 
+        /**
+         * Unique id for the instance
+         * @type {String}
+         */
+        cid: _.uniqueId('router'),
+
+        /**
+         * The original routes set by the user with a 404 default
+         * @type {Object}
+         */
         _routesOriginal: {
             '404': 'notFound'
         },
 
+        /**
+         * Routes to be populated and used by Backbone
+         * @type {Object}
+         */
         routes: {},
 
         /**
-         * Foundation router constructor
+         * Router constructor
+         * @constructor
+         * @method constructor
+         * @param {Object} options Options to be passed to the Backbone router
          */
         constructor: function (options) {
             // Build routes
@@ -35,6 +61,8 @@ define([
 
         /**
          * Bedrock router initialize
+         * @method initialize
+         * @return {this}
          */
         initialize: function () {
             Backbone.Router.prototype.initialize.apply(this, arguments);
@@ -43,7 +71,8 @@ define([
         },
 
         /**
-         * Starts the router
+         * Starts the routing
+         * @method start
          */
         start: function () {
             !this._siblings.length && this._logger.warn(this._name, 'There are no siblings. State won\'t be handled.');
@@ -59,6 +88,10 @@ define([
 
         /**
          * Manages the states of the routes
+         * @method  _stateManager
+         * @param   {String} state State to go to
+         * @param   {Route} route Route used for the state
+         * @private
          */
         _stateManager: function (state, route) {
             var routeArr,
@@ -139,11 +172,13 @@ define([
 
             // Handle state
             this._handleState(stateParsed);
-
         },
 
         /**
-         * Handle state
+         * Handles the state passed
+         * @method  _handleState
+         * @param   {Object} state State to be passed to the siblings
+         * @private
          */
         _handleState: function (state) {
             !this._siblings.length && this._logger.warn(this._name, 'There are no siblings. State won\'t be handled.');

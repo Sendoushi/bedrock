@@ -29,10 +29,17 @@ define([
         }
     }
 
+    /**
+     * Bedrock logger util
+     * @class Logger
+     */
+
     return {
         /**
          * Logs to wherever
-         * @return {String}
+         * @method log
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to log
          */
         log: function (module, msg) {
             if (config.debug) {
@@ -46,7 +53,9 @@ define([
 
         /**
          * Warns to wherever
-         * @return {String}
+         * @method warn
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to warn
          */
         warn: function (module, msg) {
             if (config.debug) {
@@ -55,6 +64,22 @@ define([
                 }
 
                 console.warn(msg);
+            }
+        },
+
+        /**
+         * Errors to wherever
+         * @method error
+         * @param  {String} module Module from where it came
+         * @param  {String} msg Message to error
+         */
+        error: function (module, msg) {
+            if (config.debug) {
+                if (module) {
+                    msg = '[Bedrock][' + module + '] ' + msg;
+                }
+
+                console.error(msg);
             }
         }
     };

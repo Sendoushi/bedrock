@@ -7,23 +7,41 @@ define([
     'use strict';
 
     /**
-     * Constructor of controller
+     * Bedrock Controller
+     * @class Controller
+     * @extends [Rock, Backbone.Events]
+     * @constructor
+     * @return {this}
      */
     var Controller = function () {
         return this.initialize.apply(this, arguments);
     };
 
     _.extend(Controller.prototype, Rock, Backbone.Events, {
+        /**
+         * Class name
+         * @type {String}
+         * @private
+         */
         _name: 'Controller',
+
+        /**
+         * States object of the instance
+         * @type {Object}
+         */
         _states: {},
 
+        /**
+         * Unique id for the instance
+         * @type {String}
+         */
         cid: _.uniqueId('controller'),
 
         // --------------------------------
 
         /**
-         * Controller initialize
-         * @param  {Obejct} options
+         * Initialize
+         * @method initialize
          * @return {this}
          */
         initialize: function () {
@@ -31,15 +49,18 @@ define([
         },
 
         /**
-         * Gets the current state
-         * @return {String}
+         * Returns the current state
+         * @method getState
+         * @return {Object} The current state
          */
         getState: function () {
             return this._currentState;
         },
 
         /**
-         * Checks if this is a state in this controller
+         * Checks if this is a state in this instance
+         * @method isState
+         * @param  {String} state Key to check in the states
          * @return {Boolean}
          */
         isState: function (state) {
@@ -48,7 +69,8 @@ define([
 
         /**
          * Sets state of the controller
-         * @param {String} state
+         * @method setState
+         * @param  {String} state Key to set the state
          */
         setState: function (state) {
             if (!this.isState(state)) {
@@ -65,7 +87,8 @@ define([
 
         /**
          * Sets state in child
-         * @param {String} state
+         * @method setChildState
+         * @param  {String} state Key to be set in the child
          */
         setChildState: function (state) {
             var found = false;
@@ -82,7 +105,10 @@ define([
         }
     });
 
-    // Set the extend function
+    /**
+     * Set the extend function
+     * @type {Function}
+     */
     Controller.extend = Controller.prototype.extend;
 
     return Controller;

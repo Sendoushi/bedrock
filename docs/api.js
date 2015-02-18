@@ -1,7 +1,12 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "Rock"
+        "Controller",
+        "Logger",
+        "Model",
+        "Rock",
+        "Router",
+        "View"
     ],
     "modules": [],
     "allModules": []
