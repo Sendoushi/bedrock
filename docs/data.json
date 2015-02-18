@@ -1,0 +1,526 @@
+{
+    "project": {},
+    "files": {
+        "src/utils/logger.js": {
+            "name": "src/utils/logger.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Controller.js": {
+            "name": "src/Controller.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Model.js": {
+            "name": "src/Model.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Rock.js": {
+            "name": "src/Rock.js",
+            "modules": {},
+            "classes": {
+                "Rock": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Router.js": {
+            "name": "src/Router.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/View.js": {
+            "name": "src/View.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Rock": {
+            "name": "Rock",
+            "shortname": "Rock",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Rock.js",
+            "line": 9,
+            "description": "Base for all Bedrock instances"
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/utils/logger.js",
+            "line": 33,
+            "description": "Logs to wherever",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/utils/logger.js",
+            "line": 47,
+            "description": "Warns to wherever",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 9,
+            "description": "Constructor of controller",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 24,
+            "description": "Controller initialize",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Obejct"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 33,
+            "description": "Gets the current state",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 41,
+            "description": "Checks if this is a state in this controller",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 49,
+            "description": "Sets state of the controller",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Rock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 66,
+            "description": "Sets state in child",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Rock"
+        },
+        {
+            "file": "src/Model.js",
+            "line": 16,
+            "description": "Model initialize",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Obejct"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 15,
+            "description": "Unique id for the Rock instance",
+            "type": "{String}",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 21,
+            "description": "Bedrock logger util",
+            "itemtype": "method",
+            "name": "_logger",
+            "access": "private",
+            "tagname": "",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 28,
+            "description": "Backbone extend function",
+            "itemtype": "method",
+            "name": "extend",
+            "extends": "{Backbone.Model}",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 35,
+            "description": "Announce to all application event",
+            "itemtype": "method",
+            "name": "announce",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key to be listened by events",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Optionals a 'go' key with 'down', 'up' or 'null' and a 'data' key",
+                    "type": "Object"
+                }
+            ],
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 55,
+            "description": "Adopts the child to the router",
+            "itemtype": "method",
+            "name": "adopt",
+            "params": [
+                {
+                    "name": "child",
+                    "description": "Child inheriting Rock",
+                    "type": "*"
+                }
+            ],
+            "return": {
+                "description": "Child that came as parameter",
+                "type": "Child"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 87,
+            "description": "Unadopts the child to the router",
+            "itemtype": "method",
+            "name": "unadopt",
+            "params": [
+                {
+                    "name": "child",
+                    "description": "Child inheriting Rock",
+                    "type": "*"
+                }
+            ],
+            "return": {
+                "description": "Child that came as parameter",
+                "type": "Child"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 113,
+            "description": "Sets a parent to a child",
+            "itemtype": "method",
+            "name": "setParent",
+            "params": [
+                {
+                    "name": "parent",
+                    "description": "Parent inheriting Rock",
+                    "type": "*"
+                }
+            ],
+            "return": {
+                "description": "This Rock instance",
+                "type": "This"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 131,
+            "description": "Returns the parent",
+            "itemtype": "method",
+            "name": "getParent",
+            "return": {
+                "description": "This instance parent",
+                "type": "*"
+            },
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 140,
+            "description": "Destroys the contorller siblings",
+            "itemtype": "method",
+            "name": "destroySiblings",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 159,
+            "description": "Destroys the controller",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 171,
+            "description": "Make the announcement to all relatives",
+            "itemtype": "method",
+            "name": "_announceDown",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key to be listened on the events",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Data to be passed to the listeners",
+                    "type": "*"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 189,
+            "description": "Make the announcement to all parents",
+            "itemtype": "method",
+            "name": "_announceUp",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key to be listened on the events",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Data to be passed to the listeners",
+                    "type": "*"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Rock.js",
+            "line": 207,
+            "description": "Announce to everyone",
+            "itemtype": "method",
+            "name": "_announceEveryone",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key to be listened on the events",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Data to be passed to the listeners",
+                    "type": "*"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Rock"
+        },
+        {
+            "file": "src/Router.js",
+            "line": 22,
+            "description": "Foundation router constructor",
+            "class": ""
+        },
+        {
+            "file": "src/Router.js",
+            "line": 36,
+            "description": "Bedrock router initialize",
+            "class": ""
+        },
+        {
+            "file": "src/Router.js",
+            "line": 45,
+            "description": "Starts the router",
+            "class": ""
+        },
+        {
+            "file": "src/Router.js",
+            "line": 60,
+            "description": "Manages the states of the routes",
+            "class": ""
+        },
+        {
+            "file": "src/Router.js",
+            "line": 145,
+            "description": "Handle state",
+            "class": ""
+        },
+        {
+            "file": "src/View.js",
+            "line": 21,
+            "description": "View initialize",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Obejct"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": ""
+        },
+        {
+            "file": "src/View.js",
+            "line": 30,
+            "description": "View render",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": ""
+        },
+        {
+            "file": "src/View.js",
+            "line": 59,
+            "description": "Creates a basic element for the view",
+            "return": {
+                "description": "",
+                "type": "JQuery"
+            },
+            "class": ""
+        },
+        {
+            "file": "src/View.js",
+            "line": 80,
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nLogs to wherever",
+            "line": " src/utils/logger.js:33"
+        },
+        {
+            "message": "Missing item type\nWarns to wherever",
+            "line": " src/utils/logger.js:47"
+        },
+        {
+            "message": "Missing item type\nConstructor of controller",
+            "line": " src/Controller.js:9"
+        },
+        {
+            "message": "Missing item type\nController initialize",
+            "line": " src/Controller.js:24"
+        },
+        {
+            "message": "Missing item type\nGets the current state",
+            "line": " src/Controller.js:33"
+        },
+        {
+            "message": "Missing item type\nChecks if this is a state in this controller",
+            "line": " src/Controller.js:41"
+        },
+        {
+            "message": "Missing item type\nSets state of the controller",
+            "line": " src/Controller.js:49"
+        },
+        {
+            "message": "Missing item type\nSets state in child",
+            "line": " src/Controller.js:66"
+        },
+        {
+            "message": "Missing item type\nModel initialize",
+            "line": " src/Model.js:16"
+        },
+        {
+            "message": "Missing item type\nUnique id for the Rock instance",
+            "line": " src/Rock.js:15"
+        },
+        {
+            "message": "Missing item type\nFoundation router constructor",
+            "line": " src/Router.js:22"
+        },
+        {
+            "message": "Missing item type\nBedrock router initialize",
+            "line": " src/Router.js:36"
+        },
+        {
+            "message": "Missing item type\nStarts the router",
+            "line": " src/Router.js:45"
+        },
+        {
+            "message": "Missing item type\nManages the states of the routes",
+            "line": " src/Router.js:60"
+        },
+        {
+            "message": "Missing item type\nHandle state",
+            "line": " src/Router.js:145"
+        },
+        {
+            "message": "Missing item type\nView initialize",
+            "line": " src/View.js:21"
+        },
+        {
+            "message": "Missing item type\nView render",
+            "line": " src/View.js:30"
+        },
+        {
+            "message": "Missing item type\nCreates a basic element for the view",
+            "line": " src/View.js:59"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/View.js:80"
+        }
+    ]
+}

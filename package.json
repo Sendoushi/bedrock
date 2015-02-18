@@ -1,0 +1,19 @@
+{
+  "name": "Bedrock",
+  "version": "0.0.1",
+  "description": "Do not forget to complete the README.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "./node_modules/yuidocjs/lib/cli.js -c yuidoc.json --themedir ./node_modules/yuidocjs/themes/simple"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:sendoushi/bedrock.git"
+  },
+  "author": "Sendoushi",
+  "license": "ISC",
+  "devDependencies": {
+    "yuidocjs": "^0.5.0"
+  }
+}

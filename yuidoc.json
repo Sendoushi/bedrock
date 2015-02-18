@@ -1,0 +1,8 @@
+{
+    "options": {
+        "linkNatives": true,
+        "outdir": "./docs",
+        "paths": "./src",
+        "exclude": "/docs,/node_modules,/npm-debug.*,/components,/bower_components,/tmp,.DS_Store"
+    }
+}
