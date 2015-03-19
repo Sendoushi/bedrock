@@ -38,6 +38,7 @@
                 </div>
                 <div class="bd">
                     <ul>
+                            <li><a href="../classes/BigRock.html">BigRock</a></li>
                             <li><a href="../classes/Controller.html">Controller</a></li>
                             <li><a href="../classes/Logger.html">Logger</a></li>
                             <li><a href="../classes/Model.html">Model</a></li>
@@ -57,7 +58,7 @@
                     <h2 class="no-toc">Files</h2>
                 </div>
                 <div class="bd">
-                    <ul><li>src/<ul><li><a href="../files/src_Controller.js.html">Controller.js</a></li><li><a href="../files/src_Model.js.html">Model.js</a></li><li><a href="../files/src_Rock.js.html">Rock.js</a></li><li><a href="../files/src_Router.js.html">Router.js</a></li><li><a href="../files/src_View.js.html">View.js</a></li><li>utils/<ul><li><a href="../files/src_utils_logger.js.html">logger.js</a></li></ul></li></ul></li></ul>
+                    <ul><li>src/<ul><li><a href="../files/src_BigRock.js.html">BigRock.js</a></li><li><a href="../files/src_Controller.js.html">Controller.js</a></li><li><a href="../files/src_Model.js.html">Model.js</a></li><li><a href="../files/src_Rock.js.html">Rock.js</a></li><li><a href="../files/src_Router.js.html">Router.js</a></li><li><a href="../files/src_View.js.html">View.js</a></li><li>utils/<ul><li><a href="../files/src_utils_logger.js.html">logger.js</a></li></ul></li></ul></li></ul>
                 </div>
             </div>
             
@@ -68,25 +69,20 @@
 
 <pre class="code prettyprint linenums">
 define([
-    &#x27;backbone&#x27;,
     &#x27;underscore&#x27;,
-    &#x27;./Rock&#x27;
-], function (Backbone, _, Rock) {
+    &#x27;./BigRock&#x27;
+], function (_, BigRock) {
 
     &#x27;use strict&#x27;;
 
     /**
      * Bedrock Controller
      * @class Controller
-     * @extends [Rock, Backbone.Events]
+     * @extends [BigRock]
      * @constructor
      * @return {this}
      */
-    var Controller = function () {
-        return this.initialize.apply(this, arguments);
-    };
-
-    _.extend(Controller.prototype, Rock, Backbone.Events, {
+    return BigRock.extend({
         /**
          * Class name
          * @type {String}
@@ -173,14 +169,6 @@ define([
             !found &amp;&amp; this._logger.warn(this._name, &#x27;The state &quot;&#x27; + state.name + &#x27;&quot; wasn\&#x27;t found.&#x27;);
         }
     });
-
-    /**
-     * Set the extend function
-     * @type {Function}
-     */
-    Controller.extend = Controller.prototype.extend;
-
-    return Controller;
 });
 
 </pre>

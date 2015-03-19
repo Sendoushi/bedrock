@@ -65,6 +65,8 @@ define([
             }
 
             this.$el.html(wrapper);
+            this.$element = wrapper;
+
             this._hasRendered = true;
 
             return this;

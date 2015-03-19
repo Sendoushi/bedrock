@@ -1,23 +1,18 @@
 define([
-    'backbone',
     'underscore',
-    './Rock'
-], function (Backbone, _, Rock) {
+    './BigRock'
+], function (_, BigRock) {
 
     'use strict';
 
     /**
      * Bedrock Controller
      * @class Controller
-     * @extends [Rock, Backbone.Events]
+     * @extends [BigRock]
      * @constructor
      * @return {this}
      */
-    var Controller = function () {
-        return this.initialize.apply(this, arguments);
-    };
-
-    _.extend(Controller.prototype, Rock, Backbone.Events, {
+    return BigRock.extend({
         /**
          * Class name
          * @type {String}
@@ -104,12 +99,4 @@ define([
             !found && this._logger.warn(this._name, 'The state "' + state.name + '" wasn\'t found.');
         }
     });
-
-    /**
-     * Set the extend function
-     * @type {Function}
-     */
-    Controller.extend = Controller.prototype.extend;
-
-    return Controller;
 });

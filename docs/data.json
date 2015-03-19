@@ -12,6 +12,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/BigRock.js": {
+            "name": "src/BigRock.js",
+            "modules": {},
+            "classes": {
+                "BigRock": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/Controller.js": {
             "name": "src/Controller.js",
             "modules": {},
@@ -72,6 +81,24 @@
             "line": 32,
             "description": "Bedrock logger util"
         },
+        "BigRock": {
+            "name": "BigRock",
+            "shortname": "BigRock",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/BigRock.js",
+            "line": 9,
+            "description": "Bedrock BigRock",
+            "extends": "[Rock, Backbone.Events]",
+            "is_constructor": 1,
+            "return": {
+                "description": "",
+                "type": "This"
+            }
+        },
         "Controller": {
             "name": "Controller",
             "shortname": "Controller",
@@ -81,9 +108,9 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/Controller.js",
-            "line": 9,
+            "line": 8,
             "description": "Bedrock Controller",
-            "extends": "[Rock, Backbone.Events]",
+            "extends": "[BigRock]",
             "is_constructor": 1,
             "return": {
                 "description": "",
@@ -204,8 +231,43 @@
             "class": "Logger"
         },
         {
-            "file": "src/Controller.js",
+            "file": "src/BigRock.js",
             "line": 21,
+            "description": "Class name",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "class": "BigRock"
+        },
+        {
+            "file": "src/BigRock.js",
+            "line": 28,
+            "description": "Unique id for the BigRock instance",
+            "type": "{String}",
+            "class": "BigRock"
+        },
+        {
+            "file": "src/BigRock.js",
+            "line": 34,
+            "description": "Initialize",
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": "BigRock"
+        },
+        {
+            "file": "src/BigRock.js",
+            "line": 44,
+            "description": "Set the extend function",
+            "type": "{Function}",
+            "class": "BigRock"
+        },
+        {
+            "file": "src/Controller.js",
+            "line": 16,
             "description": "Class name",
             "type": "{String}",
             "access": "private",
@@ -214,21 +276,21 @@
         },
         {
             "file": "src/Controller.js",
-            "line": 28,
+            "line": 23,
             "description": "States object of the instance",
             "type": "{Object}",
             "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 34,
+            "line": 29,
             "description": "Unique id for the instance",
             "type": "{String}",
             "class": "Controller"
         },
         {
             "file": "src/Controller.js",
-            "line": 42,
+            "line": 37,
             "description": "Initialize",
             "itemtype": "method",
             "name": "initialize",
@@ -240,7 +302,7 @@
         },
         {
             "file": "src/Controller.js",
-            "line": 51,
+            "line": 46,
             "description": "Returns the current state",
             "itemtype": "method",
             "name": "getState",
@@ -252,7 +314,7 @@
         },
         {
             "file": "src/Controller.js",
-            "line": 60,
+            "line": 55,
             "description": "Checks if this is a state in this instance",
             "itemtype": "method",
             "name": "isState",
@@ -271,7 +333,7 @@
         },
         {
             "file": "src/Controller.js",
-            "line": 70,
+            "line": 65,
             "description": "Sets state of the controller",
             "itemtype": "method",
             "name": "setState",
@@ -286,7 +348,7 @@
         },
         {
             "file": "src/Controller.js",
-            "line": 88,
+            "line": 83,
             "description": "Sets state in child",
             "itemtype": "method",
             "name": "setChildState",
@@ -297,13 +359,6 @@
                     "type": "String"
                 }
             ],
-            "class": "Controller"
-        },
-        {
-            "file": "src/Controller.js",
-            "line": 108,
-            "description": "Set the extend function",
-            "type": "{Function}",
             "class": "Controller"
         },
         {
@@ -685,7 +740,7 @@
         },
         {
             "file": "src/View.js",
-            "line": 75,
+            "line": 77,
             "description": "Creates a basic element for the view",
             "itemtype": "method",
             "name": "_createBasicElement",
@@ -699,7 +754,7 @@
         },
         {
             "file": "src/View.js",
-            "line": 98,
+            "line": 100,
             "description": "Removes the _ensureElement from Backbone because we want to do it in the render",
             "itemtype": "method",
             "name": "_ensureElement",
@@ -711,19 +766,27 @@
     "warnings": [
         {
             "message": "Missing item type\nClass name",
-            "line": " src/Controller.js:21"
+            "line": " src/BigRock.js:21"
         },
         {
-            "message": "Missing item type\nStates object of the instance",
-            "line": " src/Controller.js:28"
-        },
-        {
-            "message": "Missing item type\nUnique id for the instance",
-            "line": " src/Controller.js:34"
+            "message": "Missing item type\nUnique id for the BigRock instance",
+            "line": " src/BigRock.js:28"
         },
         {
             "message": "Missing item type\nSet the extend function",
-            "line": " src/Controller.js:108"
+            "line": " src/BigRock.js:44"
+        },
+        {
+            "message": "Missing item type\nClass name",
+            "line": " src/Controller.js:16"
+        },
+        {
+            "message": "Missing item type\nStates object of the instance",
+            "line": " src/Controller.js:23"
+        },
+        {
+            "message": "Missing item type\nUnique id for the instance",
+            "line": " src/Controller.js:29"
         },
         {
             "message": "Missing item type\nClass name",
