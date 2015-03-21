@@ -6,6 +6,7 @@ define([
 
     var loggerName = 'Bedrock',
         emptyFunc,
+        parseMsg,
         keys,
         i;
 
@@ -35,10 +36,29 @@ define([
     }
 
     /**
+     * Parses the msg
+     * @method  _parseMsg
+     * @param   {String} module
+     * @param   {String} msg
+     * @return  {String}
+     * @private
+     */
+    parseMsg = function (module, msg) {
+        var logMsg = '[' + loggerName + ']';
+
+        msg = msg || module;
+        module = module !== msg && module;
+
+        logMsg += module && '[' + module + ']' || '';
+        logMsg += ' ' + msg;
+
+        return logMsg;
+    };
+
+    /**
      * Bedrock logger util
      * @class Logger
      */
-
     return {
         /**
          * Logs to wherever
@@ -47,13 +67,7 @@ define([
          * @param  {String} msg Message to log
          */
         log: function (module, msg) {
-            if (config.debug) {
-                var logMsg = '[' + loggerName + ']';
-                logMsg += module && '[' + module + ']' || '';
-                logMsg += ' ' + msg;
-
-                console.log(logMsg);
-            }
+            config.debug && console.log(parseMsg(module, msg));
         },
 
         /**
@@ -63,13 +77,7 @@ define([
          * @param  {String} msg Message to warn
          */
         warn: function (module, msg) {
-            if (config.debug) {
-                var logMsg = '[' + loggerName + ']';
-                logMsg += module && '[' + module + ']' || '';
-                logMsg += ' ' + msg;
-
-                console.warn(logMsg);
-            }
+            config.debug && console.warn(parseMsg(module, msg));
         },
 
         /**
@@ -79,13 +87,7 @@ define([
          * @param  {String} msg Message to error
          */
         error: function (module, msg) {
-            if (config.debug) {
-                var logMsg = '[' + loggerName + ']';
-                logMsg += module && '[' + module + ']' || '';
-                logMsg += ' ' + msg;
-
-                console.error(logMsg);
-            }
+            config.debug && console.error(parseMsg(module, msg));
         }
     };
 });
