@@ -1,8 +1,9 @@
 define([
-    './utils/logger',
+    'logger',
     'backbone',
-    'underscore'
-], function (logger, Backbone, _) {
+    'underscore',
+    'config'
+], function (logger, Backbone, _, config) {
 
     'use strict';
 
@@ -23,7 +24,7 @@ define([
          * @method _logger
          * @private
          */
-        _logger: logger,
+        _logger: logger('Bedrock', config),
 
         /**
          * Backbone extend function
