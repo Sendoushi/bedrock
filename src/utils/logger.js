@@ -4,24 +4,29 @@ define([
 
     'use strict';
 
+    var loggerName = 'Bedrock',
+        emptyFunc,
+        keys,
+        i;
+
     // Build empty console
     if (typeof window.console === 'undefined' || !config.debug) {
-        var emptyFunc = function () {},
-            keys = [
-                'log',
-                'debug',
-                'info',
-                'warn',
-                'error',
-                'dir',
-                'trace',
-                'group',
-                'groupCollapsed',
-                'groupEnd',
-                'time',
-                'timeEnd'
-            ],
-            i;
+        emptyFunc = function () {};
+        keys = [
+            'log',
+            'debug',
+            'info',
+            'warn',
+            'error',
+            'dir',
+            'trace',
+            'group',
+            'groupCollapsed',
+            'groupEnd',
+            'time',
+            'timeEnd'
+        ];
+        i;
 
         window.console = {};
         for (i = keys.length - 1; i >= 0; i -= 1) {
@@ -43,11 +48,11 @@ define([
          */
         log: function (module, msg) {
             if (config.debug) {
-                if (module) {
-                    msg = '[Bedrock][' + module + '] ' + msg;
-                }
+                var logMsg = '[' + loggerName + ']';
+                logMsg += module && '[' + module + ']' || '';
+                logMsg += ' ' + msg;
 
-                console.log(msg);
+                console.log(logMsg);
             }
         },
 
@@ -59,11 +64,11 @@ define([
          */
         warn: function (module, msg) {
             if (config.debug) {
-                if (module) {
-                    msg = '[Bedrock][' + module + '] ' + msg;
-                }
+                var logMsg = '[' + loggerName + ']';
+                logMsg += module && '[' + module + ']' || '';
+                logMsg += ' ' + msg;
 
-                console.warn(msg);
+                console.warn(logMsg);
             }
         },
 
@@ -75,11 +80,11 @@ define([
          */
         error: function (module, msg) {
             if (config.debug) {
-                if (module) {
-                    msg = '[Bedrock][' + module + '] ' + msg;
-                }
+                var logMsg = '[' + loggerName + ']';
+                logMsg += module && '[' + module + ']' || '';
+                logMsg += ' ' + msg;
 
-                console.error(msg);
+                console.error(logMsg);
             }
         }
     };
