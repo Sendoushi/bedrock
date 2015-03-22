@@ -16,6 +16,12 @@ define([
 
     return Backbone.Router.extend(_.extend({}, Rock, {
         /**
+         * Extends backbone from
+         * @type {Object}
+         */
+        _extendBackbone: Backbone.Router,
+
+        /**
          * Class name
          * @type {String}
          * @private

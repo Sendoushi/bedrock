@@ -161,10 +161,14 @@ define([
          * Destroys the controller
          * @method destroy
          */
-        destroy: function () {
-            // TODO: this.prototype.destroy()
+        destroy: function (arg) {
             this.stopListening();
             this.destroySiblings();
+
+            // Call the parent destroy
+            if (this._extendBackbone && this._extendBackbone.prototype.destroy) {
+                this._extendBackbone.prototype.destroy.call(this, arg);
+            }
         },
 
         // ------------------------------------------------------

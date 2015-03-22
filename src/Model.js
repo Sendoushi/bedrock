@@ -14,6 +14,12 @@ define([
 
     return Backbone.Model.extend(_.extend({}, Rock, {
         /**
+         * Extends backbone from
+         * @type {Object}
+         */
+        _extendBackbone: Backbone.Model,
+
+        /**
          * Class name
          * @type {String}
          * @private

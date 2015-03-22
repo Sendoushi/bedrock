@@ -19,6 +19,12 @@ define([
 
     _.extend(BigRock.prototype, Rock, Backbone.Events, {
         /**
+         * Extends backbone from
+         * @type {Object}
+         */
+        _extendBackbone: Backbone.Events,
+
+        /**
          * Class name
          * @type {String}
          * @private
