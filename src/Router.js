@@ -84,7 +84,13 @@ define([
             !this._siblings.length && this._logger.warn(this._name, 'There are no siblings. State won\'t be handled.');
 
             // Listens for the changes
-            var historyStart = Backbone.history.start({ pushState: true });
+            var root = config.baseUrl && '/' + config.baseUrl + '/',
+                historyObj = { pushState: true },
+                historyStart;
+
+            if (root) { historyObj.root = root; }
+
+            historyStart = Backbone.history.start(historyObj);
 
             // No history is 404
             !historyStart && this.navigate('404', { trigger: true });
