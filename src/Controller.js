@@ -90,7 +90,7 @@ define([
 
             // Go through each sible and set the state
             _.each(this._siblings, function (val) {
-                if (val.isState(state)) {
+                if (val.isState && val.isState(state)) {
                     val.setState(state);
                     found = true;
                 }
