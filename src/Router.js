@@ -29,12 +29,6 @@ define([
         _name: 'Router',
 
         /**
-         * Unique id for the instance
-         * @type {String}
-         */
-        cid: _.uniqueId('router'),
-
-        /**
          * The original routes set by the user with a 404 default
          * @type {Object}
          */
@@ -72,6 +66,7 @@ define([
          */
         initialize: function () {
             Backbone.Router.prototype.initialize.apply(this, arguments);
+            Rock.initialize.call(this);
 
             return this;
         },

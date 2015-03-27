@@ -26,12 +26,6 @@ define([
          */
         _name: 'Model',
 
-        /**
-         * Unique id for the instance
-         * @type {String}
-         */
-        cid: _.uniqueId('model'),
-
         // --------------------------------
 
         /**
@@ -40,6 +34,8 @@ define([
          * @return {this}
          */
         initialize: function () {
+            Rock.initialize.call(this);
+
             return this;
         }
     }));

@@ -26,12 +26,6 @@ define([
          */
         _states: {},
 
-        /**
-         * Unique id for the instance
-         * @type {String}
-         */
-        cid: _.uniqueId('controller'),
-
         // --------------------------------
 
         /**
@@ -40,6 +34,8 @@ define([
          * @return {this}
          */
         initialize: function () {
+            BigRock.prototype.initialize.call(this);
+
             return this;
         },
 

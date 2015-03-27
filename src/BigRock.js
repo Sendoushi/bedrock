@@ -32,17 +32,13 @@ define([
         _name: 'BigRock',
 
         /**
-         * Unique id for the BigRock instance
-         * @type {String}
-         */
-        cid: _.uniqueId('big-rock'),
-
-        /**
          * Initialize
          * @method initialize
          * @return {this}
          */
         initialize: function () {
+            Rock.initialize.call(this);
+
             return this;
         }
     });

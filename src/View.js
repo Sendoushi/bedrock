@@ -31,12 +31,6 @@ define([
          */
         _name: 'View',
 
-        /**
-         * Unique id for the instance
-         * @type {String}
-         */
-        cid: _.uniqueId('view'),
-
         // --------------------------------
 
         /**
@@ -45,6 +39,8 @@ define([
          * @return {this}
          */
         initialize: function () {
+            Rock.initialize.call(this);
+
             return this;
         },
 

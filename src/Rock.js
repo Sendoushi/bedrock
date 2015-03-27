@@ -14,10 +14,17 @@ define([
 
     return {
         /**
+         * Class name
+         * @type {String}
+         * @private
+         */
+        _name: 'Rock',
+
+        /**
          * Unique id for the Rock instance
          * @type {String}
          */
-        cid: _.uniqueId('rock'),
+        cid: null,
 
         /**
          * Bedrock logger util module
@@ -32,6 +39,17 @@ define([
          * @extends {Backbone.Model}
          */
         extend: Backbone.Model.extend,
+
+        /**
+         * Initialize
+         * @method initialize
+         * @return {this}
+         */
+        initialize: function () {
+            this.cid = _.uniqueId(this._name);
+
+            return this;
+        },
 
         /**
          * Announce to all family the event
