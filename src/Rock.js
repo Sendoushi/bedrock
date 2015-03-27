@@ -34,7 +34,7 @@ define([
         extend: Backbone.Model.extend,
 
         /**
-         * Announce to all application event
+         * Announce to all family the event
          * @method announce
          * @param  {String} key Key to be listened by events
          * @param  {Object} options Optionals a 'go' key with 'down', 'up' or 'null' and a 'data' key
@@ -54,7 +54,7 @@ define([
         // --------------------------------------------------
 
         /**
-         * Adopts the child to the router
+         * Adopts the child
          * @method adopt
          * @param  {*} child Child inheriting Rock
          * @return {child} Child that came as parameter
@@ -86,7 +86,7 @@ define([
         },
 
         /**
-         * Unadopts the child to the router
+         * Unadopts the child
          * @method unadopt
          * @param  {*} child Child inheriting Rock
          * @return {child} Child that came as parameter
@@ -139,7 +139,7 @@ define([
         },
 
         /**
-         * Destroys the contorller siblings
+         * Destroys the rock siblings
          * @method destroySiblings
          */
         destroySiblings: function () {
@@ -158,7 +158,7 @@ define([
         },
 
         /**
-         * Destroys the controller
+         * Destroys the rock
          * @method destroy
          */
         destroy: function (arg) {
