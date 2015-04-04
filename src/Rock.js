@@ -52,6 +52,16 @@ define([
         },
 
         /**
+         * Check if instance is the same
+         * @method is
+         * @param  {String} str Value to check
+         * @return {Boolean}
+         */
+        is: function (str) {
+            return str === this._name;
+        },
+
+        /**
          * Announce to all family the event
          * @method announce
          * @param  {String} key Key to be listened by events
