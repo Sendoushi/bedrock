@@ -31,9 +31,12 @@ define([
         /**
          * Initialize
          * @method initialize
+         * @param  {jQuery} element Element where the View will render
          * @return {this}
          */
-        initialize: function () {
+        initialize: function (element) {
+            this._element = element;
+
             BigRock.prototype.initialize.call(this);
 
             return this;
