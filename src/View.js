@@ -84,7 +84,6 @@ define([
          * @return {this}
          */
         undelegateEvents: function () {
-            console.log("sds inside undelegateEvents");
             // TODO: Check why it doesn't have a $el
             if (!this.$el) {
                 return this;
