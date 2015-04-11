@@ -36,10 +36,14 @@ define([
         /**
          * Initialize
          * @method initialize
+         * @param  {Object} options
          * @return {this}
          */
-        initialize: function () {
+        initialize: function (options) {
             Rock.initialize.call(this);
+
+            // Set the element
+            options && options.el && this.setElement(options.el);
 
             return this;
         },
@@ -66,12 +70,27 @@ define([
                 wrapper.append(this._template(data));
             }
 
-            this.$el.html(wrapper);
+            this.$el.append(wrapper);
             this.$element = wrapper;
 
             this._hasRendered = true;
 
             return this;
+        },
+
+        /**
+         * Method from backbone to remove events
+         * @method undelegateEvents
+         * @return {this}
+         */
+        undelegateEvents: function () {
+            console.log("sds inside undelegateEvents");
+            // TODO: Check why it doesn't have a $el
+            if (!this.$el) {
+                return this;
+            }
+
+            return this._extendBackbone.prototype.undelegateEvents.call(this);
         },
 
         // -------------------------------
