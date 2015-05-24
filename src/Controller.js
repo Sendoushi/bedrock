@@ -58,7 +58,10 @@ define([
          * @return {Boolean}
          */
         isState: function (state) {
-            return !this._states.hasOwnProperty(state);
+            // It may be a state object
+            var stateName = state && state.name || state;
+
+            return this._states.hasOwnProperty(stateName);
         },
 
         /**
@@ -67,13 +70,16 @@ define([
          * @param  {String} state Key to set the state
          */
         setState: function (state) {
+            // It may be a state object
+            var stateName = state && state.name || state;
+
             if (!this.isState(state)) {
-                return this._logger.warn(this._name, 'The state "' + state + '" doesn\'t exist in this controller.');
+                return this._logger.warn(this._name, 'The state "' + stateName + '" doesn\'t exist in this controller.');
             }
 
             // Set the state
-            this[this._states[state.name]](state);
-            this._logger.log(this._name, 'Changed state to "' + state.name + '".');
+            this[this._states[stateName]](state);
+            this._logger.log(this._name, 'Changed state to "' + stateName + '".');
 
             // Set child state
             state.child && this.setChildState(state.child);

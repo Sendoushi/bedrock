@@ -57,6 +57,9 @@ define([
 
             // Run the backbone constructor
             Backbone.Router.prototype.constructor.call(this, options);
+
+            // Set options
+            this._options = this._options || options || {};
         },
 
         /**
@@ -86,6 +89,11 @@ define([
             if (root) { historyObj.root = root; }
 
             historyStart = Backbone.history.start(historyObj);
+
+            // Maybe there is an option to override the history
+            if (this._options.noHistory) {
+                return this.navigate('', { trigger: true });
+            }
 
             // No history is 404
             !historyStart && this.navigate('404', { trigger: true });
