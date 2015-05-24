@@ -92,11 +92,14 @@ define([
 
             // Maybe there is an option to override the history
             if (this._options.noHistory) {
-                return this.navigate('', { trigger: true });
+                this.navigate('', { trigger: true });
+                return this;
             }
 
             // No history is 404
             !historyStart && this.navigate('404', { trigger: true });
+
+            return this;
         },
 
         // -----------------------------------
