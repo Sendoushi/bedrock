@@ -35,7 +35,7 @@ define([
          * @return {this}
          */
         initialize: function (element) {
-            this._element = element;
+            this._element = element || this._element;
 
             BigRock.prototype.initialize.call(this);
 
