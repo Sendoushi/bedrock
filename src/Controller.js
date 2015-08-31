@@ -73,6 +73,11 @@ define([
             // It may be a state object
             var stateName = state && state.name || state;
 
+            // State exists in the controller so...
+            if (state.child && this.isState(state.child)) {
+                return this.setState(state.child);
+            }
+
             if (!this.isState(state)) {
                 return this._logger.warn(this._name, 'The state "' + stateName + '" doesn\'t exist in this controller.');
             }
