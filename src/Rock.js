@@ -231,10 +231,10 @@ define([
             if (this._parent) {
                 // Make parent announce to his parents'
                 this._parent.announce(key, { go: 'up', data: data });
-
-                // Trigger the event in this
-                this.trigger(key, data);
             }
+
+            // Trigger the event in this
+            this.trigger(key, data);
         },
 
         /**

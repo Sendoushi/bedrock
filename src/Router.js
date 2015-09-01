@@ -71,6 +71,11 @@ define([
             Backbone.Router.prototype.initialize.apply(this, arguments);
             Rock.initialize.call(this);
 
+            // Listen for events of navigation
+            this.on('bedrockrouter:navigate', function (route) {
+                this.navigate(route);
+            }.bind(this));
+
             return this;
         },
 
