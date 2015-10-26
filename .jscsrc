@@ -1,4 +1,5 @@
 {
+    "esnext": true,
     "disallowKeywordsOnNewLine": [
         "else",
         "catch"
@@ -28,7 +29,6 @@
         "try",
         "catch"
     ],
-    "requireMultipleVarDecl": "onevar",
     "requireSpaceAfterBinaryOperators": true,
     "requireSpaceAfterKeywords": [
         "if",

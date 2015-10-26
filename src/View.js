@@ -1,129 +1,123 @@
-define([
-    'backbone',
-    'underscore',
-    './Rock'
-], function (Backbone, _, Rock) {
+'use strict';
+import deepMixIn from 'mout/object/deepMixIn';
+import _ from 'underscore';
+import Backbone from 'exoskeleton';
+import Rock from './Rock.js';
 
-    'use strict';
+// Change templating interpolate
+_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+};
 
-    // Change templating interpolate
-    _.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g
-    };
+// -----------------------------------------
+// VARS
+let viewConfig = {
+    name: 'View'
+};
 
-    /**
-    * Bedrock View
-    * @class View
-    * @extends [Backbone.View, Rock]
-    */
+// Functions to be defined later
+let createBasicElement;
 
-    return Backbone.View.extend(_.extend({}, Rock, {
-        /**
-         * Extends backbone from
-         * @type {Object}
-         */
-        _extendBackbone: Backbone.View,
+// -----------------------------------------
+// PUBLIC FUNCTIONS
 
-        /**
-         * Class name
-         * @type {String}
-         * @private
-         */
-        _name: 'View',
+/**
+ * Backbone extend function
+ */
+let extendBackbone = Backbone.View;
 
-        // --------------------------------
+/**
+ * Initialize
+ * @param  {object} options
+ * @return {view}
+ */
+let initialize = function (options = {}) {
+    Rock.prototype.initialize.call(this, options);
 
-        /**
-         * Initialize
-         * @method initialize
-         * @param  {Object} options
-         * @return {this}
-         */
-        initialize: function (options) {
-            Rock.initialize.call(this);
+    // Set keys to be bind with self
+    this.bindToSelf(['render']);
 
-            // Set the element
-            options && options.el && this.setElement(options.el);
+    // Set the element
+    options.el && this.setElement(options.el);
 
-            return this;
-        },
+    return this;
+};
 
-        /**
-         * Render
-         * @method render
-         * @param  {Object} data Object to be rendered
-         * @return {this}
-         */
-        render: function (data) {
-            if (!this.$el) {
-                this._logger.error(this._name, 'You need to set the element first.');
-                return this;
-            }
+/**
+ * Render
+ * @param  {*} self
+ * @param  {object} data Object to be rendered
+ */
+let render = (self, data) => {
+    if (!self.$el) {
+        console.error('[' + self.name + '] You need to set the element first.');
+        return;
+    }
 
-            // Warn that this has been rendered
-            this._hasRendered && this._logger.warn(this._name, 'This view has been rendered before. Are you sure?');
+    // Warn that this has been rendered
+    self.hasRendered && console.warn('[' + self.name + '] This view has been rendered before. Are you sure?');
 
-            var wrapper = this._createBasicElement();
+    let wrapper = createBasicElement(self);
 
-            // Check if there is a template
-            if (this._template) {
-                wrapper.append(this._template(data));
-            }
+    // Check if there is a template
+    if (self.template) {
+        wrapper.append(self.template(data));
+    }
 
-            this.$el.append(wrapper);
-            this.$element = wrapper;
+    self.$el.append(wrapper);
+    self.$element = wrapper;
 
-            this._hasRendered = true;
+    self.hasRendered = true;
+};
 
-            return this;
-        },
+// -------------------------------
+// Changes to backbone methods
 
-        /**
-         * Method from backbone to remove events
-         * @method undelegateEvents
-         * @return {this}
-         */
-        undelegateEvents: function () {
-            // TODO: Check why it doesn't have a $el
-            if (!this.$el) {
-                return this;
-            }
+/**
+ * Removes the _ensureElement from Backbone because we want to do it in the render
+ */
+let ensureElement = () => {
+    // Removed all because i want to this in the render
+};
 
-            return this._extendBackbone.prototype.undelegateEvents.call(this);
-        },
+/**
+ * Method from backbone to remove events
+ * @return {this}
+ */
+let undelegateEvents = function () {
+    // TODO: Check why it doesn't have a $el
+    if (!this.$el) {
+        return this;
+    }
 
-        // -------------------------------
+    return this.extendBackbone.prototype.undelegateEvents.call(this);
+};
 
-        /**
-         * Creates a basic element for the view
-         * @method  _createBasicElement
-         * @return  {jQuery} The jQuery result
-         * @private
-         */
-        _createBasicElement: function () {
-            var attrs = _.extend({}, _.result(this, 'attributes'));
+// -----------------------------------------
+// PRIVATE FUNCTIONS
+/**
+ * Creates a basic element for the view
+ * @param   {view} self
+ * @return  {jquery} The jQuery result
+ */
+createBasicElement = self => {
+    var attrs = deepMixIn({}, _.result(self, 'attributes'));
 
-            if (this.id) {
-                attrs.id = _.result(this, 'id');
-            }
+    if (self.id) {
+        attrs.id = _.result(self, 'id');
+    }
 
-            if (this.className) {
-                attrs['class'] = _.result(this, 'className');
-            }
+    if (self.className) {
+        attrs['class'] = _.result(self, 'className');
+    }
 
-            return Backbone.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
-        },
+    return Backbone.$('<' + _.result(self, 'tagName') + '>').attr(attrs);
+};
 
-        // -------------------------------
-        // Changes to backbone methods
+// -----------------------------------------
+// EXPORT
 
-        /**
-         * Removes the _ensureElement from Backbone because we want to do it in the render
-         * @method  _ensureElement
-         * @private
-         */
-        _ensureElement: function () {
-            // Removed all because i want to this in the render
-        }
-    }));
-});
+export default Backbone.View.extend(deepMixIn({}, Rock.prototype, viewConfig, {
+    initialize, render,
+    undelegateEvents, ensureElement, extendBackbone
+}));

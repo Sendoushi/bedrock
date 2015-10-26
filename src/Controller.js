@@ -1,112 +1,109 @@
-define([
-    'underscore',
-    './BigRock'
-], function (_, BigRock) {
+'use strict';
+import deepMixIn from 'mout/object/deepMixIn';
+import Rock from './Rock.js';
 
-    'use strict';
+// -----------------------------------------
+// VARS
+let controllerConfig = {
+    name: 'Controller',
+    states: {}
+};
 
-    /**
-     * Bedrock Controller
-     * @class Controller
-     * @extends [BigRock]
-     * @constructor
-     * @return {this}
-     */
-    return BigRock.extend({
-        /**
-         * Class name
-         * @type {String}
-         * @private
-         */
-        _name: 'Controller',
+// Functions to be defined later
+let isState, setChildState;
 
-        /**
-         * States object of the instance
-         * @type {Object}
-         */
-        _states: {},
+// -----------------------------------------
+// PUBLIC FUNCTIONS
 
-        // --------------------------------
+/**
+ * Initialize
+ * @param  {object} options
+ * @return {this}
+ */
+let initialize = function (options) {
+    Rock.prototype.initialize.call(this, options);
 
-        /**
-         * Initialize
-         * @method initialize
-         * @param  {jQuery} element Element where the View will render
-         * @return {this}
-         */
-        initialize: function (element) {
-            this._element = element || this._element;
+    // Set keys to be bind with self
+    this.bindToSelf(['getState', 'setState']);
 
-            BigRock.prototype.initialize.call(this);
+    return this;
+};
 
-            return this;
-        },
+/**
+ * Returns the current state
+ * @param  {*} self
+ * @return {object} The current state
+ */
+let getState = (self) => self.currentState;
 
-        /**
-         * Returns the current state
-         * @method getState
-         * @return {Object} The current state
-         */
-        getState: function () {
-            return this._currentState;
-        },
+/**
+ * Sets state of the controller
+ * @param  {*} self
+ * @param  {string} state Key to set the state
+ */
+let setState = (self, state) => {
+    // It may be a state object
+    let stateName = state && state.name || state;
 
-        /**
-         * Checks if this is a state in this instance
-         * @method isState
-         * @param  {String} state Key to check in the states
-         * @return {Boolean}
-         */
-        isState: function (state) {
-            // It may be a state object
-            var stateName = state && state.name || state;
+    // State exists in the controller so...
+    if (state.child && isState(self, state.child)) {
+        return setState(self, state.child);
+    }
 
-            return this._states.hasOwnProperty(stateName);
-        },
+    if (stateName === getState(self)) {
+        return;
+    }
 
-        /**
-         * Sets state of the controller
-         * @method setState
-         * @param  {String} state Key to set the state
-         */
-        setState: function (state) {
-            // It may be a state object
-            var stateName = state && state.name || state;
+    if (!isState(self, state)) {
+        return console.warn('[' + self.name + '] The state "' + stateName + '" doesn\'t exist in this controller.');
+    }
 
-            // State exists in the controller so...
-            if (state.child && this.isState(state.child)) {
-                return this.setState(state.child);
-            }
+    // Set the state
+    self[self.states[stateName]](state);
+    self.currentState = stateName;
+    console.log('[' + self.name + '] Changed state to "' + stateName + '".');
 
-            if (!this.isState(state)) {
-                return this._logger.warn(this._name, 'The state "' + stateName + '" doesn\'t exist in this controller.');
-            }
+    // Set child state
+    state.child && setChildState(self, state.child);
+};
 
-            // Set the state
-            this[this._states[stateName]](state);
-            this._logger.log(this._name, 'Changed state to "' + stateName + '".');
+// -----------------------------------------
+// PRIVATE FUNCTIONS
 
-            // Set child state
-            state.child && this.setChildState(state.child);
-        },
+/**
+ * Checks if this is a state in this instance
+ * @param  {rock} self
+ * @param  {string} state Key to check in the states
+ * @return {boolean}
+ */
+isState = (self, state) => {
+    // It may be a state object
+    let stateName = state && state.name || state;
+    return self.states.hasOwnProperty(stateName);
+};
 
-        /**
-         * Sets state in child
-         * @method setChildState
-         * @param  {String} state Key to be set in the child
-         */
-        setChildState: function (state) {
-            var found = false;
+/**
+ * Sets state in child
+ * @param  {rock} self
+ * @param  {string} state Key to be set in the child
+ */
+setChildState = (self, state) => {
+    var found = false;
 
-            // Go through each sible and set the state
-            _.each(this._siblings, function (val) {
-                if (val.isState && val.isState(state)) {
-                    val.setState(state);
-                    found = true;
-                }
-            });
-
-            !found && this._logger.warn(this._name, 'The state "' + state.name + '" wasn\'t found.');
+    // Go through each sible and set the state
+    self.siblings.forEach(val => {
+        if (val.isState && val.isState(state)) {
+            setState(val, state);
+            found = true;
         }
     });
-});
+
+    !found && console.warn('[' + self.name + '] The state "' + state.name + '" wasn\'t found.');
+};
+
+// -----------------------------------------
+// EXPORT
+
+export default Rock.extend(deepMixIn(controllerConfig, {
+    initialize, getState, setState
+}));

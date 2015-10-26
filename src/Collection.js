@@ -1,42 +1,25 @@
-define([
-    'backbone',
-    'underscore',
-    './Rock'
-], function (Backbone, _, Rock) {
+'use strict';
+import deepMixIn from 'mout/object/deepMixIn';
+import Backbone from 'exoskeleton';
+import Rock from './Rock.js';
 
-    'use strict';
+// -----------------------------------------
+// VARS
+let collectionConfig = {
+    name: 'Collection'
+};
 
-    /**
-    * Bedrock Collection
-    * @class Collection
-    * @extends [Backbone.Collection, Rock]
-    */
+// -----------------------------------------
+// PUBLIC FUNCTIONS
 
-    return Backbone.Collection.extend(_.extend({}, Rock, {
-        /**
-         * Extends backbone from
-         * @type {Object}
-         */
-        _extendBackbone: Backbone.Collection,
 
-        /**
-         * Class name
-         * @type {String}
-         * @private
-         */
-        _name: 'Collection',
+// -----------------------------------------
+// PRIVATE FUNCTIONS
 
-        // --------------------------------
 
-        /**
-         * Bedrock model initialize
-         * @method initialize
-         * @return {this}
-         */
-        initialize: function () {
-            Rock.initialize.call(this);
+// -----------------------------------------
+// EXPORT
 
-            return this;
-        }
-    }));
-});
+export default Backbone.Collection.extend(deepMixIn({}, Rock.prototype, collectionConfig, {
+
+}));

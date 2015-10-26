@@ -1,257 +1,262 @@
-define([
-    'logger',
-    'backbone',
-    'underscore',
-    'config'
-], function (logger, Backbone, _, config) {
+'use strict';
+import deepMixIn from 'mout/object/deepMixIn';
+import uniqueId from './utils/uniqueId.js';
+import Backbone from 'exoskeleton';
 
-    'use strict';
+// -----------------------------------------
+// VARS
+let rockConfig = {
+    name: 'Rock',
+    cid: null
+};
 
-    /**
-    * Base for all Bedrock instances
-    * @class Rock
-    */
+// Functions to be defined later
+let bindToSelf, announceDown, announceUp, getRoot, getParent, setParent;
 
-    return {
-        /**
-         * Class name
-         * @type {String}
-         * @private
-         */
-        _name: 'Rock',
+// -----------------------------------------
+// PUBLIC FUNCTIONS
 
-        /**
-         * Unique id for the Rock instance
-         * @type {String}
-         */
-        cid: null,
+/**
+ * Functions from another mother
+ */
+let extend = Backbone.Model.extend;
+let extendBackbone = Backbone.Events;
 
-        /**
-         * Bedrock logger util module
-         * @method _logger
-         * @private
-         */
-        _logger: logger('Bedrock', config),
+/**
+ * Initialize
+ * @param  {object} options
+ * @return {this}
+ */
+let initialize = function (options = {}) {
+    // Set vars
+    this.siblings = [];
+    this.cid = uniqueId(this.name);
 
-        /**
-         * Backbone extend function
-         * @method extend
-         * @extends {Backbone.Model}
-         */
-        extend: Backbone.Model.extend,
+    // Bind functions to self
+    this.dontBind = options.dontBind;
+    bindToSelf(this, [
+        'adopt',
+        'unadopt',
+        'announce',
+        'destroySiblings',
+        'destroy'
+    ]);
 
-        /**
-         * Initialize
-         * @method initialize
-         * @return {this}
-         */
-        initialize: function () {
-            this.cid = _.uniqueId(this._name);
 
-            return this;
-        },
+    return this;
+};
 
-        /**
-         * Check if instance is the same
-         * @method is
-         * @param  {String} str Value to check
-         * @return {Boolean}
-         */
-        is: function (str) {
-            return str === this._name;
-        },
+/*
+ * Join function keys to be bind
+ * @param  {*} self
+ * @param {array} keys
+ */
+bindToSelf = function (self, keys) {
+    if (!keys) {
+        keys = self;
+        self = this;
+    }
 
-        /**
-         * Announce to all family the event
-         * @method announce
-         * @param  {String} key Key to be listened by events
-         * @param  {Object} options Optionals a 'go' key with 'down', 'up' or 'null' and a 'data' key
-         */
-        announce: function (key, options) {
-            options = options || {};
+    if (self.dontBind) {
+        return;
+    }
 
-            if (options.go === 'down') {
-                this._announceDown(key, options.data);
-            } else if (options.go === 'up') {
-                this._announceUp(key, options.data);
-            } else {
-                this._announceEveryone(key, options.data);
-            }
-        },
-
-        // --------------------------------------------------
-
-        /**
-         * Adopts the child
-         * @method adopt
-         * @param  {*} child Child inheriting Rock
-         * @return {child} Child that came as parameter
-         */
-        adopt: function (child) {
-            this._siblings = this._siblings || [];
-
-            // Check if he is being double adopted
-            if (child.getParent()) {
-                this._logger.warn(this._name, 'Child already has a parent.');
-                return child;
-            }
-
-            // Check if there is already and warn
-            for (var i = 0; i < this._siblings.length; i += 1) {
-                if (child.name === this._siblings[i].name && child.cid === this._siblings[i].cid) {
-                    this._logger.warn(this._name, 'Child was already adopted by this.');
-                    return child;
-                }
-            }
-
-            this._siblings.push(child);
-
-            // Child parent
-            child.setParent(this);
-
-            this._logger.log(this._name, 'Child was adopted.');
-            return child;
-        },
-
-        /**
-         * Unadopts the child
-         * @method unadopt
-         * @param  {*} child Child inheriting Rock
-         * @return {child} Child that came as parameter
-         */
-        unadopt: function (child) {
-            if (!this._siblings || !this._siblings.length) {
-                this._logger.warn(this._name, 'There are no adopted.');
-                return child;
-            }
-
-            for (var i = 0; i < this._siblings.length; i += 1) {
-                if (child.name === this._siblings[i].name && child.cid === this._siblings[i].cid) {
-                    this._siblings.splice(i, 1);
-                    child.setParent();
-
-                    this._logger.log(this._name, 'Child was unadopted.');
-                    return child;
-                }
-            }
-
-            this._logger.warn(this._name, 'Child wasn\'t adopted by this.');
-            return child;
-        },
-
-        /**
-         * Sets a parent to a child
-         * @method setParent
-         * @param  {*} parent Parent inheriting Rock
-         * @return {this} This Rock instance
-         */
-        setParent: function (parent) {
-            if (this._parent) {
-                this._logger.warn(this._name, 'This already have a parent!');
-                return this;
-            }
-
-            this._parent = parent;
-
-            this._logger.log(this._name, 'Parent was set.');
-            return this;
-        },
-
-        /**
-         * Returns the parent
-         * @method getParent
-         * @return {*} This instance parent
-         */
-        getParent: function () {
-            return this._parent;
-        },
-
-        /**
-         * Destroys the rock siblings
-         * @method destroySiblings
-         */
-        destroySiblings: function () {
-            if (!this._siblings || !this._siblings.length) {
-                return this;
-            }
-
-            // Go through each sible and destroy
-            _.each(this._siblings, function (val) {
-                val.destroySiblings();
-                val.destroy();
-            }.bind(this));
-
-            // Reset siblings
-            this._siblings = null;
-        },
-
-        /**
-         * Destroys the rock
-         * @method destroy
-         */
-        destroy: function (arg) {
-            this.stopListening();
-            this.destroySiblings();
-
-            // Call the parent destroy
-            if (this._extendBackbone && this._extendBackbone.prototype && this._extendBackbone.prototype.destroy) {
-                this._extendBackbone.prototype.destroy.call(this, arg);
-            }
-        },
-
-        // ------------------------------------------------------
-
-        /**
-         * Make the announcement to all relatives
-         * @method _announceDown
-         * @param  {String} key Key to be listened on the events
-         * @param  {*} data Data to be passed to the listeners
-         * @private
-         */
-        _announceDown: function (key, data) {
-            // Go through each sible and announce
-            _.each(this._siblings, function (val) {
-                // Make child announce to his children
-                val.announce(key, { go: 'down', data: data });
-
-                // Trigger the event
-                val.trigger(key, data);
-            }.bind(this));
-        },
-
-        /**
-         * Make the announcement to all parents
-         * @method  _announceUp
-         * @param   {String} key Key to be listened on the events
-         * @param   {*} data Data to be passed to the listeners
-         * @private
-         */
-        _announceUp: function (key, data) {
-            // TODO: When caught it shouldn't go up
-            if (this._parent) {
-                // Make parent announce to his parents'
-                this._parent.announce(key, { go: 'up', data: data });
-            }
-
-            // Trigger the event in this
-            this.trigger(key, data);
-        },
-
-        /**
-         * Announce to everyone
-         * @method  _announceEveryone
-         * @param   {String} key Key to be listened on the events
-         * @param   {*} data Data to be passed to the listeners
-         * @private
-         */
-        _announceEveryone: function (key, data) {
-            // Lets find the top parent
-            if (this._parent) {
-                return this._parent.announce(key, { data: data });
-            }
-
-            // It is the top of the line, tell everyone
-            this._announceDown(key, data);
+    for (let key of keys) {
+        if (key === 'undelegateEvents') {
+            console.log(self);
         }
-    };
+        self[key] = self[key].bind(null, self);
+    }
+};
+
+/**
+ * Adopts the child
+ * @param  {*} self
+ * @param  {*} child Child inheriting Rock
+ * @return {child}
+ */
+let adopt = (self, child) => {
+    // Check if he is being double adopted
+    if (getParent(child)) {
+        console.warn('[' + self.name + '] Child already has a parent.');
+        return child;
+    }
+
+    // Check if there is already and warn
+    for (let i = 0; i < self.siblings.length; i += 1) {
+        if (child.name === self.siblings[i].name && child.cid === self.siblings[i].cid) {
+            console.warn('[' + self.name + '] Child was already adopted by this.');
+            return child;
+        }
+    }
+
+    self.siblings.push(child);
+
+    // Child parent
+    setParent(child, self);
+
+    console.log('[' + self.name + '] Child was adopted.');
+    return child;
+};
+
+/**
+ * Unadopts the child
+ * @param  {*} self
+ * @param  {*} child Child inheriting Rock
+ * @return {child}
+ */
+let unadopt = (self, child) => {
+    if (!self.siblings || !self.siblings.length) {
+        console.warn('[' + self.name + '] There are no adopted.');
+        return child;
+    }
+
+    for (let i = 0; i < self.siblings.length; i += 1) {
+        if (child.name === self.siblings[i].name && child.cid === self.siblings[i].cid) {
+            self.siblings.splice(i, 1);
+            setParent(child);
+
+            console.log('[' + self.name + '] Child was unadopted.');
+            return child;
+        }
+    }
+
+    console.warn('[' + self.name + '] Child wasn\'t adopted by this.');
+    return child;
+};
+
+/**
+ * Announce to all family the event
+ * @param  {*} self
+ * @param  {string} key Key to be listened by events
+ * @param  {object} options Optionals a 'go' key with 'down', 'up' or 'null' and a 'data' key
+ */
+let announce = (self, key, options = {}) => {
+    if (options.go === 'down') {
+        announceDown(self, key, options.data);
+    } else if (options.go === 'up') {
+        announceUp(self, key, options.data);
+    } else {
+        announceDown(getRoot(self), key, options.data);
+    }
+};
+
+/**
+ * Destroys the rock siblings
+ * @param  {*} self
+ */
+let destroySiblings = (self) => {
+    if (!self.siblings || !self.siblings.length) {
+        return;
+    }
+
+    // Go through each sible and destroy
+    self.siblings.forEach(val => {
+        val.destroySiblings();
+        val.destroy();
+    });
+
+    // Reset siblings
+    self.siblings = null;
+};
+
+/**
+ * Destroys the rock
+ * @param  {*} self
+ */
+let destroy = (self, arg) => {
+    self.stopListening();
+    self.destroySiblings();
+
+    // Call the parent destroy
+    self.extendBackbone.prototype.destroy.call(self, arg);
+};
+
+// -----------------------------------------
+// PRIVATE FUNCTIONS
+
+/**
+ * Returns the parent
+ * @param  {object} self
+ * @return {*} This instance parent
+ */
+getParent = self => self.parent;
+
+/**
+ * Gets the root of someone
+ * @param {rock} self
+ * @return {*} Root self
+ */
+getRoot = self => {
+    while (!!getParent(self)) {
+        self = getParent(self);
+    }
+
+    return self;
+};
+
+/**
+ * Sets a parent to a child
+ * @param  {object} self
+ * @param  {rock} parent Parent inheriting Rock
+ */
+setParent = (self, parent) => {
+    if (self.parent) {
+        console.warn('[' + self.name + '] This already have a parent!');
+        return;
+    }
+
+    self.parent = parent;
+    console.log('[' + self.name + '] Parent was set.');
+};
+
+/**
+ * Make the announcement to all relatives
+ * @param  {object} self
+ * @param  {String} key Key to be listened on the events
+ * @param  {*} data Data to be passed to the listeners
+ */
+announceDown = (self, key, data) => {
+    // Go through each sible and announce
+    self.siblings.forEach(val => {
+        // Make child announce to his children
+        val.announce(key, { go: 'down', data: data });
+
+        // Trigger the event
+        val.trigger(key, data);
+    });
+};
+
+/**
+ * Make the announcement to all parents
+ * @param  {object} self
+ * @param   {String} key Key to be listened on the events
+ * @param   {*} data Data to be passed to the listeners
+ */
+announceUp = (self, key, data) => {
+    // TODO: When caught it shouldn't go up
+    if (self.parent) {
+        // Make parent announce to his parents'
+        self.parent.announce(key, { go: 'up', data: data });
+    }
+
+    // Trigger the event in this
+    self.trigger(key, data);
+};
+
+// -----------------------------------------
+// EXPORT
+
+let Rock = function () {
+    return this.initialize.apply(this, arguments);
+};
+Rock.extend = extend;
+
+Rock.prototype = deepMixIn(Rock.prototype, extendBackbone, rockConfig, {
+    extend, extendBackbone,
+    initialize, bindToSelf,
+    adopt, unadopt, announce,
+    destroySiblings, destroy
 });
+
+export default Rock;
