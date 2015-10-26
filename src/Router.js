@@ -1,6 +1,6 @@
 'use strict';
-import mixIn from 'mout/object/mixIn';
-import deepMixIn from 'mout/object/deepMixIn';
+import mixIn from 'mout/object/mixIn.js';
+import deepMixIn from 'mout/object/deepMixIn.js';
 import Backbone from 'backbone';
 import Rock from './Rock.js';
 

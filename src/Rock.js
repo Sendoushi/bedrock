@@ -1,5 +1,5 @@
 'use strict';
-import deepMixIn from 'mout/object/deepMixIn';
+import deepMixIn from 'mout/object/deepMixIn.js';
 import uniqueId from './utils/uniqueId.js';
 import Backbone from 'backbone';
 

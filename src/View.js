@@ -1,5 +1,5 @@
 'use strict';
-import deepMixIn from 'mout/object/deepMixIn';
+import deepMixIn from 'mout/object/deepMixIn.js';
 import _ from 'underscore';
 import Backbone from 'backbone';
 import Rock from './Rock.js';
