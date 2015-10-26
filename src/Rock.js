@@ -1,7 +1,7 @@
 'use strict';
 import deepMixIn from 'mout/object/deepMixIn';
 import uniqueId from './utils/uniqueId.js';
-import Backbone from 'exoskeleton';
+import Backbone from 'backbone';
 
 // -----------------------------------------
 // VARS

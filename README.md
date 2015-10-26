@@ -37,7 +37,7 @@ Backbone has some pretty good advantages over the others around in my point of v
 ## Dependencies
 
 You'll need [babel](https://babeljs.io/) or some ES6 compiler to run this. Already using the new technology.
-Bedrock uses ```exoskeleton``` (because it is lighter and with less legacy code) but you may use ```backbone``` instead. You just have to map it to exoskeleton on ```webpack```, ```requirejs```...
+To use [exoskeleton](http://exosjs.com/) you have to map it to ```backbone``` on ```webpack```, ```requirejs```...
 
 ## Installation
 

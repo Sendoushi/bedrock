@@ -1,7 +1,7 @@
 'use strict';
 import deepMixIn from 'mout/object/deepMixIn';
 import _ from 'underscore';
-import Backbone from 'exoskeleton';
+import Backbone from 'backbone';
 import Rock from './Rock.js';
 
 // Change templating interpolate
