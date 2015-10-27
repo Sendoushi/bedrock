@@ -6,6 +6,8 @@ You may be thinking "another framework" but in the end, if this one was created 
 
 For those who like the idea, help me improve it! :)
 
+The api documentation is [here](doc/API.md).
+
 ## Main objectives
 
 - Be able to check the source without scratching the head

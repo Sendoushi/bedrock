@@ -95,6 +95,7 @@ let undelegateEvents = function () {
 
 // -----------------------------------------
 // PRIVATE FUNCTIONS
+
 /**
  * Creates a basic element for the view
  * @param   {view} self

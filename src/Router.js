@@ -30,7 +30,7 @@ let extendBackbone = Backbone.Router;
  * @param {object} states
  * @param {object} options Options to be passed to the Backbone router
  */
-let constructor = function (states, options = {}) {
+let constructor = function (states = {}, options = {}) {
     // Build routes
     this.routesOriginal = mixIn(this.routesOriginal, states);
 
@@ -47,7 +47,7 @@ let constructor = function (states, options = {}) {
 };
 
 /**
- * Bedrock router initialize
+ * Initialize this
  * @param  {object} options
  * @return {this}
  */
@@ -69,7 +69,7 @@ let initialize = function (options = {}) {
  * @param {*} self
  * @param {object} config
  */
-let start = function (self, config) {
+let start = (self, config) => {
     // Listens for the changes
     let root = config.baseUrl && '/' + config.baseUrl + '/';
     let historyObj = { pushState: true };

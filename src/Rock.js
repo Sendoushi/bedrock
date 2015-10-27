@@ -23,7 +23,8 @@ let extend = Backbone.Model.extend;
 let extendBackbone = Backbone.Events;
 
 /**
- * Initialize
+ * Initialize this
+ * It is called on the constructor method
  * @param  {object} options
  * @return {this}
  */
@@ -42,14 +43,13 @@ let initialize = function (options = {}) {
         'destroy'
     ]);
 
-
     return this;
 };
 
 /*
  * Join function keys to be bind
  * @param  {*} self
- * @param {array} keys
+ * @param  {array} keys
  */
 bindToSelf = function (self, keys) {
     if (!keys) {
@@ -163,6 +163,7 @@ let destroySiblings = (self) => {
 /**
  * Destroys the rock
  * @param  {*} self
+ * @param  {*} arg It will be passed to backbone
  */
 let destroy = (self, arg) => {
     self.stopListening();
