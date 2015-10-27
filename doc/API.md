@@ -8,11 +8,6 @@ Most of the methods have a ```self``` argument. This opens the ability for you t
 
 Everyone should extend the Rock. It's the foundation of all Bedrock. He is the one who knows the siblings and how to announce.
 
-```js
-import Rock from 'Bedrock/Rock';
-let rock = new Rock();
-```
-
 See more about the Rock [here](Rock.md).
 
 ## Router (extends Rock and [Backbone Router](http://backbonejs.org/#Router))
