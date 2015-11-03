@@ -62,6 +62,11 @@ To use [exoskeleton](http://exosjs.com/) you have to map it to ```backbone``` on
 - Install [node](http://nodejs.org)
 - `npm install`
 
+#### Alternative
+- Install [node](http://nodejs.org)
+- `npm install -g bower`
+- `bower install`
+
 ## Still have to do...
 
 - Tests

@@ -36,7 +36,18 @@ let constructor = function (states = {}, options = {}) {
 
     for (let key of Object.keys(this.routesOriginal)) {
         let val = this.routesOriginal[key];
-        this.routes[key] = stateManager.bind(null, this, val, key);
+        this.routes[key] = function () {
+            // Don't touch this, webpack is weird with these
+            // values comming from the arguments
+            let values = [];
+
+            // Go through all the value arguments
+            for (let i = 0; i < arguments.length; i += 1) {
+                values.push(arguments[i]);
+            }
+
+            stateManager(this, val, key, values);
+        }.bind(this);
     }
 
     // Run the backbone constructor
@@ -93,18 +104,18 @@ let start = (self, config) => {
 
 /**
  * Manages the states of the routes
- * @param   {rock} self
+ * @param   {*} self
  * @param   {string} state State to go to
  * @param   {string} route Route used for the state
+ * @param   {array} values Values to the route
  */
-stateManager = (self, state, route) => {
+stateManager = (self, state, route, values) => {
     // TODO: Support * and ? in the routes
     // TODO: This needs to be reviewed!!!
-
-    let routeArr = route !== '' ? route.split('/') : [];
-    let params = getParams(routeArr, arguments);
-    let routeAdded = [];
-    let stateParsed;
+    var routeArr = route !== '' ? route.split('/') : [''];
+    var params = getParams(routeArr, values);
+    var routeAdded = [];
+    var stateParsed;
 
     // Build the routes added
     routeArr.forEach((val, i) => {
@@ -116,33 +127,33 @@ stateManager = (self, state, route) => {
         stateParsed = parseRoute(self, params, stateParsed, routeUrl, i);
     });
 
+
     // Inform the change
-    self.trigger('router#change', {
-        name: self.routesOriginal[route],
-        route: route,
-        child: stateParsed
-    });
+    self.trigger('router#change', stateParsed);
 };
 
 /**
  * Get params from route
  * @param  {array} routeArr
- * @param  {array} args
+ * @param  {array} valuesArr
  * @return {array}
  */
-getParams = (routeArr, args) => {
-    let i = 1;
-
-    return routeArr.map(val => {
+getParams = function (routeArr, valuesArr) {
+    // Don't touch this, webpack is weird with these
+    // values comming from the arguments
+    let realValue;
+    let arr = routeArr.map(val => {
         // Check if there is a param in the route bit
         if (val.replace(':', '') === val) {
             return;
         }
 
-        i += 1;
-
-        return { param: val.replace(':', ''), value: args[i] };
+        realValue = valuesArr[0];
+        valuesArr.splice(0, 1);
+        return { param: val.replace(':', ''), value: realValue };
     }).filter(val => !!val);
+
+    return arr;
 };
 
 /**
@@ -157,7 +168,7 @@ getParams = (routeArr, args) => {
 parseRoute = (self, params, child, route, i) => {
     // State may not exist
     if (!self.routesOriginal[route]) {
-        return;
+        return child;
     }
 
     // Map to the right params
