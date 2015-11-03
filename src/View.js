@@ -4,11 +4,6 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import Rock from './Rock.js';
 
-// Change templating interpolate
-_.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
-};
-
 // -----------------------------------------
 // VARS
 let viewConfig = {
