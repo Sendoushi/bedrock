@@ -59,6 +59,10 @@ let render = (self, data) => {
         wrapper.append(self.template(data));
     }
 
+    // Cache data
+    self.data = data;
+
+    // Create the wrapper
     self.$el.append(wrapper);
     self.$element = wrapper;
 
