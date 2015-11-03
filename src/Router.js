@@ -59,7 +59,9 @@ let initialize = function (options = {}) {
     this.bindToSelf(['start']);
 
     // Listen for events of navigation
-    this.on('bedrockrouter:navigate', route => this.navigate(route));
+    this.on('bedrockrouter:navigate', route => {
+        this.navigate(route, { trigger: options.trigger });
+    });
 
     return this;
 };
@@ -114,10 +116,10 @@ stateManager = (self, state, route) => {
         stateParsed = parseRoute(self, params, stateParsed, routeUrl, i);
     });
 
-    // Add the index and handle state
+    // Inform the change
     self.trigger('router#change', {
-        name: self.routesOriginal[''],
-        route: '',
+        name: self.routesOriginal[route],
+        route: route,
         child: stateParsed
     });
 };

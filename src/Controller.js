@@ -59,9 +59,9 @@ let setState = (self, state) => {
     }
 
     // Set the state
+    console.log('[' + self.name + '] Changed state to "' + stateName + '".');
     self[self.states[stateName]](state);
     self.currentState = stateName;
-    console.log('[' + self.name + '] Changed state to "' + stateName + '".');
 
     // Set child state
     state.child && setChildState(self, state.child);

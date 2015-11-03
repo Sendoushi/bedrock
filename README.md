@@ -48,7 +48,6 @@ To use [exoskeleton](http://exosjs.com/) you have to map it to ```backbone``` on
 
 ## Still have to do...
 
-- Documentation
 - Tests
 - Remove underscore as a dependency
 - Separate backbone into ES6 modules
