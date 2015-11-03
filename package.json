@@ -2,6 +2,9 @@
   "name": "Bedrock",
   "version": "0.1.1",
   "description": "Framework built on top of Backbone.",
+  "authors": [
+    "Joel Santos <joel@sendoushi.com>"
+  ],
   "scripts": {
     "test": "# TODO"
   },

@@ -15,6 +15,22 @@ The api documentation is **[here](doc/API.md)**.
 - Easily scalable
 - OOP / FP, work as you wish!
 
+## Examples of installation
+To install you may use ```bower```:
+```
+bower install --save git@github.com:Sendoushi/bedrock-web.git
+```
+
+Or you may use ```npm```:
+```
+npm install --save git+ssh://git@github.com:Sendoushi/bedrock-web.git
+```
+
+Or why don't you just simply clone it?
+```
+git clone git+ssh://git@github.com:Sendoushi/bedrock-web.git
+```
+
 ## Simple FAQ
 
 #### Why on top of [backbone](http://backbonejs.org/)?
