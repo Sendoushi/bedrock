@@ -22,11 +22,6 @@ let createBasicElement;
 // PUBLIC FUNCTIONS
 
 /**
- * Backbone extend function
- */
-let extendBackbone = Backbone.View;
-
-/**
  * Initialize
  * @param  {object} options
  * @return {view}
@@ -35,7 +30,7 @@ let initialize = function (options = {}) {
     Rock.prototype.initialize.call(this, options);
 
     // Set keys to be bind with self
-    this.bindToSelf(['render']);
+    this.bindToSelf(['render', 'destroy']);
 
     // Set the element
     options.el && this.setElement(options.el);
@@ -70,6 +65,24 @@ let render = (self, data) => {
     self.hasRendered = true;
 };
 
+/**
+ * Destroys the rock
+ * @param  {*} self
+ * @param  {*} arg It will be passed to backbone
+ */
+let destroy = (self, arg) => {
+    // TODO: There may be problems with these destroys!
+    // Call the parent destroy
+    Rock.prototype.destroy.call(self, arg);
+    let proto = Backbone.View.prototype;
+    if (proto && proto.destroy) {
+        proto.destroy.call(self, arg);
+    }
+
+    // TODO: Something is wrong...
+    self.$element.remove();
+};
+
 // -------------------------------
 // Changes to backbone methods
 
@@ -90,7 +103,7 @@ let undelegateEvents = function () {
         return this;
     }
 
-    return this.extendBackbone.prototype.undelegateEvents.call(this);
+    return Backbone.View.prototype.undelegateEvents.call(this);
 };
 
 // -----------------------------------------
@@ -120,5 +133,5 @@ createBasicElement = self => {
 
 export default Backbone.View.extend(deepMixIn({}, Rock.prototype, viewConfig, {
     initialize, render,
-    undelegateEvents, ensureElement, extendBackbone
+    undelegateEvents, ensureElement, destroy
 }));

@@ -1,5 +1,6 @@
 'use strict';
 import deepMixIn from 'mout/object/deepMixIn.js';
+import deepEquals from 'mout/lang/deepEquals.js';
 import Rock from './Rock.js';
 
 // -----------------------------------------
@@ -44,13 +45,14 @@ let getState = (self) => self.currentState;
 let setState = (self, state) => {
     // It may be a state object
     let stateName = state && state.name || state;
+    let currentState = getState(self);
 
     // State exists in the controller so...
     if (state.child && isState(self, state.child)) {
         return setState(self, state.child);
     }
 
-    if (stateName === getState(self)) {
+    if (deepEquals(state, currentState)) {
         return;
     }
 
@@ -61,7 +63,7 @@ let setState = (self, state) => {
     // Set the state
     console.log('[' + self.name + '] Changed state to "' + stateName + '".');
     self[self.states[stateName]](state);
-    self.currentState = stateName;
+    self.currentState = state;
 
     // Set child state
     state.child && setChildState(self, state.child);

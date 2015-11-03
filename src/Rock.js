@@ -20,7 +20,6 @@ let bindToSelf, announceDown, announceUp, getRoot, getParent, setParent;
  * Functions from another mother
  */
 let extend = Backbone.Model.extend;
-let extendBackbone = Backbone.Events;
 
 /**
  * Initialize this
@@ -166,11 +165,15 @@ let destroySiblings = (self) => {
  * @param  {*} arg It will be passed to backbone
  */
 let destroy = (self, arg) => {
+    // TODO: There may be problems with these destroys!
     self.stopListening();
     self.destroySiblings();
 
     // Call the parent destroy
-    self.extendBackbone.prototype.destroy.call(self, arg);
+    let proto = Backbone.Events.prototype;
+    if (proto && proto.destroy) {
+        proto.destroy.call(self, arg);
+    }
 };
 
 // -----------------------------------------
@@ -253,8 +256,8 @@ let Rock = function () {
 };
 Rock.extend = extend;
 
-Rock.prototype = deepMixIn(Rock.prototype, extendBackbone, rockConfig, {
-    extend, extendBackbone,
+Rock.prototype = deepMixIn(Rock.prototype, Backbone.Events, rockConfig, {
+    extend,
     initialize, bindToSelf,
     adopt, unadopt, announce,
     destroySiblings, destroy
