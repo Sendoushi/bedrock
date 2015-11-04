@@ -60,11 +60,17 @@ bindToSelf = function (self, keys) {
         return;
     }
 
+    // Cache binded keys
+    self.bindedKeys = self.bindedKeys || {};
+
+    // Bind each key
     for (let key of keys) {
-        if (key === 'undelegateEvents') {
-            console.log(self);
+        if (self.bindedKeys[key]) {
+            continue;
         }
+
         self[key] = self[key].bind(null, self);
+        self.bindedKeys[key] = true;
     }
 };
 
