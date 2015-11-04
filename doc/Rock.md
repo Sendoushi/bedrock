@@ -52,9 +52,12 @@ let foo = {
         // Different ways you may use it
         Rock.prototype.bindToSelf(this, ['bar']);
         this.bindToSelf(['bar']);
+
+        return this;
     },
     bar = (self, str) => {
         /* Self is this */
+        /* This is self */
         /* Str is: this is a string! */
     }
 };
@@ -64,6 +67,25 @@ let foo = {
 bar('this is a string!');
 
 let Bar = Rock.extend(foo);
+```
+
+Inherited methods don't need to be bind.
+
+```js
+let foo = {
+    initialize: function (options = {}) {
+        Rock.prototype.initialize.call(this, options);
+
+        // No need to rebind adopt since it is an extended method
+
+        return this;
+    },
+    adopt = (self, child) => {
+        Rock.prototype.adopt(self, child);
+        /* Self is already this */
+        /* This is already self */
+    }
+};
 ```
 
 ##### adopt
