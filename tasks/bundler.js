@@ -27,7 +27,7 @@ webpackConfig = {
     module: {
         loaders: [{
             test: /\.js?$/, loader: 'babel', query: { presets: ['es2015'] },
-            exclude: /(node_modules|bower_components)/
+            include: /(src|bedrock)/
         }, {
             test: /\.json?$/, loader: 'json',
             exclude: /(node_modules|bower_components)/
