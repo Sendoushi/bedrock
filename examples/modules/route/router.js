@@ -1,4 +1,4 @@
-import { init, setRoute, updateOnAction } from 'sdsFrontend/router';
+import { init, setRoute, updateOnAction } from 'bedrock/router';
 import appActions from '../app/actions.js';
 import rootRoutes from './modules/root.js';
 

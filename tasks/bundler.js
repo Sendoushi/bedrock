@@ -8,6 +8,7 @@ const Promise = require('bluebird');
 const spawn = require('child_process').spawn;
 const webpack = require('webpack');
 const ProgressPlugin = require('webpack/lib/ProgressPlugin');
+const deepMixIn = require('mout/object/deepMixIn.js');
 const cwd = process.cwd();
 const env = process.argv[2];
 
@@ -89,20 +90,15 @@ progressFn = (percentage) => {
 
 // Export
 module.exports = (file) => {
-    const buildPath = file[0].dest;
-
-    // Set files
-    webpackConfig.entry = file[0].src;
-    webpackConfig.output.path = buildPath;
-    webpackConfig.resolve = file[0].resolve;
-    webpackConfig.resolveLoader = file[0].resolveLoader;
+    const buildPath = file[0].output.path;
+    const config = deepMixIn({}, webpackConfig, file[0]);
 
     // Set the promise
     const promise = new Promise((resolve, reject) => {
         let compiler;
 
         // Set the webpack
-        compiler = webpack(webpackConfig);
+        compiler = webpack(config);
 
         // Set plugins
         compiler.apply(new ProgressPlugin(progressFn));

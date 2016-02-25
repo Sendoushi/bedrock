@@ -59,6 +59,11 @@ fileFn = () => {
         const fileTask = require(path.join(tasksPath, 'file.js'));
         const files = [
             {
+                cwd: 'node_modules/bedrock/src',
+                src: '**/_assets/**/*.*',
+                ignore: ['**/*.scss', '**/*.css', '**/*.php', '**/*.html', '**/*.ico'],
+                dest: buildPath
+            }, {
                 cwd: srcPath,
                 src: '**/_assets/**/*.*',
                 ignore: ['**/*.scss', '**/*.css', '**/*.php', '**/*.html', '**/*.ico'],
@@ -80,14 +85,13 @@ fileFn = () => {
     .then(() => logTask('Run svg tasks'))
     .then(() => {
         const fileTask = require(path.join(tasksPath, 'svg.js'));
+        const file = [{
+            cwd: buildPath,
+            src: '**/_assets/**/*.svg',
+            dest: buildPath
+        }];
 
-        if (env === 'prod') {
-            return fileTask([{
-                cwd: buildPath,
-                src: '**/_assets/**/*.svg',
-                dest: buildPath
-            }]);
-        }
+        return env === 'prod' && fileTask(file);
     });
 };
 
@@ -128,8 +132,10 @@ bundlerFn = () => {
         const fileTask = require(path.join(tasksPath, 'bundler.js'));
         const mappingPath = path.join(cwd, 'config/mapping.js');
         const files = [{
-            src: path.join(cwd, 'src', 'bootstrap.js'),
-            dest: buildPath,
+            entry: path.join(cwd, 'src', 'bootstrap.js'),
+            output: {
+                path: buildPath
+            },
             resolve: {
                 root: path.resolve(cwd),
                 extensions: ['', '.js', '.jsx'],

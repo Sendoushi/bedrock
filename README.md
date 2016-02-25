@@ -8,17 +8,17 @@ The api documentation is **[here](doc/API.md)**.
 ## Examples of installation
 To install you may use ```bower```:
 ```
-bower install --save git@github.com:Sendoushi/bedrock.git
+bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.1
 ```
 
 Or you may use ```npm```:
 ```
-npm install --save git+ssh://git@github.com:Sendoushi/bedrock.git
+npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.1
 ```
 
 Or why don't you just simply clone it?
 ```
-git clone git+ssh://git@github.com:Sendoushi/bedrock.git
+git clone https://github.com/Sendoushi/bedrock.git
 ```
 
 ## Main dependencies
@@ -26,11 +26,11 @@ git clone git+ssh://git@github.com:Sendoushi/bedrock.git
 - [Bluebird](https://github.com/petkaantonov/bluebird)
 - [Eslint](https://github.com/eslint/eslint)
 - [Mout](https://github.com/mout/mout)
-- [Page.js](https://github.com/visionmedia/page.js)
 - [Postcss](https://github.com/postcss/postcss)
 - [Webpack](https://github.com/webpack/webpack)
 
 #### Optional dependencies (depending on usage)
+- [Page.js](https://github.com/visionmedia/page.js)
 - [Redux](https://github.com/reactjs/redux)
 - [Riot](https://github.com/riot/riot)
 - [Sass](https://github.com/sass/sass)
@@ -48,35 +48,20 @@ If you want to use ```jekyll``` task you'll also need:
 You need to set a list of dependencies in your root ```package.json```:
 ```
 "devDependencies": {
-  "autoprefixer": "^6.3.3",
   "babel-core": "^6.4.5",
   "babel-eslint": "^4.1.6",
   "babel-loader": "^6.2.1",
   "babel-plugin-transform-runtime": "^6.4.3",
   "babel-preset-es2015": "^6.3.13",
   "babel-runtime": "^6.3.19",
-  "cssnano": "^3.5.2",
   "eslint": "^1.10.3",
   "eslint-config-defaults": "^8.0.2",
   "eslint-config-sds": "git://github.com/sendoushi/eslint-config-sds.git",
   "eslint-plugin-react": "^3.16.1",
   "fs-extra": "^0.26.5",
-  "glob": "^7.0.0",
   "json-loader": "^0.5.4",
-  "node-sass": "^3.4.2",
   "outdated-browser": "~1.0.2",
-  "page": "^1.6.4",
-  "pixrem": "^3.0.0",
-  "postcss": "^5.0.16",
   "raw-loader": "^0.5.1",
-  "svgo": "^0.6.1",
-  "uglify-js": "^2.6.1",
-  "webpack": "^1.12.2",
-  "webpack-dev-server": "^1.14.0"
-},
-"dependencies": {
-  "bluebird": "~3.1.1",
-  "mout": "~0.11.1"
 }
 ```
 
@@ -96,6 +81,7 @@ Import the utils you need and use and abuse it.
 You need to add this to your dependencies:
 ```
 "dependencies": {
+  "page": "^1.6.4",
   "redux": "^3.3.1",
   "riot": "^2.3.15"
 }

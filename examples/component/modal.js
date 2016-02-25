@@ -1,9 +1,6 @@
-import { riot, updateState } from 'sdsFrontend/component';
-import { addIcon } from 'sdsFrontend/icon';
+import { riot, updateState } from 'bedrock/componentRiot';
+import { addIcon } from 'bedrock/icon';
 import actions from '../modules/app/actions.js';
-// TODO: This doesn't work (because of variables file)
-//       but wouldn't it be nice if it did?
-// import './_assets/css/modal.scss';
 
 /**
  * Close click handler

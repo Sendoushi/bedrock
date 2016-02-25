@@ -1,4 +1,4 @@
-import { initStore } from 'sdsFrontend/store';
+import { initStore } from 'bedrock/store';
 
 // -----------------------------------------
 // VARS
