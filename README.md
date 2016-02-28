@@ -8,12 +8,12 @@ The api documentation is **[here](doc/API.md)**.
 ## Examples of installation
 To install you may use ```bower```:
 ```
-bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.3
+bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.4
 ```
 
 Or you may use ```npm```:
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.3
+npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.4
 ```
 
 Or why don't you just simply clone it?
@@ -53,6 +53,7 @@ You need to set a list of dependencies in your root ```package.json```:
   "babel-loader": "^6.2.1",
   "babel-plugin-transform-runtime": "^6.4.3",
   "babel-preset-es2015": "^6.3.13",
+  "babel-preset-stage-2": "^6.5.0",
   "babel-runtime": "^6.3.19",
   "eslint": "^1.10.3",
   "eslint-config-defaults": "^8.0.2",
@@ -84,5 +85,20 @@ You need to add this to your dependencies:
   "page": "^1.6.4",
   "redux": "^3.3.1",
   "riot": "^2.3.15"
+}
+```
+
+#### Redux + React
+Import the utils you need and use and abuse it.
+
+You need to add this to your dependencies:
+```
+"devDependencies": {
+  "babel-preset-react": "^6.5.0"
+},
+"dependencies": {
+  "page": "^1.6.4",
+  "react": "^0.14.7",
+  "redux": "^3.3.1"
 }
 ```

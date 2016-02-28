@@ -12,11 +12,8 @@ const deepMixIn = require('mout/object/deepMixIn.js');
 const cwd = process.cwd();
 const env = process.argv[2];
 
-let webpackConfig;
-let progressFn;
-
 // Set the webpack config
-webpackConfig = {
+const webpackConfig = {
     // webpack options
     output: { filename: 'app.js' },
     stats: {
@@ -26,7 +23,9 @@ webpackConfig = {
     target: 'web',
     module: {
         loaders: [{
-            test: /\.js?$/, loader: 'babel', query: { presets: ['es2015'] },
+            test: /\.js?$/, loader: 'babel', query: {
+                presets: ['stage-2', 'es2015']
+            },
             include: /(src|bedrock)/
         }, {
             test: /\.json?$/, loader: 'json',
@@ -45,7 +44,8 @@ webpackConfig = {
     plugins: env === 'prod' && [
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"'
+            'process.env.NODE_ENV': '"production"',
+            NODE_ENV: JSON.stringify('production')
         })
     ],
     bail: true
@@ -56,7 +56,7 @@ webpackConfig = {
  * @param  {number} percentage
  * @param  {string} msg
  */
-progressFn = (percentage) => {
+const progressFn = (percentage) => {
     const newPercent = Math.floor(percentage * 100);
     const lineSize = 100 / 2;
     let newMsg = `${newPercent}% `;
@@ -89,12 +89,25 @@ progressFn = (percentage) => {
 };
 
 // Export
-module.exports = (file) => {
+module.exports = (file, isReact) => {
     const buildPath = file[0].output.path;
     const config = deepMixIn({}, webpackConfig, file[0]);
+    let promise;
+
+    // React should have another preset
+    if (isReact) {
+        config.module.loaders.push({
+            test: /\.jsx?$/,
+            loader: 'babel',
+            query: {
+                presets: ['react', 'stage-2', 'es2015']
+            },
+            exclude: /(node_modules|bower_components)/
+        });
+    }
 
     // Set the promise
-    const promise = new Promise((resolve, reject) => {
+    promise = new Promise((resolve, reject) => {
         let compiler;
 
         // Set the webpack
