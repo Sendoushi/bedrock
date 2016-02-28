@@ -7,35 +7,31 @@
 /**
  * Takes care of a request
  * @param  {store} store
- * @param  {function} req
+ * @param  {function} requestMade
  * @param  {string} action
  */
-const actionRequest = (store, req, action) => {
+const request = (store, requestMade, action) => {
     // Set loading
-    store.dispatchAction({
-        type: action,
-        loading: true,
-        err: null,
-        data: null
+    store.dispatch({
+        type: `${action}_LOADING`,
+        loading: true
     });
 
     // Make the request
-    req()
+    requestMade()
     .then((data) => {
-        store.dispatchAction({
-            type: action,
-            loading: false,
-            err: null,
-            data
-        });
+        // Dispatch data
+        store.dispatch({ type: action, data });
     })
     .catch((err) => {
         // Dispatch the error
-        store.dispatchAction({
-            type: action,
-            loading: false,
-            err,
-            data: null
+        store.dispatch({ type: `${action}_ERR`, err });
+    })
+    .finally(() => {
+        // Remove loading
+        store.dispatch({
+            type: `${action}_LOADING`,
+            loading: false
         });
     });
 };
@@ -43,4 +39,4 @@ const actionRequest = (store, req, action) => {
 // -----------------------------------------
 // EXPORT
 
-export { actionRequest };
+export { request };

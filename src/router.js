@@ -37,14 +37,14 @@ const updateOnAction = (routes, state) => {
     let route;
     let url;
 
-    if (!state || !state.data || !state.data.content) { return; }
+    if (!state || !state.content) { return; }
 
-    route = findRoute(routes, state.data.content.type);
+    route = findRoute(routes, state.content.type);
     if (!route) { return; }
 
     // Route to url
     urlParse = route.urlParse;
-    params = state.data.content.params;
+    params = state.content.params;
     url = !!urlParse ? urlParse(params) : route.url;
 
     // Navigate to the url

@@ -1,4 +1,5 @@
-import { riot, updateState } from 'bedrock/componentRiot';
+import riot from 'riot';
+import { updateState } from 'bedrock/component';
 import { addIcon } from 'bedrock/icon';
 import actions from '../modules/app/actions.js';
 
@@ -26,13 +27,12 @@ const modalClick = (self, evt) => {
 /**
  * On update handler
  * @param  {tag} self
- * @param  {*} opts
- * @param  {object} state
  */
-const onUpdate = (self, opts, state) => {
-    const newModal = state && state.modal;
-    const initialModal = actions.getInitial().modal;
-    const newState = updateState(self.state, newModal, initialModal);
+const onUpdate = (self) => {
+    const initialState = actions.getInitial().modal;
+    const state = actions.getState().modal;
+    const oldState = self.state;
+    const newState = updateState(oldSstate, state, initialState);
 
     // No need to go further if same
     if (!newState) {
@@ -57,17 +57,28 @@ const onUpdate = (self, opts, state) => {
  * @param  {*} opts
  */
 const onMount = (self, opts) => {
-    // Set update method
-    self.on('update', onUpdate.bind(null, self, opts));
+    let unsubscribe;
 
-    actions.addView(self);
+    // Set update method
+    self.on('update', () => onUpdate(self));
+
+    // Add for the actions update
+    unsubscribe = actions.subscribe(self.update);
+    self.actions.push(unsubscribe);
 };
 
 /**
  * On unmount handler
  * @param  {tag} self
  */
-const onUnmount = (self) => actions.removeView(self);
+const onUnmount = (self) => {
+    // Remove events
+    self.off('update');
+
+    // Unsubscribe everything
+    self.actions.map(unsub => unsub());
+    self.actions = [];
+};
 
 // -----------------------------------------
 // Initialize
@@ -79,11 +90,14 @@ const onUnmount = (self) => actions.removeView(self);
 const init = function (opts) {
     // Set events for the view
     this.on('mount', () => onMount(this, opts));
-    this.on('unmount', () => onUnmount(this, opts));
+    this.on('unmount', () => onUnmount(this));
 
     // Events related functions
     this.closeClick = (evt) => closeClick(self, evt);
     this.modalClick = (evt) => modalClick(self, evt);
+
+    // Set actions
+    this.actions = [];
 };
 
 /**

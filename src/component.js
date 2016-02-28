@@ -1,4 +1,3 @@
-import riot from 'riot';
 import deepMixIn from 'mout/object/deepMixIn.js';
 import deepClone from 'mout/lang/deepClone.js';
 import deepFillIn from 'mout/object/deepFillIn.js';
@@ -28,5 +27,4 @@ const updateState = (stateToUpd, state, filler) => {
 // -----------------------------------------
 // EXPORT
 
-export { riot };
 export { updateState };

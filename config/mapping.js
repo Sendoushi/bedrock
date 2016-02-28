@@ -13,5 +13,5 @@ module.exports = {
     'bedrock/router': path.join(__dirname, '../src/router.js'),
     'bedrock/store': path.join(__dirname, '../src/store.js'),
 
-    'bedrock/componentRiot': path.join(__dirname, '../src/componentRiot.js')
+    'bedrock/component': path.join(__dirname, '../src/component.js')
 };

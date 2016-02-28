@@ -1,4 +1,4 @@
-import { initStore } from 'bedrock/store';
+import { createStore, combineReducers } from 'redux';
 
 // -----------------------------------------
 // VARS
@@ -9,81 +9,90 @@ const BREADCRUMB_SCHEMA = {
 };
 
 const INITIAL_STATE = {
-    modules: [
-        { name: 'Dashboard', routeType: 'INDEX' }
-    ],
     breadcrumb: [],
+    content: {
+        type: '',
+        params: {}
+    },
     modal: {
         type: null,
         params: {}
     },
-    data: {
-        content: {
-            type: '',
-            params: {}
-        }
-    }
+    modules: [
+        { name: 'Dashboard', routeType: 'INDEX' }
+    ]
 };
 
 // -----------------------------------------
 // FUNCTIONS
 
 /**
- * Builds breadcrumb
- * @param  {string} contentType
- * @param  {string} contentParams
+ * Breadcrumb reducer
+ * @param  {object}  state
+ * @param  {object}  action
  * @return {object}
  */
-const buildBreadcrumb = (contentType, contentParams) => {
-    const params = contentParams;
-    const breadcrumb = [];
-    let type = contentType;
-    let breadcrumbType = BREADCRUMB_SCHEMA[type];
+const breadcrumb = (state = INITIAL_STATE.breadcrumb, action) => {
+    switch (action.type) {
+    case 'SET_CONTENT':
+        const params = action.content.params;
+        const breadcrumb = [];
+        let type = action.content.type;
+        let breadcrumbType = BREADCRUMB_SCHEMA[type];
 
-    // Loop to get all breadcrumbs with parent
-    while (breadcrumbType.hasOwnProperty('parentType')) {
-        // Set a new breadcrumb
+        // Loop to get all breadcrumbs with parent
+        while (breadcrumbType.hasOwnProperty('parentType')) {
+            // Set a new breadcrumb
+            breadcrumb.push({
+                name: breadcrumbType.name,
+                routeType: type,
+                params
+            });
+
+            // Set the new breadcrumb for the parent
+            type = breadcrumbType.parentType;
+            breadcrumbType = BREADCRUMB_SCHEMA[type];
+        }
+
+        // Add the type without parentType
         breadcrumb.push({
             name: breadcrumbType.name,
             routeType: type,
             params
         });
 
-        // Set the new breadcrumb for the parent
-        type = breadcrumbType.parentType;
-        breadcrumbType = BREADCRUMB_SCHEMA[type];
+        // Finally inform of the breadcrumb
+        return breadcrumb.reverse();
+    default:
+        return state;
     }
-
-    // Add the type without parentType
-    breadcrumb.push({
-        name: breadcrumbType.name,
-        routeType: type,
-        params
-    });
-
-    // Finally inform of the breadcrumb
-    return breadcrumb.reverse();
 };
 
 /**
- * Sets content
+ * Content reducer
  * @param  {object}  state
  * @param  {object}  action
  * @return {object}
  */
-const setContent = (state, action) => {
-    const content = action.content;
-
-    // Modify needed
-    state.data.content = content;
-    state.breadcrumb = buildBreadcrumb(content.type, content.params);
-
-    return state;
+const content = (state = INITIAL_STATE.content, action) => {
+    switch (action.type) {
+    case 'SET_CONTENT':
+        return action.content;
+    default:
+        return state;
+    }
 };
+
+// -----------------------------------------
+// Initialize
+
+const reducers = combineReducers({ breadcrumb, content });
+const store = createStore(reducers);
+
+// Register more methods
+store.getInitial = () => INITIAL_STATE;
 
 // -----------------------------------------
 // EXPORT
 
-export default initStore(INITIAL_STATE, {
-    'SET_CONTENT': setContent
-});
+export default store;
