@@ -1,6 +1,15 @@
 const path = require('path');
+const deepMixIn = require('mout/object/deepMixIn.js');
+const env = process.argv[2];
 
-module.exports = {
+const prodMapping = env === 'prod' ? {
+    'react': 'node_modules/react/dist/react.min.js',
+    'react-dom': 'node_modules/react-dom/dist/react-dom.min.js'
+} : null;
+
+module.exports = deepMixIn({
+    'react': 'node_modules/react',
+    'react-dom': 'node_modules/react-dom',
     'redux': 'node_modules/redux',
     'riot': 'node_modules/riot',
     'page/page.js': 'node_modules/page/page.js',
@@ -15,4 +24,4 @@ module.exports = {
     'bedrock/store': path.join(__dirname, '../src/store.js'),
 
     'bedrock/component': path.join(__dirname, '../src/component.js')
-};
+}, prodMapping);
