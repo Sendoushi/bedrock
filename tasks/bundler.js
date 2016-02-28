@@ -106,7 +106,7 @@ module.exports = (file, isReact) => {
                 cacheDirectory: env !== 'prod',
                 presets: ['react', 'stage-2', 'es2015']
             },
-            exclude: /(node_modules|bower_components)/
+            include: /(src|bedrock)/
         });
     }
 
