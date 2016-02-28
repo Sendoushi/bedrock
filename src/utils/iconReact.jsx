@@ -1,3 +1,5 @@
+import React from 'react';
+
 // -----------------------------------------
 // VARS
 
@@ -19,8 +21,8 @@ const ICONS_INVERSE = {};
 const addIcon = (icon, options = {}) => {
     const size = options.size || 'small';
     const isInverse = options.isInverse;
+    const iconClasses = `icon icon-${size} icon-${icon}`;
     let src;
-    let tmpl;
 
     // Get the right icon
     if (isInverse) {
@@ -29,13 +31,11 @@ const addIcon = (icon, options = {}) => {
         src = ICONS[icon] || `${FONTAWESOME_SRC}#fa-${icon}`;
     }
 
-    tmpl = `
-    <div class="icon-wrapper">
-        <img src="${src}" class="icon icon-${size} icon-${icon}">
-    </div>
-    `;
-
-    return tmpl;
+    return (
+        <div className="icon-wrapper">
+            <img src={src} className={iconClasses} />
+        </div>
+    );
 };
 
 // -----------------------------------------

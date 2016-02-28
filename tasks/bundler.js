@@ -24,6 +24,7 @@ const webpackConfig = {
     module: {
         loaders: [{
             test: /\.js?$/, loader: 'babel', query: {
+                cacheDirectory: env !== 'prod',
                 presets: ['stage-2', 'es2015']
             },
             include: /(src|bedrock)/
@@ -38,14 +39,16 @@ const webpackConfig = {
     externals: {},
     // TODO: Source map not working as it should
     devtool: env !== 'prod' && 'source-map',
-    cache: env === 'prod',
+    cache: env !== 'prod',
     watch: env !== 'prod',
     debug: env !== 'prod',
     plugins: env === 'prod' && [
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"',
-            NODE_ENV: JSON.stringify('production')
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
         })
     ],
     bail: true
@@ -100,6 +103,7 @@ module.exports = (file, isReact) => {
             test: /\.jsx?$/,
             loader: 'babel',
             query: {
+                cacheDirectory: env !== 'prod',
                 presets: ['react', 'stage-2', 'es2015']
             },
             exclude: /(node_modules|bower_components)/
