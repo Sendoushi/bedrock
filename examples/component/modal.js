@@ -1,7 +1,7 @@
 import riot from 'riot';
 import { updateState } from 'bedrock/component';
 import { addIcon } from 'bedrock/icon';
-import actions from '../modules/app/actions.js';
+import actions from '../modules/actions.js';
 
 /**
  * Close click handler
@@ -29,8 +29,8 @@ const modalClick = (self, evt) => {
  * @param  {tag} self
  */
 const onUpdate = (self) => {
-    const initialState = actions.getInitial().modal;
-    const state = actions.getState().modal;
+    const initialState = actions.getInitial().app.modal;
+    const state = actions.getState().app.modal;
     const oldState = self.state;
     const newState = updateState(oldSstate, state, initialState);
 
@@ -57,14 +57,11 @@ const onUpdate = (self) => {
  * @param  {*} opts
  */
 const onMount = (self, opts) => {
-    let unsubscribe;
-
     // Set update method
     self.on('update', () => onUpdate(self));
 
     // Add for the actions update
-    unsubscribe = actions.subscribe(self.update);
-    self.actions.push(unsubscribe);
+    self.unsubscribe = actions.subscribe(self.update);
 };
 
 /**
@@ -76,8 +73,7 @@ const onUnmount = (self) => {
     self.off('update');
 
     // Unsubscribe everything
-    self.actions.map(unsub => unsub());
-    self.actions = [];
+    self.unsubscribe();
 };
 
 // -----------------------------------------
@@ -95,9 +91,6 @@ const init = function (opts) {
     // Events related functions
     this.closeClick = (evt) => closeClick(self, evt);
     this.modalClick = (evt) => modalClick(self, evt);
-
-    // Set actions
-    this.actions = [];
 };
 
 /**
