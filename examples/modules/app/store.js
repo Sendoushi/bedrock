@@ -1,3 +1,4 @@
+import { breadcrumbReducer } from 'bedrock/store';
 import { combineReducers } from 'redux';
 
 // -----------------------------------------
@@ -25,48 +26,6 @@ const INITIAL_STATE = {
 
 // -----------------------------------------
 // FUNCTIONS
-
-/**
- * Breadcrumb reducer
- * @param  {object}  state
- * @param  {object}  action
- * @return {object}
- */
-const breadcrumb = (state = INITIAL_STATE.breadcrumb, action) => {
-    switch (action.type) {
-    case 'SET_CONTENT':
-        const params = action.content.params;
-        const breadcrumbArr = [];
-        let type = action.content.type;
-        let breadcrumbType = BREADCRUMB_SCHEMA[type];
-
-        // Loop to get all breadcrumbs with parent
-        while (breadcrumbType.hasOwnProperty('parentType')) {
-            // Set a new breadcrumb
-            breadcrumbArr.push({
-                name: breadcrumbType.name,
-                routeType: type,
-                params
-            });
-
-            // Set the new breadcrumb for the parent
-            type = breadcrumbType.parentType;
-            breadcrumbType = BREADCRUMB_SCHEMA[type];
-        }
-
-        // Add the type without parentType
-        breadcrumbArr.push({
-            name: breadcrumbType.name,
-            routeType: type,
-            params
-        });
-
-        // Finally inform of the breadcrumb
-        return breadcrumbArr.reverse();
-    default:
-        return [...state];
-    }
-};
 
 /**
  * Content reducer
@@ -103,5 +62,8 @@ const modal = (state = INITIAL_STATE.modal, action) => {
 
 export default {
     getInitial: () => INITIAL_STATE,
-    reducers: combineReducers({ breadcrumb, modal, content })
+    reducers: combineReducers({
+        breadcrumb: breadcrumbReducer(INITIAL_STATE.breadcrumb, BREADCRUMB_SCHEMA),
+        modal, content
+    })
 };
