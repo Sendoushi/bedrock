@@ -1,21 +1,18 @@
 import { createStore, compose, combineReducers } from 'redux';
 import appStore from './app/store.js';
-import postsStore from './posts/store.js';
 
 // -----------------------------------------
 // VARS
 
 const INITIAL_STATE = {
-    app: appStore.getInitial(),
-    posts: postsStore.getInitial()
+    app: appStore.getInitial()
 };
 
 // -----------------------------------------
 // Initialize
 
 const reducers = combineReducers({
-    app: appStore.reducers,
-    posts: postsStore.reducers
+    app: appStore.reducers
 });
 
 const isDev = process && process.env && process.env.NODE_ENV === 'development';

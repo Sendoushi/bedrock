@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 // -----------------------------------------
 // VARS
@@ -36,14 +36,14 @@ const breadcrumb = (state = INITIAL_STATE.breadcrumb, action) => {
     switch (action.type) {
     case 'SET_CONTENT':
         const params = action.content.params;
-        const breadcrumb = [];
+        const breadcrumbArr = [];
         let type = action.content.type;
         let breadcrumbType = BREADCRUMB_SCHEMA[type];
 
         // Loop to get all breadcrumbs with parent
         while (breadcrumbType.hasOwnProperty('parentType')) {
             // Set a new breadcrumb
-            breadcrumb.push({
+            breadcrumbArr.push({
                 name: breadcrumbType.name,
                 routeType: type,
                 params
@@ -55,16 +55,16 @@ const breadcrumb = (state = INITIAL_STATE.breadcrumb, action) => {
         }
 
         // Add the type without parentType
-        breadcrumb.push({
+        breadcrumbArr.push({
             name: breadcrumbType.name,
             routeType: type,
             params
         });
 
         // Finally inform of the breadcrumb
-        return breadcrumb.reverse();
+        return breadcrumbArr.reverse();
     default:
-        return state;
+        return [...state];
     }
 };
 
@@ -77,9 +77,24 @@ const breadcrumb = (state = INITIAL_STATE.breadcrumb, action) => {
 const content = (state = INITIAL_STATE.content, action) => {
     switch (action.type) {
     case 'SET_CONTENT':
-        return action.content;
+        return { ...action.content };
     default:
-        return state;
+        return { ...state };
+    }
+};
+
+/**
+ * Sets modal
+ * @param  {object} state
+ * @param  {object} action
+ * @return {object}
+ */
+const modal = (state = INITIAL_STATE.modal, action) => {
+    switch (action.type) {
+    case 'SET_MODAL':
+        return { ...action.modal };
+    default:
+        return { ...state };
     }
 };
 
@@ -88,5 +103,5 @@ const content = (state = INITIAL_STATE.content, action) => {
 
 export default {
     getInitial: () => INITIAL_STATE,
-    reducers: combineReducers({ breadcrumb, content });
+    reducers: combineReducers({ breadcrumb, modal, content })
 };
