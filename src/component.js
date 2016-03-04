@@ -1,8 +1,3 @@
-import deepMixIn from 'mout/object/deepMixIn.js';
-import deepClone from 'mout/lang/deepClone.js';
-import deepFillIn from 'mout/object/deepFillIn.js';
-import deepEquals from 'mout/lang/deepEquals.js';
-
 // -----------------------------------------
 // VARS
 
@@ -10,21 +5,45 @@ import deepEquals from 'mout/lang/deepEquals.js';
 // FUNCTIONS
 
 /**
- * Updates state of component
- * @param  {object} stateToUpd
- * @param  {object} state
- * @param  {object} filler
+ * Get closest DOM element up the tree that contains a class, ID, or data attribute
+ * @param  {Node} elem The base element
+ * @param  {String} selector The class, id, data attribute, or tag to look for
+ * @return {Node} Null if no match
  */
-const updateState = (stateToUpd, state, filler) => {
-    let newState = deepMixIn({}, deepClone(stateToUpd), deepClone(state));
+const getClosest = (el, selector) => {
+    const firstChar = selector.charAt(0);
 
-    // Fill in with the filler
-    newState = !!filler ? deepFillIn(newState, filler) : newState;
+    // Get closest match
+    for ( ; el && el !== document; el = el.parentNode) {
+        // If selector is a class
+        if (firstChar === '.') {
+            if (el.classList.contains(selector.substr(1))) {
+                return el;
+            }
+        }
 
-    return !deepEquals(stateToUpd, newState) ? newState : null;
+        // If selector is an ID
+        if (firstChar === '#') {
+            if (el.id === selector.substr(1)) {
+                return el;
+            }
+        }
+
+        // If selector is a data attribute
+        if (firstChar === '[') {
+            if (el.hasAttribute(selector.substr(1, selector.length - 2))) {
+                return el;
+            }
+        }
+
+        // If selector is a tag
+        if (el.tagName.toLowerCase() === selector) {
+            return el;
+        }
+    }
 };
 
 // -----------------------------------------
 // EXPORT
 
-export { updateState };
+export { getClosest };

@@ -8,12 +8,12 @@ The api documentation is **[here](doc/API.md)**.
 ## Examples of installation
 To install you may use ```bower```:
 ```
-bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.8
+bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.9
 ```
 
 Or you may use ```npm```:
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.8
+npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.9
 ```
 
 Or why don't you just simply clone it?
@@ -32,7 +32,7 @@ git clone https://github.com/Sendoushi/bedrock.git
 #### Optional dependencies (depending on usage)
 - [Page.js](https://github.com/visionmedia/page.js)
 - [Redux](https://github.com/reactjs/redux)
-- [Riot](https://github.com/riot/riot)
+- [React](https://github.com/facebook/react)
 - [Sass](https://github.com/sass/sass)
 
 ## Configuration
@@ -76,18 +76,6 @@ Provide de router file (there is one inside examples folder) with all the routin
 #### Tasks
 Provide a build file (there is one inside examples folder) and just run it to build.
 
-#### Redux + Riot
-Import the utils you need and use and abuse it.
-
-You need to add this to your dependencies:
-```
-"dependencies": {
-  "page": "^1.6.4",
-  "redux": "^3.3.1",
-  "riot": "^2.3.15"
-}
-```
-
 #### Redux + React
 Import the utils you need and use and abuse it.
 
@@ -99,6 +87,7 @@ You need to add this to your dependencies:
 "dependencies": {
   "page": "^1.6.4",
   "react": "^0.14.7",
+  "react-dom": "^0.14.7",
   "redux": "^3.3.1"
 }
 ```

@@ -128,7 +128,38 @@ const errReducer = (INITIAL_STATE = null) => {
     return reducer;
 };
 
+/**
+ * Connect store to component
+ * @param  {tag} self
+ * @param  {object} actions
+ * @param  {function} cb
+ */
+const connect = (self, actions, cb) => {
+    // Add for the actions update
+    self._unsubscribe = actions.subscribe(() => {
+        if (!self._unsubscribe) {
+            return;
+        }
+
+        // Inform of changes
+        cb(actions.getState());
+    });
+};
+
+/**
+ * Disconnect the store from the component
+ * @param  {tag} self
+ */
+const disconnect = (self) => {
+    // Unsubscribe
+    self._unsubscribe && self._unsubscribe();
+    self._unsubscribe = null;
+};
+
 // -----------------------------------------
 // EXPORT
 
-export { breadcrumbReducer, loadingReducer, errReducer };
+export {
+    breadcrumbReducer, loadingReducer, errReducer,
+    connect, disconnect
+};
