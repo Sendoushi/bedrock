@@ -15,11 +15,11 @@ module.exports = deepMixIn({
 
     'bedrock/icon': path.join(__dirname, '../src/utils/icon.jsx'),
     'bedrock/is': path.join(__dirname, '../src/utils/is.js'),
+    'bedrock/string': path.join(__dirname, '../src/utils/string.js'),
     'bedrock/outdatedbrowser': path.join(__dirname, '../src/utils/outdatedbrowser.js'),
 
     'bedrock/actions': path.join(__dirname, '../src/actions.js'),
     'bedrock/router': path.join(__dirname, '../src/router.js'),
     'bedrock/store': path.join(__dirname, '../src/store.js'),
-
     'bedrock/component': path.join(__dirname, '../src/component.js')
 }, prodMapping);

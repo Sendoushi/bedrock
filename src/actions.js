@@ -6,11 +6,15 @@
 
 /**
  * Takes care of a request
- * @param  {store} store
- * @param  {function} requestMade
- * @param  {string} action
+ * @param  {object} obj
+ * @return {promise}
  */
-const request = (store, requestMade, action) => {
+const request = (obj) => {
+    const store = obj.store;
+    const requestMade = obj.request;
+    const action = obj.action;
+    const middleware = obj.middleware;
+
     // Set loading
     store.dispatch({
         type: `${action}_LOADING`,
@@ -18,7 +22,10 @@ const request = (store, requestMade, action) => {
     });
 
     // Make the request
-    requestMade()
+    return requestMade()
+    .then((data) => {
+        return !!middleware ? middleware(data) : data;
+    })
     .then((data) => {
         // Dispatch data
         store.dispatch({ type: action, data });
