@@ -2,8 +2,9 @@
 'use strict';
 /* eslint-enable strict */
 
-const fs = require('fs-extra');
 const path = require('path');
+const modules = path.join(__dirname, '../node_modules');
+const fs = require(path.join(modules, 'fs-extra'));
 const Promise = require('bluebird');
 const filesUtil = require(path.join(__dirname, 'utils/files.js'));
 const ensureFilePromise = Promise.promisify(fs.ensureFile);
@@ -12,7 +13,7 @@ const copyPromise = Promise.promisify(fs.copy);
 // Export
 module.exports = (files, buildPath) => {
     const filesParsed = filesUtil.getFiles(files.concat([{
-        cwd: path.join(__dirname, '../node_modules/outdated-browser'),
+        cwd: path.join(modules, 'outdated-browser'),
         src: 'outdatedbrowser/lang/en.html',
         dest: buildPath
     }]));

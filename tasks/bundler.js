@@ -2,37 +2,70 @@
 'use strict';
 /* eslint-enable strict */
 
-const fs = require('fs');
 const path = require('path');
-const Promise = require('bluebird');
 const spawn = require('child_process').spawn;
-const webpack = require('webpack');
-const ProgressPlugin = require('webpack/lib/ProgressPlugin');
-const deepMixIn = require('mout/object/deepMixIn.js');
-const cwd = process.cwd();
+const modules = path.join(__dirname, '../node_modules');
+const Promise = require(path.join(modules, 'bluebird'));
+const webpack = require(path.join(modules, 'webpack'));
+const ProgressPlugin = require(path.join(modules, 'webpack/lib/ProgressPlugin'));
+const deepMixIn = require(path.join(modules, 'mout/object/deepMixIn.js'));
 const env = process.argv[2];
 
 // Set the webpack config
 const webpackConfig = {
     // webpack options
+    // TODO: Bootstrap this to have promises and polyfill
+    // require('babel-runtime/core-js/promise').default = require('bluebird');
     output: { filename: 'app.js' },
     stats: {
         // Configure the console output
         colors: true, modules: true, reasons: true
     },
     target: 'web',
+    resolveLoader: { root: modules },
+    // TODO: Resolve bluebird
+    resolve: {
+        root: path.resolve(process.cwd()),
+        extensions: ['', '.js', '.jsx'],
+        modulesDirectories: [
+            'src',
+            'node_modules/bedrock/node_modules',
+            'node_modules',
+            'bower_components',
+            modules.replace(process.cwd() + '/', '')
+        ]
+    },
     module: {
         loaders: [{
-            test: /\.js?$/, loader: 'babel', query: {
+            test: /\.js?$/,
+            loader: 'babel-loader',
+            query: {
                 cacheDirectory: env !== 'prod',
-                presets: ['stage-2', 'es2015']
+                presets: [
+                    require.resolve('babel-preset-stage-2'),
+                    require.resolve('babel-preset-es2015')
+                ]
             },
             include: /(src|bedrock)/
         }, {
-            test: /\.json?$/, loader: 'json',
+            test: /\.jsx?$/,
+            loader: 'babel-loader',
+            query: {
+                cacheDirectory: env !== 'prod',
+                presets: [
+                    require.resolve('babel-preset-react'),
+                    require.resolve('babel-preset-stage-2'),
+                    require.resolve('babel-preset-es2015')
+                ]
+            },
+            include: /(src|bedrock)/
+        }, {
+            test: /\.json?$/,
+            loader: 'json-loader',
             exclude: /(node_modules|bower_components)/
         }, {
-            test: /\.html?$/, loader: 'raw',
+            test: /\.html?$/,
+            loader: 'babel-raw',
             exclude: /(node_modules|bower_components)/
         }]
     },
@@ -99,23 +132,17 @@ const progressFn = (percentage) => {
 };
 
 // Export
-module.exports = (file, isReact) => {
+module.exports = (file) => {
+    // Change entry point to include bootstrap
+    file[0].entry = {
+        file: [
+            path.join(__dirname, 'base/bootstrap.js'),
+        ].concat(file[0].entry)
+    };
+
     const buildPath = file[0].output.path;
     const config = deepMixIn({}, webpackConfig, file[0]);
     let promise;
-
-    // React should have another preset
-    if (isReact) {
-        config.module.loaders.push({
-            test: /\.jsx?$/,
-            loader: 'babel',
-            query: {
-                cacheDirectory: env !== 'prod',
-                presets: ['react', 'stage-2', 'es2015']
-            },
-            include: /(src|bedrock)/
-        });
-    }
 
     // Set the promise
     promise = new Promise((resolve, reject) => {
@@ -148,11 +175,7 @@ module.exports = (file, isReact) => {
         }
 
         // Lets check the uglify path
-        uglifyPath = path.join(__dirname, '../node_modules/uglify-js/bin/uglifyjs');
-
-        if (!fs.existsSync(uglifyPath)) {
-            uglifyPath = path.join(cwd, 'node_modules/uglify-js/bin/uglifyjs');
-        }
+        uglifyPath = path.join(modules, 'uglify-js/bin/uglifyjs');
 
         // Proceed with command
         uglifyCommand = spawn(uglifyPath, [src, '-o', src]);

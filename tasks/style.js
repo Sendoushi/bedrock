@@ -3,12 +3,14 @@
 /* eslint-enable strict */
 
 const fs = require('fs');
-const Promise = require('bluebird');
-const postcss = require('postcss');
-const sass = require('node-sass');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
-const pixrem = require('pixrem');
+const path = require('path');
+const modules = path.join(__dirname, '../node_modules');
+const Promise = require(path.join(modules, 'bluebird'));
+const postcss = require(path.join(modules, 'postcss'));
+const sass = require(path.join(modules, 'node-sass'));
+const autoprefixer = require(path.join(modules, 'autoprefixer'));
+const cssnano = require(path.join(modules, 'cssnano'));
+const pixrem = require(path.join(modules, 'pixrem'));
 
 const env = process.argv[2];
 

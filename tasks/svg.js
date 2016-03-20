@@ -4,8 +4,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const Promise = require('bluebird');
-const SVGO = require('svgo');
+const modules = path.join(__dirname, '../node_modules');
+const Promise = require(path.join(modules, 'bluebird'));
+const SVGO = require(path.join(modules, 'svgo'));
 const filesUtil = require(path.join(__dirname, 'utils/files.js'));
 
 const svgo = new SVGO({

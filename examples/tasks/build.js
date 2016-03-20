@@ -132,14 +132,11 @@ bundlerFn = () => {
         const fileTask = require(path.join(tasksPath, 'bundler.js'));
         const mappingPath = path.join(cwd, 'config/mapping.js');
         const files = [{
-            entry: path.join(cwd, 'src', 'bootstrap.js'),
+            entry: [path.join(cwd, 'src', 'bootstrap.js')],
             output: {
                 path: buildPath
             },
             resolve: {
-                root: path.resolve(cwd),
-                extensions: ['', '.js', '.jsx'],
-                modulesDirectories: ['src', 'node_modules'],
                 alias: fs.existsSync(mappingPath) && require(mappingPath)
             }
         }];

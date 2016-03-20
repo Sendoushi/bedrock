@@ -8,12 +8,12 @@ The api documentation is **[here](doc/API.md)**.
 ## Examples of installation
 To install you may use ```bower```:
 ```
-bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.11
+bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.12
 ```
 
 Or you may use ```npm```:
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.11
+npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.12
 ```
 
 Or why don't you just simply clone it?
@@ -48,21 +48,11 @@ If you want to use ```jekyll``` task you'll also need:
 You need to set a list of dependencies in your root ```package.json```:
 ```
 "devDependencies": {
-  "babel-core": "^6.4.5",
   "babel-eslint": "^4.1.6",
-  "babel-loader": "^6.2.1",
-  "babel-plugin-transform-runtime": "^6.4.3",
-  "babel-preset-es2015": "^6.3.13",
-  "babel-preset-stage-2": "^6.5.0",
-  "babel-runtime": "^6.3.19",
   "eslint": "^1.10.3",
   "eslint-config-defaults": "^8.0.2",
   "eslint-config-sds": "git://github.com/sendoushi/eslint-config-sds.git",
-  "eslint-plugin-react": "^3.16.1",
-  "fs-extra": "^0.26.5",
-  "json-loader": "^0.5.4",
-  "outdated-browser": "~1.0.2",
-  "raw-loader": "^0.5.1",
+  "eslint-plugin-react": "^3.16.1"
 }
 ```
 
@@ -81,9 +71,6 @@ Import the utils you need and use and abuse it.
 
 You need to add this to your dependencies:
 ```
-"devDependencies": {
-  "babel-preset-react": "^6.5.0"
-},
 "dependencies": {
   "page": "^1.6.4",
   "react": "^0.14.7",

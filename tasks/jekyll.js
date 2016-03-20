@@ -2,7 +2,9 @@
 'use strict';
 /* eslint-enable strict */
 
-const Promise = require('bluebird');
+const path = require('path');
+const modules = path.join(__dirname, '../node_modules');
+const Promise = require(path.join(modules, 'bluebird'));
 const spawn = require('child_process').spawn;
 
 // Export
