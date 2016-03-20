@@ -4,10 +4,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const modules = path.join(__dirname, '../node_modules');
-const Promise = require(path.join(modules, 'bluebird'));
-const SVGO = require(path.join(modules, 'svgo'));
-const filesUtil = require(path.join(__dirname, 'utils/files.js'));
+const files = require(path.join(__dirname, 'utils/files.js'));
+const getModule = files.getModule;
+
+// Get modules
+const Promise = getModule('bluebird', true);
+const SVGO = getModule('svgo', true);
 
 const svgo = new SVGO({
     plugins: [
@@ -25,8 +27,8 @@ const svgo = new SVGO({
 });
 
 // Export
-module.exports = (files) => {
-    const filesParsed = filesUtil.getFiles(files);
+module.exports = (filesSrc) => {
+    const filesParsed = files.getFiles(filesSrc);
     let promises;
 
     // TODO: Don't know if it is working

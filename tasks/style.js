@@ -4,22 +4,24 @@
 
 const fs = require('fs');
 const path = require('path');
-const modules = path.join(__dirname, '../node_modules');
-const Promise = require(path.join(modules, 'bluebird'));
-const postcss = require(path.join(modules, 'postcss'));
-const sass = require(path.join(modules, 'node-sass'));
-const autoprefixer = require(path.join(modules, 'autoprefixer'));
-const cssnano = require(path.join(modules, 'cssnano'));
-const pixrem = require(path.join(modules, 'pixrem'));
-
+const files = require(path.join(__dirname, 'utils/files.js'));
+const getModule = files.getModule;
 const env = process.argv[2];
 
+// Get modules
+const Promise = getModule('bluebird', true);
+const postcss = getModule('postcss', true);
+const sass = getModule('node-sass', true);
+const autoprefixer = getModule('autoprefixer', true);
+const cssnano = getModule('cssnano', true);
+const pixrem = getModule('pixrem', true);
+
 // Export
-module.exports = (files) => {
+module.exports = (filesSrc) => {
     let promises;
 
     // Set the promises for each file
-    promises = files.map(val => {
+    promises = filesSrc.map(val => {
         // Render sass
         return (new Promise((resolve, reject) => {
             sass.render({

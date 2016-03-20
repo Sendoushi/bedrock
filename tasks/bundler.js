@@ -4,12 +4,16 @@
 
 const path = require('path');
 const spawn = require('child_process').spawn;
-const modules = path.join(__dirname, '../node_modules');
-const Promise = require(path.join(modules, 'bluebird'));
-const webpack = require(path.join(modules, 'webpack'));
-const ProgressPlugin = require(path.join(modules, 'webpack/lib/ProgressPlugin'));
-const deepMixIn = require(path.join(modules, 'mout/object/deepMixIn.js'));
+const files = require(path.join(__dirname, 'utils/files.js'));
+const getModule = files.getModule;
 const env = process.argv[2];
+
+// Get modules
+const Promise = getModule('bluebird', true);
+const webpack = getModule('webpack', true);
+const ProgressPlugin = getModule('webpack/lib/ProgressPlugin', true);
+const deepMixIn = getModule('mout/object/deepMixIn.js', true);
+const uglifyPath = getModule('uglify-js/bin/uglifyjs');
 
 // Set the webpack config
 const webpackConfig = {
@@ -22,7 +26,7 @@ const webpackConfig = {
         colors: true, modules: true, reasons: true
     },
     target: 'web',
-    resolveLoader: { root: modules },
+    resolveLoader: { root: files.brModules },
     // TODO: Resolve bluebird
     resolve: {
         root: path.resolve(process.cwd()),
@@ -32,7 +36,7 @@ const webpackConfig = {
             'node_modules/bedrock/node_modules',
             'node_modules',
             'bower_components',
-            modules.replace(process.cwd() + '/', '')
+            files.brModules.replace(process.cwd() + '/', '')
         ]
     },
     module: {
@@ -136,7 +140,7 @@ module.exports = (file) => {
     // Change entry point to include bootstrap
     file[0].entry = {
         file: [
-            path.join(__dirname, 'base/bootstrap.js'),
+            path.join(__dirname, 'base/bootstrap.js')
         ].concat(file[0].entry)
     };
 
@@ -167,15 +171,11 @@ module.exports = (file) => {
         const src = path.join(buildPath, 'app.js');
         let uglifyCommand;
         let uglifyPromise;
-        let uglifyPath;
 
         // Shouldn't go further if not prod
         if (env !== 'prod') {
             return;
         }
-
-        // Lets check the uglify path
-        uglifyPath = path.join(modules, 'uglify-js/bin/uglifyjs');
 
         // Proceed with command
         uglifyCommand = spawn(uglifyPath, [src, '-o', src]);

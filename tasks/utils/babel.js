@@ -1,11 +1,12 @@
 const path = require('path');
-const modules = path.join(__dirname, '../../node_modules');
+const files = require(path.join(__dirname, 'files.js'));
+const getModule = files.getModule;
+
+// Get modules
+const core = getModule('babel-core', true);
+const tR = getModule('babel-plugin-transform-runtime');
 
 // Setup babel
-require(path.join(modules, 'babel-core')).transform('code', {
-    plugins: [
-        path.join(modules, 'babel-plugin-transform-runtime')
-    ]
-});
+core.transform('code', { plugins: [tR] });
 
 module.exports = true;

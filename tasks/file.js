@@ -3,17 +3,19 @@
 /* eslint-enable strict */
 
 const path = require('path');
-const modules = path.join(__dirname, '../node_modules');
-const fs = require(path.join(modules, 'fs-extra'));
-const Promise = require('bluebird');
-const filesUtil = require(path.join(__dirname, 'utils/files.js'));
+const files = require(path.join(__dirname, 'utils/files.js'));
+const getModule = files.getModule;
+
+// Get modules
+const fs = getModule('fs-extra', true);
+const Promise = getModule('bluebird', true);
 const ensureFilePromise = Promise.promisify(fs.ensureFile);
 const copyPromise = Promise.promisify(fs.copy);
 
 // Export
-module.exports = (files, buildPath) => {
-    const filesParsed = filesUtil.getFiles(files.concat([{
-        cwd: path.join(modules, 'outdated-browser'),
+module.exports = (filesSrc, buildPath) => {
+    const filesParsed = files.getFiles(filesSrc.concat([{
+        cwd: getModule('outdated-browser'),
         src: 'outdatedbrowser/lang/en.html',
         dest: buildPath
     }]));

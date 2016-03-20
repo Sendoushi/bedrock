@@ -3,15 +3,18 @@
 /* eslint-enable strict */
 
 const path = require('path');
-const modules = path.join(__dirname, '../node_modules');
-const Promise = require(path.join(modules, 'bluebird'));
+const files = require(path.join(__dirname, 'utils/files.js'));
+const getModule = files.getModule;
 const spawn = require('child_process').spawn;
 
+// Get modules
+const Promise = require(getModule('bluebird'));
+
 // Export
-module.exports = (files) => {
-    const src = files[0].src;
-    const dest = files[0].dest;
-    const config = files[0].config;
+module.exports = (filesSrc) => {
+    const src = filesSrc[0].src;
+    const dest = filesSrc[0].dest;
+    const config = filesSrc[0].config;
     let promise;
 
     // Set the promise
