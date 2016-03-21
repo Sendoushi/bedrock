@@ -1,12 +1,17 @@
-const path = require('path');
-const files = require(path.join(__dirname, 'files.js'));
-const getModule = files.getModule;
+/* eslint-disable no-var */
+var path = require('path');
 
 // Get modules
-const core = getModule('babel-core', true);
-const tR = getModule('babel-plugin-transform-runtime');
+var modules = path.join(__dirname, '../../node_modules');
+var core = require(path.join(modules, 'babel-core/register'));
+var tR = path.join(modules, 'babel-plugin-transform-runtime');
 
-// Setup babel
-core.transform('code', { plugins: [tR] });
+module.exports = core({
+    presets: [
+        require.resolve(path.join(modules, 'babel-preset-stage-2')),
+        require.resolve(path.join(modules, 'babel-preset-es2015'))
+    ],
+    plugins: [tR]
+});
 
-module.exports = true;
+/* eslint-enable no-var */

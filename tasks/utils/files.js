@@ -1,11 +1,8 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-const fs = require('fs');
-const path = require('path');
-const cwdModules = path.join(process.cwd(), 'node_modules');
-const brModules = path.join(__dirname, '../../node_modules');
+/* eslint-disable no-var */
+var fs = require('fs');
+var path = require('path');
+var cwdModules = path.join(process.cwd(), 'node_modules');
+var brModules = path.join(__dirname, '../../node_modules');
 
 /**
  * Gets the right module
@@ -13,9 +10,9 @@ const brModules = path.join(__dirname, '../../node_modules');
  * @param  {boolean} setRequire
  * @return {object}
  */
-const getModule = (moduleSrc, setRequire) => {
-    const cwdModule = path.join(cwdModules, moduleSrc);
-    let module = path.join(brModules, moduleSrc);
+var getModule = function (moduleSrc, setRequire) {
+    var cwdModule = path.join(cwdModules, moduleSrc);
+    var module = path.join(brModules, moduleSrc);
 
     // Lets require stuff...
     if (setRequire) {
@@ -32,34 +29,37 @@ const getModule = (moduleSrc, setRequire) => {
 };
 
 // Get modules
-const glob = getModule('glob', true);
+var glob = getModule('glob', true);
 
 /**
  * Get files glob
  * @param  {array} files
  * @return {array}
  */
-const getFiles = (files) => {
+var getFiles = function (files) {
     // Get all files needed
-    const newFiles = files.map(val => {
-        const valCwd = val.cwd;
-        const ignore = val.ignore;
-        const pattern = val.src;
-        const dest = val.dest;
+    var newFiles = files.map(function (val) {
+        var valCwd = val.cwd;
+        var ignore = val.ignore;
+        var pattern = val.src;
+        var dest = val.dest;
 
         // Get files from pattern
         return glob.sync(pattern, { cwd: valCwd, ignore })
-        .map(valGlob => {
+        .map(function (valGlob) {
             return {
                 src: path.join(valCwd, valGlob),
                 dest: path.join(dest, valGlob)
             };
         });
     })
-    .reduce((val1, val2) => val1.concat(val2));
+    .reduce(function (val1, val2) {
+        return val1.concat(val2);
+    });
 
     return newFiles;
 };
 
 // Export
 module.exports = { getFiles, getModule, cwdModules, brModules };
+/* eslint-enable no-var */
