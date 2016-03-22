@@ -1,5 +1,5 @@
 import React from 'react';
-import { addIcon } from 'bedrock/icon';
+import { Icon } from 'bedrock/icon';
 import actions from 'modules/actions.js';
 
 // -----------------------------------------
@@ -74,7 +74,9 @@ const render = (self) => {
     return (
     <div className="align-middle-wrapper modal" onClick={closeClickHandler}>
         <div className="align-middle modal-content-wrapper" onClick={modalClickHandler}>
-            <button className="button button-close" onClick={closeClickHandler}>{ addIcon('times') }</button>
+            <button className="button button-close" onClick={closeClickHandler}>
+                <Icon name="times" set="fa" />
+            </button>
             {content}
         </div>
     </div>

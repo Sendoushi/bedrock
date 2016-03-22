@@ -2,14 +2,15 @@
 var path = require('path');
 
 // Get modules
-var modules = path.join(__dirname, '../../node_modules');
-var core = require(path.join(modules, 'babel-core/register'));
-var tR = path.join(modules, 'babel-plugin-transform-runtime');
+var files = require(path.join(__dirname, 'files.js'));
+var getModule = files.getModule;
+var core = getModule('babel-core/register', true);
+var tR = getModule('babel-plugin-transform-runtime');
 
 module.exports = core({
     presets: [
-        require.resolve(path.join(modules, 'babel-preset-stage-2')),
-        require.resolve(path.join(modules, 'babel-preset-es2015'))
+        require.resolve(getModule('babel-preset-stage-2')),
+        require.resolve(getModule('babel-preset-es2015'))
     ],
     plugins: [tR]
 });

@@ -76,26 +76,29 @@ const disconnect = (self) => {
 /**
  * Middleware for create element
  */
-const cE = (el, data, ...children) => {
+const cE = (el, data, children) => {
     data = data || {};
-    if (data.length && !children) {
-        children = data;
-        data = {};
-    }
+    children = children || [];
+
+    // Initialize vars
+    let classList;
+    let elChilds;
 
     // Take care of children
-    let elChilds = data.elChilds || [];
+    elChilds = data.elChilds || [];
     if (children && children.length) {
         elChilds = elChilds.concat(children);
     }
 
-    // Set class names
-    const classList = el.split('.');
-    el = classList.shift(); // Removes element
+    if (typeof el === 'string') {
+        // Set class names
+        classList = el.split('.');
+        el = classList.shift(); // Removes element
+    }
 
     return React.createElement(el, {
         ...data,
-        className: classList.join(' '),
+        className: classList && classList.join(' '),
         elChilds: null
     }, ...elChilds);
 };

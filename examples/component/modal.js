@@ -1,6 +1,6 @@
 import React from 'react';
 import { cE } from 'bedrock/component';
-import { addIcon } from 'bedrock/icon';
+import { Icon } from 'bedrock/icon';
 import actions from 'modules/actions.js';
 
 // -----------------------------------------
@@ -54,10 +54,10 @@ const renderContent = (self) => {
 
     // Finally the content tag
     return (
-    cE('div.modal-content',
-        cE('h3', params.title),
-        cE(`div.${wrapperClass}`, contentTag)
-    )
+    cE('div.modal-content', [
+        cE('h3', null, [params.title]),
+        cE(`div.${wrapperClass}`, null, [contentTag])
+    ])
     );
 };
 
@@ -67,14 +67,14 @@ const renderContent = (self) => {
  */
 const render = (self) => {
     return (
-    cE('div.align-middle-wrapper.modal', { onClick: evt => closeClick(self, evt) },
-        cE('div.align-middle.modal-content-wrapper', { onClick: evt => modalClick(self, evt) },
-            cE('button.button.button-close', { onClick: evt => closeClick(self, evt) },
-                addIcon('times')
-            ),
+    cE('div.align-middle-wrapper.modal', { onClick: evt => closeClick(self, evt) }, [
+        cE('div.align-middle.modal-content-wrapper', { onClick: evt => modalClick(self, evt) }, [
+            cE('button.button.button-close', { onClick: evt => closeClick(self, evt) }, [
+                cE(Icon, { name: 'times', set: 'fa' })
+            ]),
             renderContent(self)
-        )
-    )
+        ])
+    ])
     );
 };
 

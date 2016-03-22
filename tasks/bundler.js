@@ -2,6 +2,7 @@
 'use strict';
 /* eslint-enable strict */
 
+const fs = require('fs');
 const path = require('path');
 const spawn = require('child_process').spawn;
 const files = require(path.join(__dirname, 'utils/files.js'));
@@ -137,6 +138,11 @@ const progressFn = (percentage) => {
 
 // Export
 module.exports = (file) => {
+    const buildPath = file[0].output.path;
+    let config = deepMixIn({}, webpackConfig);
+    let appConfig;
+    let src;
+
     // Change entry point to include bootstrap
     file[0].entry = {
         file: [
@@ -144,12 +150,29 @@ module.exports = (file) => {
         ].concat(file[0].entry)
     };
 
-    const buildPath = file[0].output.path;
-    const config = deepMixIn({}, webpackConfig, file[0]);
-    let promise;
+    // Save config file in the build folder
+    if (file[0].appConfig) {
+        appConfig = require(file[0].appConfig);
+        src = path.join(buildPath, (new Date()).getTime() + '.json');
+        fs.writeFileSync(src, JSON.stringify(appConfig, null, 4), 'utf-8');
+
+        // Now add to the mapping
+        config = deepMixIn(config, {
+            resolve: {
+                alias: {
+                    config: src
+                }
+            }
+        });
+
+        delete file[0].appConfig;
+    }
+
+    // Finally the last config!
+    config = deepMixIn(config, file[0]);
 
     // Set the promise
-    promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
         let compiler;
 
         // Set the webpack
