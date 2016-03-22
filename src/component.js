@@ -1,3 +1,5 @@
+import React from 'react';
+
 // -----------------------------------------
 // VARS
 
@@ -71,7 +73,34 @@ const disconnect = (self) => {
     self._unsubscribe = null;
 };
 
+/**
+ * Middleware for create element
+ */
+const cE = (el, data, ...children) => {
+    data = data || {};
+    if (data.length && !children) {
+        children = data;
+        data = {};
+    }
+
+    // Take care of children
+    let elChilds = data.elChilds || [];
+    if (children && children.length) {
+        elChilds = elChilds.concat(children);
+    }
+
+    // Set class names
+    const classList = el.split('.');
+    el = classList.shift(); // Removes element
+
+    return React.createElement(el, {
+        ...data,
+        className: classList.join(' '),
+        elChilds: null
+    }, ...elChilds);
+};
+
 // -----------------------------------------
 // EXPORT
 
-export { getClosest, connect, disconnect };
+export { getClosest, connect, disconnect, cE };
