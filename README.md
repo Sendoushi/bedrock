@@ -8,12 +8,12 @@ The api documentation is **[here](doc/API.md)**.
 ## Examples of installation
 To install you may use ```bower```:
 ```
-bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.15
+bower install --save git@github.com:Sendoushi/bedrock.git#v0.1.16
 ```
 
 Or you may use ```npm```:
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.15
+npm install --save git://github.com/Sendoushi/bedrock.git#v0.1.16
 ```
 
 Or why don't you just simply clone it?

@@ -16,6 +16,9 @@ const ProgressPlugin = getModule('webpack/lib/ProgressPlugin', true);
 const deepMixIn = getModule('mout/object/deepMixIn.js', true);
 const uglifyPath = getModule('uglify-js/bin/uglifyjs');
 
+// ---------------------------------------------
+// Vars
+
 // Set the webpack config
 const webpackConfig = {
     // webpack options
@@ -99,6 +102,9 @@ const webpackConfig = {
     bail: true
 };
 
+// ---------------------------------------------
+// Functions
+
 /**
  * Progress plugin function
  * @param  {number} percentage
@@ -136,8 +142,12 @@ const progressFn = (percentage) => {
     }
 };
 
-// Export
-module.exports = (file) => {
+/**
+ * Compiles js file
+ * @param  {array} file
+ * @return {promise}
+ */
+const compileJs = (file) => {
     const buildPath = file[0].output.path;
     let config = deepMixIn({}, webpackConfig);
     let appConfig;
@@ -186,44 +196,71 @@ module.exports = (file) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(stats);
+                resolve(buildPath);
             }
         });
-    })
-    .then(() => {
-        const src = path.join(buildPath, 'app.js');
-        let uglifyCommand;
-        let uglifyPromise;
-
-        // Shouldn't go further if not prod
-        if (env !== 'prod') {
-            return;
-        }
-
-        // Proceed with command
-        uglifyCommand = spawn(uglifyPath, [src, '-o', src]);
-
-        // Set the promise
-        uglifyPromise = new Promise((resolve, reject) => {
-            uglifyCommand.stderr.on('data', (data) => {
-                reject(data);
-
-                /* eslint-disable no-console */
-                console.error('' + data);
-                /* eslint-enable no-console */
-            });
-
-            uglifyCommand.on('close', (code) => {
-                if (code !== 0) {
-                    reject();
-                } else {
-                    resolve();
-                }
-            });
-        });
-
-        return uglifyPromise;
     });
 
     return promise;
 };
+
+/**
+ * Uglifies file
+ * @param  {string} buildPath
+ * @return {promise}
+ */
+const uglifyFn = (buildPath) => {
+    const src = path.join(buildPath, 'app.js');
+    let uglifyCommand;
+    let uglifyPromise;
+
+    // Shouldn't go further if not prod
+    if (env !== 'prod') {
+        return;
+    }
+
+    // Proceed with command
+    uglifyCommand = spawn(uglifyPath, [src, '-o', src]);
+
+    // Set the promise
+    uglifyPromise = new Promise((resolve, reject) => {
+        uglifyCommand.stderr.on('data', (data) => {
+            reject(data);
+
+            /* eslint-disable no-console */
+            console.error('' + data);
+            /* eslint-enable no-console */
+        });
+
+        uglifyCommand.on('close', (code) => {
+            if (code !== 0) {
+                reject();
+            } else {
+                resolve();
+            }
+        });
+    });
+
+    return uglifyPromise;
+};
+
+// ---------------------------------------------
+// Task
+
+/**
+ * The task method that will be exported
+ * @param  {array} file
+ * @return {promise}
+ */
+const task = (file) => {
+    // Set the promise
+    compileJs(file))
+    .then(uglifyFn);
+
+    return promise;
+};
+
+// ---------------------------------------------
+// Export
+
+module.exports = task;

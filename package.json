@@ -1,6 +1,6 @@
 {
   "name": "bedrock",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Frontend top layer",
   "authors": [
     "Joel Santos <joel@sendoushi.com>"
@@ -31,12 +31,14 @@
     "fs-extra": "^0.26.5",
     "glob": "^7.0.0",
     "json-loader": "^0.5.4",
+    "less": "^2.6.1",
     "mout": "~0.11.1",
     "node-sass": "^3.4.2",
     "outdated-browser": "~1.0.2",
     "pixrem": "^3.0.0",
     "postcss": "^5.0.16",
     "raw-loader": "^0.5.1",
+    "spritesmith": "^3.1.0",
     "svgo": "^0.6.1",
     "uglify-js": "^2.6.1",
     "webpack": "^1.12.2",

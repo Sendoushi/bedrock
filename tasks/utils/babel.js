@@ -7,6 +7,15 @@ var getModule = files.getModule;
 var core = getModule('babel-core/register', true);
 var tR = getModule('babel-plugin-transform-runtime');
 
+// ---------------------------------------------
+// Vars
+
+// ---------------------------------------------
+// Functions
+
+// ---------------------------------------------
+// Export
+
 module.exports = core({
     presets: [
         require.resolve(getModule('babel-preset-stage-2')),

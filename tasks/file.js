@@ -12,8 +12,22 @@ const Promise = getModule('bluebird', true);
 const ensureFilePromise = Promise.promisify(fs.ensureFile);
 const copyPromise = Promise.promisify(fs.copy);
 
-// Export
-module.exports = (filesSrc, buildPath) => {
+// ---------------------------------------------
+// Vars
+
+// ---------------------------------------------
+// Functions
+
+// ---------------------------------------------
+// Task
+
+/**
+ * The task method that will be exported
+ * @param  {array} filesSrc
+ * @param  {string} buildPath
+ * @return {promise}
+ */
+const task = (filesSrc, buildPath) => {
     const filesParsed = files.getFiles(filesSrc.concat([{
         cwd: getModule('outdated-browser'),
         src: 'outdatedbrowser/lang/en.html',
@@ -35,3 +49,8 @@ module.exports = (filesSrc, buildPath) => {
 
     return Promise.all(promises);
 };
+
+// ---------------------------------------------
+// Export
+
+module.exports = task;

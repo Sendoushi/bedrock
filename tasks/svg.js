@@ -11,6 +11,9 @@ const getModule = files.getModule;
 const Promise = getModule('bluebird', true);
 const SVGO = getModule('svgo', true);
 
+// ---------------------------------------------
+// Vars
+
 const svgo = new SVGO({
     plugins: [
         { removeViewBox: true },
@@ -26,8 +29,18 @@ const svgo = new SVGO({
     ]
 });
 
-// Export
-module.exports = (filesSrc) => {
+// ---------------------------------------------
+// Functions
+
+// ---------------------------------------------
+// Task
+
+/**
+ * The task method that will be exported
+ * @param  {array} filesSrc
+ * @return {promise}
+ */
+const task = (filesSrc) => {
     const filesParsed = files.getFiles(filesSrc);
     let promises;
 
@@ -65,3 +78,8 @@ module.exports = (filesSrc) => {
 
     return Promise.all(promises);
 };
+
+// ---------------------------------------------
+// Export
+
+module.exports = task;

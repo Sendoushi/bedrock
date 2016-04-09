@@ -4,6 +4,12 @@ var path = require('path');
 var cwdModules = path.join(process.cwd(), 'node_modules');
 var brModules = path.join(__dirname, '../../node_modules');
 
+// ---------------------------------------------
+// Vars
+
+// ---------------------------------------------
+// Functions
+
 /**
  * Gets the right module
  * @param  {string} moduleSrc
@@ -60,6 +66,8 @@ var getFiles = function (files) {
     return newFiles;
 };
 
+// ---------------------------------------------
 // Export
+
 module.exports = { getFiles, getModule, cwdModules, brModules };
 /* eslint-enable no-var */
