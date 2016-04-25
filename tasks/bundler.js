@@ -254,10 +254,8 @@ const uglifyFn = (buildPath) => {
  */
 const task = (file) => {
     // Set the promise
-    compileJs(file))
+    return compileJs(file)
     .then(uglifyFn);
-
-    return promise;
 };
 
 // ---------------------------------------------

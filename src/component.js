@@ -75,6 +75,10 @@ const disconnect = (self) => {
 
 /**
  * Middleware for create element
+ * @param  {string} el
+ * @param  {object} data
+ * @param  {array} children
+ * @return {React}
  */
 const cE = (el, data, children) => {
     data = data || {};
@@ -103,7 +107,18 @@ const cE = (el, data, children) => {
     }, ...elChilds);
 };
 
+/**
+ * Templates a string into react
+ * @param  {string} template
+ * @param  {object} data
+ * @return {React}
+ */
+const tmpl = (template, data) => {
+    // TODO: Parser!
+    // return cE();
+};
+
 // -----------------------------------------
 // EXPORT
 
-export { getClosest, connect, disconnect, cE };
+export { getClosest, connect, disconnect, cE, tmpl };

@@ -139,7 +139,7 @@ const task = (filesSrc) => {
                     getCss(val, cb);
                 }
             }));
-        }))
+        })
         .then(postProcess)
         .then(data => {
             // Write the file
