@@ -25,6 +25,7 @@ const Promise = require(getModule('bluebird'));
  * @return {promise}
  */
 const task = (filesSrc) => {
+    const jekyllPath = filesSrc[0].jekyll || 'jekyll';
     const src = filesSrc[0].src;
     const dest = filesSrc[0].dest;
     const config = filesSrc[0].config;
@@ -37,7 +38,7 @@ const task = (filesSrc) => {
 
         // Proceed with command
         commandParams = ['-s', src, '-d', dest, '--config', config];
-        command = spawn('jekyll', ['build'].concat(commandParams));
+        command = spawn(jekyllPath, ['build'].concat(commandParams));
 
         // Listen for changes
         command.stdout.on('data', (data) => {

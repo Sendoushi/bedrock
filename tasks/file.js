@@ -40,8 +40,12 @@ const task = (filesSrc, buildPath) => {
         let promise;
 
         // Copy the files
+        if (fs.lstatSync(val.src).isDirectory()) {
+            return;
+        }
+
         promise = ensureFilePromise(val.dest)
-        .then(copyPromise.bind(null, val.src, val.dest));
+        .then(() => copyPromise(val.src, val.dest));
 
         // Add the promise to be set
         promises.push(promise);
