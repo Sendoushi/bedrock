@@ -1,5 +1,5 @@
 import React from 'react';
-import { cE } from '../../src/component';
+import { cE } from '../../src/react';
 import { Icon } from '../../src/icon';
 import actions from '../modules/actions.js';
 
