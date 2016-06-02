@@ -9,7 +9,7 @@
  * @param   {string} str
  * @return  {string}
  */
-const normalize = (str) => {
+var normalize = function (str) {
     str = !!str ? ('' + str).trim() : null;
 
     if (!str || !str.replace(/ /g, '').length) {
@@ -27,7 +27,7 @@ const normalize = (str) => {
  * @param   {string} str
  * @return  {string}
  */
-const dashize = (str) => {
+var dashize = function (str) {
     str = normalize(str);
 
     if (!str) {
@@ -44,7 +44,7 @@ const dashize = (str) => {
  * @param  {boolean} dontJoin
  * @return {string}
  */
-const camelcase = (str, alsoFirst, dontJoin) => {
+var camelcase = function (str, alsoFirst, dontJoin) {
     str = normalize(str);
 
     if (!str) {
@@ -76,4 +76,8 @@ const camelcase = (str, alsoFirst, dontJoin) => {
 // -----------------------------------------
 // EXPORT
 
-export { normalize, dashize, camelcase };
+module.exports = {
+    normalize: normalize,
+    dashize: dashize,
+    camelcase: camelcase
+};

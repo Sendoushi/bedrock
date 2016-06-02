@@ -1,31 +1,36 @@
-import { createStore, compose, combineReducers } from 'redux';
-import appStore from './app/store.js';
+// -----------------------------------------
+// IMPORTS
+
+var redux = require('redux');
+var appStore = require('./app/store.js');
 
 // -----------------------------------------
 // VARS
 
-const INITIAL_STATE = {
+var INITIAL_STATE = {
     app: appStore.getInitial()
 };
 
 // -----------------------------------------
 // Initialize
 
-const reducers = combineReducers({
+var reducers = redux.combineReducers({
     app: appStore.reducers
 });
 
-const isDev = process && process.env && process.env.NODE_ENV === 'development';
-const devTools = window.devToolsExtension;
-const finalCreateStore = compose(
-    (isDev && devTools) ? devTools() : f => f
-)(createStore);
-const store = finalCreateStore(reducers);
+var isDev = process && process.env && process.env.NODE_ENV === 'development';
+var devTools = window.devToolsExtension;
+var finalCreateStore = redux.compose(
+    (isDev && devTools) ? devTools() : function (f) { return f; }
+)(redux.createStore);
+var store = finalCreateStore(reducers);
 
 // Register more methods
-store.getInitial = () => INITIAL_STATE;
+store.getInitial = function () {
+    return INITIAL_STATE;
+}
 
 // -----------------------------------------
 // EXPORT
 
-export default store;
+module.exports = store;

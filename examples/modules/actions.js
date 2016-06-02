@@ -1,23 +1,25 @@
-import store from './store.js';
-import appActionsFn from './app/actions.js';
+// -----------------------------------------
+// IMPORTS
+
+var deepMixIn = require('mout/object/deepMixIn.js');
+var store = require('./store.js');
+var appActionsFn = require('./app/actions.js');
 
 // -----------------------------------------
 // VARS
 
-const appActions = appActionsFn(store);
+var appActions = appActionsFn(store);
 
 // Add to the update pool
-store.subscribe(() => {
+store.subscribe(function () {
     // TODO: Do you need to do anything at this stage?
 });
 
 // -----------------------------------------
 // EXPORT
 
-export default {
+module.exports = deepMixIn({}, {
     subscribe: store.subscribe,
     getInitial: store.getInitial,
-    getState: store.getState,
-
-    ...appActions
-};
+    getState: store.getState
+}, appActions);

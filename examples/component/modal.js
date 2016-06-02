@@ -1,7 +1,7 @@
 import React from 'react';
-import { cE } from 'bedrock/component';
-import { Icon } from 'bedrock/icon';
-import actions from 'modules/actions.js';
+import { cE } from '../../src/component';
+import { Icon } from '../../src/icon';
+import actions from '../modules/actions.js';
 
 // -----------------------------------------
 // VARS

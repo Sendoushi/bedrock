@@ -1,4 +1,4 @@
-import actions from '../../modules/actions.js';
+var actions = require('../../modules/actions.js');
 
 // -----------------------------------------
 // FUNCTIONS
@@ -6,7 +6,7 @@ import actions from '../../modules/actions.js';
 /**
  * Index
  */
-const index = {
+var index = {
     type: 'INDEX',
     url: '/',
     /**
@@ -15,7 +15,7 @@ const index = {
      * @param  {object} ctx
      * @param  {function} next
      */
-    onRoute: () => {
+    onRoute: function () {
         actions.setContent({
             type: 'SEARCH',
             params: {
@@ -28,7 +28,7 @@ const index = {
 /**
  * Search
  */
-const search = {
+var search = {
     type: 'SEARCH',
     url: '/search/:query',
     /**
@@ -36,7 +36,7 @@ const search = {
      * @param  {object} params
      * @return {string}
      */
-    urlParse: (params) => {
+    urlParse: function (params) {
         return '/search/' + params.query;
     },
     /**
@@ -45,9 +45,9 @@ const search = {
      * @param  {object} ctx
      * @param  {function} next
      */
-    onRoute: (route, ctx) => {
-        const params = ctx.params;
-        const type = route.type;
+    onRoute: function (route, ctx) {
+        var params = ctx.params;
+        var type = route.type;
 
         actions.setContent({ type, params });
     }
@@ -56,4 +56,4 @@ const search = {
 // -----------------------------------------
 // EXPORT
 
-export default [index, search];
+module.exports = [index, search];

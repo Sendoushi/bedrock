@@ -1,15 +1,19 @@
-import { breadcrumbReducer } from 'bedrock/store';
-import { combineReducers } from 'redux';
+// -----------------------------------------
+// IMPORTS
+
+var deepClone = require('mout/lang/deepClone');
+var { breadcrumbReducer } = require('../../../src/store');
+var { combineReducers } = require('redux');
 
 // -----------------------------------------
 // VARS
 
-const BREADCRUMB_SCHEMA = {
+var BREADCRUMB_SCHEMA = {
     'INDEX': { name: 'Dashboard' },
     'ADD': { name: 'Adicionar', parentType: 'INDEX' }
 };
 
-const INITIAL_STATE = {
+var INITIAL_STATE = {
     breadcrumb: [],
     content: {
         type: '',
@@ -33,12 +37,14 @@ const INITIAL_STATE = {
  * @param  {object}  action
  * @return {object}
  */
-const content = (state = INITIAL_STATE.content, action) => {
+var content = function (state, action) {
+    state = state || INITIAL_STATE.content;
+
     switch (action.type) {
     case 'SET_CONTENT':
-        return { ...action.content };
+        return deepClone(action.content);
     default:
-        return { ...state };
+        return deepClone(state);
     }
 };
 
@@ -48,22 +54,24 @@ const content = (state = INITIAL_STATE.content, action) => {
  * @param  {object} action
  * @return {object}
  */
-const modal = (state = INITIAL_STATE.modal, action) => {
+var modal = function (state, action) {
+    state = state || INITIAL_STATE.modal;
+
     switch (action.type) {
     case 'SET_MODAL':
-        return { ...action.modal };
+        return deepClone(action.modal);
     default:
-        return { ...state };
+        return deepClone(state)
     }
 };
 
 // -----------------------------------------
 // EXPORT
 
-export default {
-    getInitial: () => INITIAL_STATE,
+module.exports = {
+    getInitial: function () { return INITIAL_STATE; },
     reducers: combineReducers({
         breadcrumb: breadcrumbReducer(INITIAL_STATE.breadcrumb, BREADCRUMB_SCHEMA),
-        modal, content
+        modal: modal, content: content
     })
 };

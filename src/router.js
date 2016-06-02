@@ -1,4 +1,4 @@
-import page from 'page/page.js';
+var page = require('page/page.js');
 
 // -----------------------------------------
 // PRIVATE FUNCTIONS
@@ -8,9 +8,9 @@ import page from 'page/page.js';
  * @param  {object} state
  * @param  {object} action
  */
-const findRoute = (routes, type) => {
-    let route;
-    let i;
+var findRoute = (routes, type) {
+    var route;
+    var i;
 
     // Find the right route
     for (i = 0; i < routes.length; i += 1) {
@@ -31,11 +31,11 @@ const findRoute = (routes, type) => {
  * @param  {object} state
  * @param  {object} action
  */
-const updateOnAction = (routes, state) => {
-    let urlParse;
-    let params;
-    let route;
-    let url;
+var updateOnAction = function (routes, state) {
+    var urlParse;
+    var params;
+    var route;
+    var url;
 
     if (!state || !state.content) { return; }
 
@@ -60,9 +60,9 @@ const updateOnAction = (routes, state) => {
  * @param  {string} type
  * @param  {object} params
  */
-const setRoute = (routes, route) => {
-    const routeFound = findRoute(routes, route.type);
-    let urlParse;
+var setRoute = function (routes, route) {
+    var routeFound = findRoute(routes, route.type);
+    var urlParse;
 
     if (!routeFound) { return; }
 
@@ -79,28 +79,28 @@ const setRoute = (routes, route) => {
  * @param  {array} routes
  * @param  {string} base
  */
-const init = (routes) => {
-    let route;
-    let fns;
-    let i;
-    let c;
+var init = function (routes) {
+    var route;
+    var fns;
+    var i;
 
     // Set all routes
     for (i = 0; i < routes.length; i += 1) {
         route = routes[i];
-        fns = route.onRoute;
-
-        // Force the array to exist
-        fns = (typeof fns === 'function') ? [fns] : fns;
-
-        // Go through each function
-        for (c = 0; c < fns.length; c += 1) {
-            // Setup the go route
-            fns[c] = fns[c].bind(null, route);
-        }
 
         // Finally set the route
-        page(route.url, ...fns);
+        page(route.url, function (r, fns, ctx, next) {
+            var d;
+
+            // Force the array to exist
+            fns = (typeof fns === 'function') ? [fns] : fns;
+
+            // Go through each function
+            for (d = 0; d < fns.length; d += 1) {
+                fns[d](route, ctx, next);
+            }
+
+        }.bind(null, route, route.onRoute));
     }
 
     // Start engines!
@@ -110,6 +110,8 @@ const init = (routes) => {
 // -----------------------------------------
 // EXPORT
 
-export { updateOnAction };
-export { setRoute };
-export { init };
+module.exports = {
+    updateOnAction: updateOnAction
+    setRoute: setRoute,
+    init: init
+};

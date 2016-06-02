@@ -1,4 +1,8 @@
-import React from 'react';
+// -----------------------------------------
+// IMPORTS
+
+var deepMixIn = require('mout/object/deepMixIn.js');
+var React = require('react');
 
 // -----------------------------------------
 // VARS
@@ -12,8 +16,8 @@ import React from 'react';
  * @param  {String} selector The class, id, data attribute, or tag to look for
  * @return {Node} Null if no match
  */
-const getClosest = (el, selector) => {
-    const firstChar = selector.charAt(0);
+var getClosest = function (el, selector) {
+    var firstChar = selector.charAt(0);
 
     // Get closest match
     for ( ; el && el !== document; el = el.parentNode) {
@@ -51,9 +55,9 @@ const getClosest = (el, selector) => {
  * @param  {object} actions
  * @param  {function} cb
  */
-const connect = (self, actions, cb) => {
+var connect = function (self, actions, cb) {
     // Add for the actions update
-    self._unsubscribe = actions.subscribe(() => {
+    self._unsubscribe = actions.subscribe(function () {
         if (!self._unsubscribe) {
             return;
         }
@@ -67,7 +71,7 @@ const connect = (self, actions, cb) => {
  * Disconnect the store from the component
  * @param  {tag} self
  */
-const disconnect = (self) => {
+var disconnect = function (self) {
     // Unsubscribe
     self._unsubscribe && self._unsubscribe();
     self._unsubscribe = null;
@@ -80,13 +84,14 @@ const disconnect = (self) => {
  * @param  {array} children
  * @return {React}
  */
-const cE = (el, data, children) => {
+var cE = function (el, data, children) {
     data = data || {};
     children = children || [];
 
     // Initialize vars
-    let classList;
-    let elChilds;
+    var classList;
+    var elChilds;
+    var obj;
 
     // Take care of children
     elChilds = data.elChilds || [];
@@ -100,11 +105,13 @@ const cE = (el, data, children) => {
         el = classList.shift(); // Removes element
     }
 
-    return React.createElement(el, {
-        ...data,
+    obj = deepMixIn({}, data, {
         className: classList && classList.join(' '),
         elChilds: null
-    }, ...elChilds);
+    })
+
+    // TODO: What about elChilds spread into ES5?
+    return React.createElement(el, obj, ...elChilds);
 };
 
 /**
@@ -113,7 +120,7 @@ const cE = (el, data, children) => {
  * @param  {object} data
  * @return {React}
  */
-const tmpl = (template, data) => {
+var tmpl = function (template, data) {
     // TODO: Parser!
     // return cE();
 };
@@ -121,4 +128,4 @@ const tmpl = (template, data) => {
 // -----------------------------------------
 // EXPORT
 
-export { getClosest, connect, disconnect, cE, tmpl };
+module.exports = { getClosest, connect, disconnect, cE, tmpl };

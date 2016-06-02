@@ -9,35 +9,35 @@
  * @param  {object} obj
  * @return {promise}
  */
-const request = (obj) => {
-    const store = obj.store;
-    const requestMade = obj.request;
-    const action = obj.action;
-    const middleware = obj.middleware;
+var request = function (obj) {
+    var store = obj.store;
+    var requestMade = obj.request;
+    var action = obj.action;
+    var middleware = obj.middleware;
 
     // Set loading
     store.dispatch({
-        type: `${action}_LOADING`,
+        type: action + '_LOADING',
         loading: true
     });
 
     // Make the request
     return requestMade()
-    .then((data) => {
+    .then(function (data) {
         return !!middleware ? middleware(data) : data;
     })
-    .then((data) => {
+    .then(function (data) {
         // Dispatch data
         store.dispatch({ type: action, data });
     })
-    .catch((err) => {
+    .catch(function (err) {
         // Dispatch the error
-        store.dispatch({ type: `${action}_ERR`, err });
+        store.dispatch({ type: action + '_ERR', err });
     })
-    .finally(() => {
+    .finally(function () {
         // Remove loading
         store.dispatch({
-            type: `${action}_LOADING`,
+            type: action + '_LOADING',
             loading: false
         });
     });
@@ -46,4 +46,4 @@ const request = (obj) => {
 // -----------------------------------------
 // EXPORT
 
-export { request };
+module.exports = { request: request };

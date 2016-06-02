@@ -1,4 +1,9 @@
 // -----------------------------------------
+// IMPORTS
+
+var deepClone = require('mout/lang/deepClone');
+
+// -----------------------------------------
 // VARS
 
 // -----------------------------------------
@@ -10,17 +15,23 @@
  * @param  {object}  BREADCRUMB_SCHEMA
  * @return {function}
  */
-const breadcrumbReducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => {
+var breadcrumbReducer = function (INITIAL_STATE, BREADCRUMB_SCHEMA) {
+    INITIAL_STATE = INITIAL_STATE || [];
+    BREADCRUMB_SCHEMA = BREADCRUMB_SCHEMA || {};
+
     /**
      * Sets crumb in breadcrumb
      * @param  {array} breadcrumb
      * @param  {object} crumb
      * @return {array}
      */
-    const pushCrumb = (breadcrumb = [], crumb = {}) => {
-        const type = crumb.type;
-        const name = crumb.name;
-        const params = crumb.params;
+    var pushCrumb = function (breadcrumb, crumb) {
+        breadcrumb = breadcrumb || [];
+        crumb = crumb || {};
+
+        var type = crumb.type;
+        var name = crumb.name;
+        var params = crumb.params;
 
         // Add the type without parentType
         if (!!type && !!name) {
@@ -38,13 +49,16 @@ const breadcrumbReducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => {
      * @param  {object}  action
      * @return {object}
      */
-    const reducer = (state = INITIAL_STATE, action = {}) => {
+    var reducer = function (state, action) {
+        state = state || INITIAL_STATE;
+        action = action || {};
+
         switch (action.type) {
         case 'SET_CONTENT':
-            const params = action.content.params;
-            let breadcrumb = [];
-            let type = action.content.type;
-            let breadcrumbType = BREADCRUMB_SCHEMA[type] || {};
+            var params = action.content.params;
+            var breadcrumb = [];
+            var type = action.content.type;
+            var breadcrumbType = BREADCRUMB_SCHEMA[type] || {};
 
             // Loop to get all breadcrumbs with parent
             while (breadcrumbType.hasOwnProperty('parentType')) {
@@ -74,7 +88,7 @@ const breadcrumbReducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => {
             // Finally inform of the breadcrumb
             return breadcrumb.reverse();
         default:
-            return [...state];
+            return deepClone(state);
         }
     };
 
@@ -87,16 +101,21 @@ const breadcrumbReducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => {
  * @param  {boolean}  INITIAL_STATE
  * @return {function}
  */
-const loadingReducer = (INITIAL_STATE = false) => {
+var loadingReducer = function (INITIAL_STATE) {
+    INITIAL_STATE = INITIAL_STATE || false;
+
     /**
      * Loading reducer
      * @param  {object}  state
      * @param  {object}  action
      * @return {object}
      */
-    const reducer = (state = INITIAL_STATE, action = {}) => {
-        const type = action.type;
-        const diff = type.replace('_LOADING', '') !== type;
+    var reducer = function (state, action) {
+        state = state || INITIAL_STATE;
+        action = action || {};
+
+        var type = action.type;
+        var diff = type.replace('_LOADING', '') !== type;
 
         return diff ? action.loading : state;
     };
@@ -110,16 +129,21 @@ const loadingReducer = (INITIAL_STATE = false) => {
  * @param  {*}  INITIAL_STATE
  * @return {function}
  */
-const errReducer = (INITIAL_STATE = null) => {
+var errReducer = function (INITIAL_STATE) {
+    INITIAL_STATE = INITIAL_STATE || null;
+
     /**
      * Error reducer
      * @param  {object}  state
      * @param  {object}  action
      * @return {object}
      */
-    const reducer = (state = INITIAL_STATE, action = {}) => {
-        const type = action.type;
-        const diff = type.replace('_ERR', '') !== type;
+    var reducer = function (state, action) {
+        state = state || INITIAL_STATE;
+        action = action || {};
+
+        var type = action.type;
+        var diff = type.replace('_ERR', '') !== type;
 
         return diff ? action.err : state;
     };
@@ -131,6 +155,8 @@ const errReducer = (INITIAL_STATE = null) => {
 // -----------------------------------------
 // EXPORT
 
-export {
-    breadcrumbReducer, loadingReducer, errReducer
+module.exports = {
+    breadcrumbReducer: breadcrumbReducer,
+    loadingReducer: loadingReducer,
+    errReducer: errReducer
 };

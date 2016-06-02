@@ -7,23 +7,27 @@
 /**
  * Sets content of app
  */
-const setContent = (store, action) => {
+var setContent = function (store, action) {
     store.dispatch({ type: 'SET_CONTENT', content: action });
 };
 
 /**
  * Sets modal of app
  */
-const setModal = (store, action) => {
+var setModal = function (store, action) {
     store.dispatch({ type: 'SET_MODAL', modal: action });
 };
 
 // -----------------------------------------
 // EXPORT
 
-export default (store) => {
+module.exports = function (store) {
     return {
-        setContent: (action) => setContent(store, action),
-        setModal: (action) => setModal(store, action)
+        setContent: function (action) {
+            return setContent(store, action);
+        },
+        setModal: function (action) {
+            return setModal(store, action);
+        }
     };
 };
