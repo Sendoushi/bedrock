@@ -1,3 +1,5 @@
+'use strict';
+
 var page = require('page/page.js');
 
 // -----------------------------------------

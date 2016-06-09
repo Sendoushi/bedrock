@@ -1,3 +1,5 @@
+'use strict';
+
 // -----------------------------------------
 // VARS
 
@@ -14,6 +16,8 @@ var request = function (obj) {
     var requestMade = obj.request;
     var action = obj.action;
     var middleware = obj.middleware;
+    var lastStep = 'then';
+    var promise;
 
     // Set loading
     store.dispatch({
@@ -22,7 +26,7 @@ var request = function (obj) {
     });
 
     // Make the request
-    return requestMade()
+    promise = requestMade()
     .then(function (data) {
         return !!middleware ? middleware(data) : data;
     })
@@ -33,14 +37,23 @@ var request = function (obj) {
     .catch(function (err) {
         // Dispatch the error
         store.dispatch({ type: action + '_ERR', err });
-    })
-    .finally(function () {
+    });
+
+    // Check for the last step
+    if (promise.hasOwnProperty('finally')) {
+        lastStep = 'finally';
+    }
+
+    // Now set the last step
+    promise[lastStep](function () {
         // Remove loading
         store.dispatch({
             type: action + '_LOADING',
             loading: false
         });
     });
+
+    return promise;
 };
 
 // -----------------------------------------
