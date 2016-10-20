@@ -1,82 +1,120 @@
+/* eslint-disable strict */
 'use strict';
+/* eslint-enable strict */
+
+// --------------------------------
+// Vars / Imports
+
+var merge = require('deepmerge');
+var dom = require('./utils/dom.js');
+
+var DEFAULTS = {
+    el: null,
+    parent: document.body,
+    tmpl: null,
+
+    // Set of callbacks
+    init: function () {}
+};
 
 // -----------------------------------------
-// IMPORTS
-
-// -----------------------------------------
-// VARS
-
-// -----------------------------------------
-// FUNCTIONS
+// PRIVATE FUNCTIONS
 
 /**
- * Get closest DOM element up the tree that contains a class, ID, or data attribute
- * @param  {Node} elem The base element
- * @param  {String} selector The class, id, data attribute, or tag to look for
- * @return {Node} Null if no match
+ * Check if dom is ready
+ * @param  {Function} cb
  */
-var getClosest = function (el, selector) {
-    var firstChar = selector.charAt(0);
+var isDomReady = function (cb) {
+    var isReady;
 
-    // Get closest match
-    for ( ; el && el !== document; el = el.parentNode) {
-        // If selector is a class
-        if (firstChar === '.') {
-            if (el.classList.contains(selector.substr(1))) {
-                return el;
-            }
-        }
-
-        // If selector is an ID
-        if (firstChar === '#') {
-            if (el.id === selector.substr(1)) {
-                return el;
-            }
-        }
-
-        // If selector is a data attribute
-        if (firstChar === '[') {
-            if (el.hasAttribute(selector.substr(1, selector.length - 2))) {
-                return el;
-            }
-        }
-
-        // If selector is a tag
-        if (el.tagName.toLowerCase() === selector) {
-            return el;
-        }
+    // Wait for the document to be ready
+    isReady = document.readyState === 'complete';
+    isReady = isReady || (document.readyState !== 'loading' && !document.documentElement.doScroll);
+    if (isReady) {
+        cb();
+    } else {
+        document.addEventListener('DOMContentLoaded', cb);
     }
 };
 
-/**
- * Connect store to component
- * @param  {tag} self
- * @param  {object} actions
- * @param  {function} cb
- */
-var connect = function (self, actions, cb) {
-    // Add for the actions update
-    self._unsubscribe = actions.subscribe(function () {
-        if (!self._unsubscribe) {
-            return;
-        }
-
-        // Inform of changes
-        cb(actions.getState());
-    });
-};
-
-/**
- * Disconnect the store from the component
- * @param  {tag} self
- */
-var disconnect = function (self) {
-    // Unsubscribe
-    self._unsubscribe && self._unsubscribe();
-    self._unsubscribe = null;
-};
-
 // -----------------------------------------
-// EXPORT
+// PUBLIC FUNCTIONS
 
-module.exports = { getClosest, connect, disconnect };
+/**
+ * Renders
+ * @param  {object} comp
+ * @param  {object} data
+ */
+var render = function (comp, data) {
+    var tmpl = comp.tmpl;
+
+    // Cache the data
+    comp.data = data;
+
+    if (tmpl && typeof tmpl === 'function') {
+        tmpl = tmpl(comp, data);
+    }
+
+    if (!tmpl || typeof tmpl !== 'string') {
+        return;
+    }
+
+    // Lets set now!
+    dom.html(comp.el, tmpl);
+};
+
+/**
+ * Initializes
+ * @param  {object} comp
+ */
+var init = function (comp) {
+    var parent = comp.parent;
+    var classList = (parent === document.body) ? document.body.classList : null;
+
+    // Remove class no-script
+    classList && classList.remove('no-script');
+
+    // Lets try and find the element
+    if (typeof comp.el === 'string') {
+        comp.selector = comp.el;
+        comp.el = dom.find(parent, comp.selector);
+    } else if (!!comp.el) {
+        comp.selector = null; // TODO: Maybe get the attributes?
+    }
+
+    // Do after init
+    comp.init(comp);
+};
+
+// --------------------------------
+// Export
+
+module.exports = {
+    init: function (data) {
+        var comp = merge(DEFAULTS, data, { clone: true });
+
+        // Wait for document to be ready and go on!
+        isDomReady(init.bind(null, comp));
+    },
+    render: render
+};
+
+/*
+// Usage
+var component = require('bedrock/component.js');
+var doT = require('dot');
+var tmpl = doT.template('<div></div>');
+var compConfig = {
+    el: '.foo', // Pass a parent if string (performance wise), otherwise pass just an element
+    parent: document.body, // Default is this one. Needed to find el selector
+    tmpl: function (comp, data) { return tmpl(data); }, // String accepted. It is optional
+    init: function (comp) {
+        // It won't happen if you don't use template ability
+        component.render(comp);
+
+        // Set components
+        // Set events
+    }
+};
+component.init(compConfig);
+*/

@@ -23,7 +23,7 @@ git clone https://github.com/Sendoushi/bedrock.git
 
 ## Usage
 
-Examples are provided inside [examples folder](https://github.com/Sendoushi/bedrock/tree/master/examples) or in [code-examples](https://github.com/Sendoushi/code-examples) if you need.
+Examples are provided inside [examples folder](https://github.com/Sendoushi/bedrock/tree/master/examples) if you need.
 
 ## Development
 

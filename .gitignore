@@ -3,6 +3,7 @@
 # --------------------
 build/*
 !build/.gitkeep
+*.log
 
 # --------------------
 # OSX Files
