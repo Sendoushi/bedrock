@@ -6,7 +6,15 @@
 // Vars / Imports
 
 var page = require('page');
+var mailbox = require('./mailbox.js');
 var routes = [];
+
+var DEFAULTS = {
+    events: {
+        add: 'router.add',
+        start: 'router.start'
+    }
+};
 
 // --------------------------------
 // Functions
@@ -67,6 +75,12 @@ var start = function (opts) {
     // Finally starting the routes
     page.start(opts);
 };
+
+// --------------------------------
+// Runtime
+
+mailbox.on(DEFAULTS.events.start, start);
+mailbox.on(DEFAULTS.events.add, add);
 
 // --------------------------------
 // Export
