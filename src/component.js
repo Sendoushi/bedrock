@@ -90,7 +90,7 @@ var init = function (comp) {
 };
 
 // --------------------------------
-// Polyfills
+// Runtime
 
 require('es6-promise/auto');
 
