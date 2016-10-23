@@ -1,3 +1,4 @@
+/* global Promise */
 /* eslint-disable strict */
 'use strict';
 /* eslint-enable strict */
@@ -11,10 +12,7 @@ var dom = require('./utils/dom.js');
 var DEFAULTS = {
     el: null,
     parent: document.body,
-    tmpl: null,
-
-    // Set of callbacks
-    init: function () {}
+    tmpl: null
 };
 
 // -----------------------------------------
@@ -22,19 +20,21 @@ var DEFAULTS = {
 
 /**
  * Check if dom is ready
- * @param  {Function} cb
+ * @return {promise}
  */
-var isDomReady = function (cb) {
-    var isReady;
+var isDomReady = function () {
+    var promise = new Promise(function (resolve) {
+        // Wait for the document to be ready
+        var isReady = document.readyState === 'complete';
+        isReady = isReady || (document.readyState !== 'loading' && !document.documentElement.doScroll);
+        if (isReady) {
+            resolve();
+        } else {
+            document.addEventListener('DOMContentLoaded', resolve);
+        }
+    });
 
-    // Wait for the document to be ready
-    isReady = document.readyState === 'complete';
-    isReady = isReady || (document.readyState !== 'loading' && !document.documentElement.doScroll);
-    if (isReady) {
-        cb();
-    } else {
-        document.addEventListener('DOMContentLoaded', cb);
-    }
+    return promise;
 };
 
 // -----------------------------------------
@@ -44,6 +44,7 @@ var isDomReady = function (cb) {
  * Renders
  * @param  {object} comp
  * @param  {object} data
+ * @return {object}
  */
 var render = function (comp, data) {
     var tmpl = comp.tmpl;
@@ -60,12 +61,15 @@ var render = function (comp, data) {
     }
 
     // Lets set now!
-    dom.html(comp.el, tmpl);
+    comp.el && dom.html(comp.el, tmpl);
+
+    return comp;
 };
 
 /**
  * Initializes
  * @param  {object} comp
+ * @return {object}
  */
 var init = function (comp) {
     var parent = comp.parent;
@@ -82,9 +86,13 @@ var init = function (comp) {
         comp.selector = null; // TODO: Maybe get the attributes?
     }
 
-    // Do after init
-    comp.init(comp);
+    return comp;
 };
+
+// --------------------------------
+// Polyfills
+
+require('es6-promise/auto');
 
 // --------------------------------
 // Export
@@ -94,7 +102,7 @@ module.exports = {
         var comp = merge(DEFAULTS, data, { clone: true });
 
         // Wait for document to be ready and go on!
-        isDomReady(init.bind(null, comp));
+        return isDomReady.then(init.bind(null, comp));
     },
     render: render
 };
@@ -104,17 +112,17 @@ module.exports = {
 var component = require('bedrock/component.js');
 var doT = require('dot');
 var tmpl = doT.template('<div></div>');
-var compConfig = {
+
+component.init({
     el: '.foo', // Pass a parent if string (performance wise), otherwise pass just an element
     parent: document.body, // Default is this one. Needed to find el selector
-    tmpl: function (comp, data) { return tmpl(data); }, // String accepted. It is optional
-    init: function (comp) {
-        // It won't happen if you don't use template ability
-        component.render(comp);
+    tmpl: function (comp, data) { return tmpl(data); } // String accepted. It is optional
+})
+.then(function (comp) {
+    // It won't happen if you don't use template ability
+    component.render(comp);
 
-        // Set components
-        // Set events
-    }
-};
-component.init(compConfig);
+    // Set components
+    // Set events
+});
 */

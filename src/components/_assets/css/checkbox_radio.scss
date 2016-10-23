@@ -1,0 +1,117 @@
+@mixin checkbox($size: 1em, $font-size: inherit, $border: 1px solid currentColor, $active-color: currentColor, $error-color: red, $success-color: green) {
+    input[type="checkbox"].checkbox-custom-check {
+        display: none;
+
+        &:checked + label.checkbox-custom-check .checkbox-button:before {
+            display: block;
+        }
+    }
+
+    label.checkbox-custom-check {
+        &,
+        & .checkbox-button {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: $font-size;
+        }
+
+        & .checkbox-button {
+            width: $size;
+            height: $size;
+            margin-right: $size / 2;
+            border: $border;
+
+            &::before {
+                content: "✔";
+                display: none;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                margin: 2px 0 0 2px;
+                color: $active-color;
+            }
+        }
+    }
+
+    // ------------------
+    // Validation
+
+    .has-error {
+        label.checkbox-custom-check .checkbox-button {
+            border-color: $error-color;
+        }
+    }
+
+    label.checkbox-custom-check.has-error .checkbox-button {
+        border-color: $error-color;
+    }
+
+    .has-success {
+        label.checkbox-custom-check .checkbox-button {
+            border-color: $success-color;
+        }
+    }
+
+    label.checkbox-custom-check.has-success .checkbox-button {
+        border-color: $success-color;
+    }
+}
+
+@mixin radio($size: 1em, $font-size: inherit, $border: 1px solid currentColor, $active-color: currentColor, $error-color: red, $success-color: green) {
+    input[type="radio"].radio-custom-check {
+        display: none;
+
+        &:checked + label.radio-custom-check .radio-button:before {
+            display: block;
+        }
+    }
+
+    label.radio-custom-check {
+        &,
+        & .radio-button {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: $font-size;
+        }
+
+        & .radio-button {
+            width: $size;
+            height: $size;
+            margin-right: $size / 2;
+            border: 1px solid $border;
+            border-radius: 20px;
+
+            &::before {
+                content: "";
+                display: none;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                margin: 2px 0 0 2px;
+                background: $active-color;
+                border-radius: 10px;
+            }
+        }
+    }
+
+    // ------------------
+    // Validation
+
+    .has-error {
+        label.radio-custom-check .radio-button {
+            border-color: $error-color;
+        }
+    }
+
+    label.radio-custom-check.has-error .radio-button {
+        border-color: $error-color;
+    }
+
+    .has-success {
+        label.radio-custom-check .radio-button {
+            border-color: $success-color;
+        }
+    }
+
+    label.radio-custom-check.has-success .radio-button {
+        border-color: $success-color;
+    }
+}
