@@ -32,7 +32,9 @@ var config = {
                 "src": "./src/css/main.scss",
                 "dest": "./build/style.css",
                 "options": {
+                    "minify": false,
                     "sourceMap": true,
+                    "autoprefixer": false,
                     "include": [
                         "imports", "blocks", "partials", "vendor",
                         "override", "module", "mixin", "layout",
@@ -48,13 +50,6 @@ var config = {
             "src": "$SOURCE/css/main.scss",
             "dest": "$BUILD/style.css",
             "options": {
-                "minify": true,
-                "autoprefixer": [
-                    "last 2 versions",
-                    "iOS >= 7",
-                    "Android >= 5",
-                    "IE >= 11"
-                ],
                 "include": [
                     "imports", "blocks", "partials", "vendor",
                     "override", "module", "mixin", "layout",
@@ -70,6 +65,9 @@ var config = {
             "dest": "./build/app.js",
             "options": {
                 "externals": { "jquery": "jQuery" },
+                "cache": false,
+                "debug": true,
+                "devtool": "source-map",
                 "plugins": [{
                     "name": "define",
                     "args": [{
@@ -86,9 +84,6 @@ var config = {
             "dest": "./build/app.js",
             "options": {
                 "externals": { "jquery": "jQuery" },
-                "cache": true,
-                "debug": false,
-                "devtool": false,
                 "plugins": [{
                     "name": "define",
                     "args": [{

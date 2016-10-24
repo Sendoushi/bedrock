@@ -11,12 +11,12 @@ var sourcemaps = require('gulp-sourcemaps');
 var Joi = require('joi');
 
 var OPTIONS_STRUCT = Joi.object().keys({
-    minify: Joi.boolean().default(false),
+    minify: Joi.boolean().default(true),
     autoprefixer: Joi.array().default(['last 2 versions']),
     sourceMap: Joi.boolean().default(false),
     include: Joi.array().items(Joi.string()).default([])
 }).default({
-    minify: false,
+    minify: true,
     autoprefixer: ['last 2 versions'],
     sourceMap: false,
     include: []

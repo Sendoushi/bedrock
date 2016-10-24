@@ -20,7 +20,7 @@ var RESOLVE_STRUCT = Joi.object().keys({
     alias: Joi.array().items(Joi.string()).default([]),
     root: Joi.array().items(Joi.string()).default([]),
     modulesDirectories: Joi.array().items(Joi.string()).default([
-        './node_modules', './src/script'
+        './node_modules', './src'
     ]),
     fallback: Joi.array().items(Joi.string()).default([]),
     extensions: Joi.array().items(Joi.string().allow('')).default(['', '.js']),
@@ -30,7 +30,7 @@ var RESOLVE_STRUCT = Joi.object().keys({
     moduleTemplates: Joi.array().items(Joi.string()).default([])
 }).default({
     extensions: ['', '.js'],
-    modulesDirectories: ['./node_modules', './src/script'],
+    modulesDirectories: ['./node_modules', './src'],
 
     alias: [], root: [], fallback: [],
     packageMains: [], unsafeCache: [], moduleTemplates: []
@@ -103,9 +103,9 @@ var OPTIONS_STRUCT = Joi.object().keys({
     target: Joi.string().default('web'),
     bail: Joi.boolean().default(true),
     profile: Joi.boolean(),
-    cache: Joi.boolean().default(false),
+    cache: Joi.boolean().default(true),
     debug: Joi.boolean().default(false),
-    devtool: Joi.string().default('source-map'),
+    devtool: Joi.string(),
     devServer: Joi.string(),
     node: Joi.string(),
     amd: Joi.string(),
@@ -117,9 +117,8 @@ var OPTIONS_STRUCT = Joi.object().keys({
 }).default({
     target: 'web',
     bail: true,
-    cache: false,
+    cache: true,
     debug: false,
-    devtool: 'source-map',
     externals: [], plugins: []
 });
 
