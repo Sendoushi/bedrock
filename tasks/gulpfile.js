@@ -29,7 +29,7 @@ var config = {
         "env": "dev",
         "data": [
             {
-                "src": "./src/css/main.scss",
+                "src": "./src/main.scss",
                 "dest": "./build/style.css",
                 "options": {
                     "minify": false,
@@ -47,8 +47,8 @@ var config = {
         "type": "style",
         "env": "prod",
         "data": [{
-            "src": "$SOURCE/css/main.scss",
-            "dest": "$BUILD/style.css",
+            "src": "./src/main.scss",
+            "dest": "./build/style.css",
             "options": {
                 "include": [
                     "imports", "blocks", "partials", "vendor",
@@ -62,7 +62,7 @@ var config = {
         "env": "dev",
         "data": [{
             "src": "./src/script/main.js",
-            "dest": "./build/app.js",
+            "dest": "./build",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "cache": false,
@@ -72,6 +72,12 @@ var config = {
                     "name": "define",
                     "args": [{
                         "IS_BROWSER": true
+                    }, {
+                    "name": "provide",
+                    "args": [{
+                        "$": "jquery",
+                        "jQuery": "jquery",
+                        "Promise": "imports?this=>global!exports?global.Promise!es6-promise"
                     }]
                 }]
             },
@@ -81,13 +87,22 @@ var config = {
         "env": "prod",
         "data": [{
             "src": "./src/script/main.js",
-            "dest": "./build/app.js",
+            "dest": "./build",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "plugins": [{
                     "name": "define",
                     "args": [{
                         "IS_BROWSER": true
+                    }]
+                }, {
+                    "name": "dedupe"
+                }, {
+                    "name": "provide",
+                    "args": [{
+                        "$": "jquery",
+                        "jQuery": "jquery",
+                        "Promise": "imports?this=>global!exports?global.Promise!es6-promise"
                     }]
                 }, {
                     "name": "webpack-closure-compiler",
