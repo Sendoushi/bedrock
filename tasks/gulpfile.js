@@ -114,6 +114,18 @@ var config = {
                         },
                         "concurrency": 3,
                     }]
+                }, {
+                    "name": "uglify",
+                    "args": [{
+                        "mangle": {
+                            "except": ["$", "exports", "require"]
+                        },
+                        "compress": {
+                            "warnings": false
+                        },
+                        "comments": false,
+                        "sourceMap": false
+                    }]
                 }]
             },
         }]

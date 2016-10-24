@@ -245,7 +245,7 @@ function convertPlugins(list) {
         } else if (plugin.name === 'provide') {
             plugin = new webpack.ProvidePlugin(args[0], args[1], args[2], args[3]);
         } else if (plugin.name === 'uglify') {
-            plugin = new webpack.optimize.UglifyJsPlugin();
+            plugin = new webpack.optimize.UglifyJsPlugin(args[0]);
         } else {
             // Require the dependency
             PluginReq = require(plugin.name);
