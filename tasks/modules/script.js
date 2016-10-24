@@ -11,25 +11,29 @@ var webpack = require('webpack');
 var PLUGIN_STRUCT = Joi.object().keys({
     name: Joi.string(),
     type: Joi.string(),
-    args: Joi.array().items(Joi.string()).default([]),
-    dependencies: Joi.array().items(Joi.string()).default([])
+    args: Joi.array().items(Joi.string()).default([])
 }).default({
-    args: [], dependencies: []
+    args: []
 });
 
 var RESOLVE_STRUCT = Joi.object().keys({
     alias: Joi.array().items(Joi.string()).default([]),
     root: Joi.array().items(Joi.string()).default([]),
-    modulesDirectories: Joi.array().items(Joi.string()).default([]),
+    modulesDirectories: Joi.array().items(Joi.string()).default([
+        './node_modules', './src/script'
+    ]),
     fallback: Joi.array().items(Joi.string()).default([]),
-    extensions: Joi.array().items(Joi.string().allow('')).default([]),
+    extensions: Joi.array().items(Joi.string().allow('')).default(['', '.js']),
     packageMains: Joi.array().items(Joi.string()).default([]),
     packageAlias: Joi.string(),
     unsafeCache: Joi.array().items(Joi.string()).default([]),
     moduleTemplates: Joi.array().items(Joi.string()).default([])
 }).default({
-    alias: [], root: [], modulesDirectories: [], fallback: [],
-    extensions: [], packageMains: [], unsafeCache: [], moduleTemplates: []
+    extensions: ['', '.js'],
+    modulesDirectories: ['./node_modules', './src/script'],
+
+    alias: [], root: [], fallback: [],
+    packageMains: [], unsafeCache: [], moduleTemplates: []
 });
 
 var LOADER_STRUCT = Joi.object().keys({
@@ -38,15 +42,20 @@ var LOADER_STRUCT = Joi.object().keys({
     include: Joi.array().items(Joi.string()).default([]),
     loader: Joi.string(),
     loaders: Joi.array().items(Joi.string()).default([]),
-    query: Joi.string(),
-    dependencies: Joi.array().items(Joi.string()).default([])
-}).default({
-    include: [], loaders: [], dependencies: []
-});
+    query: Joi.string()
+}).default({});
 
 var MODULE_STRUCT = Joi.object().keys({
     preLoaders: Joi.array().items(LOADER_STRUCT).default([]),
-    loaders: Joi.array().items(LOADER_STRUCT).default([]),
+    loaders: Joi.array().items(LOADER_STRUCT).default([{
+        test: /\.json?$/,
+        loader: 'json-loader',
+        exclude: /(node_modules|bower_components)/
+    }, {
+        test: /\.html?$/,
+        loader: 'raw-loader',
+        exclude: /(node_modules|bower_components)/
+    }]),
     postLoaders: Joi.array().items(LOADER_STRUCT).default([]),
     noParse: Joi.array().items(Joi.string()).default([]),
     unknownContextRegExp: Joi.string(),
@@ -60,7 +69,7 @@ var MODULE_STRUCT = Joi.object().keys({
 });
 
 var OUTPUT_STRUCT = Joi.object().keys({
-    filename: Joi.string(),
+    filename: Joi.string().default('app.js'),
     path: Joi.string(),
     publicPath: Joi.string(),
     chunkFilename: Joi.string(),
@@ -78,7 +87,9 @@ var OUTPUT_STRUCT = Joi.object().keys({
     umdNamedDefine: Joi.boolean(),
     sourcePrefix: Joi.string(),
     crossOriginLoading: Joi.string()
-}).default({});
+}).default({
+    filename: 'app.js'
+});
 
 var OPTIONS_STRUCT = Joi.object().keys({
     // Webpack related
@@ -89,12 +100,12 @@ var OPTIONS_STRUCT = Joi.object().keys({
     resolve: RESOLVE_STRUCT,
     resolveLoader: RESOLVE_STRUCT,
     externals: Joi.array().items(Joi.string()).default([]),
-    target: Joi.string(),
-    bail: Joi.boolean(),
+    target: Joi.string().default('web'),
+    bail: Joi.boolean().default(true),
     profile: Joi.boolean(),
-    cache: Joi.boolean(),
-    debug: Joi.boolean(),
-    devtool: Joi.string(),
+    cache: Joi.boolean().default(false),
+    debug: Joi.boolean().default(false),
+    devtool: Joi.string().default('source-map'),
     devServer: Joi.string(),
     node: Joi.string(),
     amd: Joi.string(),
@@ -104,6 +115,11 @@ var OPTIONS_STRUCT = Joi.object().keys({
     recordsOutputPath: Joi.string(),
     plugins: Joi.array().items(PLUGIN_STRUCT).default([])
 }).default({
+    target: 'web',
+    bail: true,
+    cache: false,
+    debug: false,
+    devtool: 'source-map',
     externals: [], plugins: []
 });
 
@@ -155,17 +171,12 @@ function convertString(str) {
 function convertArray(arr) {
     var i;
 
-
     if (arr.length === 0) {
         arr = null;
     } else {
         for (i = 0; i < arr.length; i += 1) {
             arr[i] = convert(arr[i]);
         }
-
-        arr = arr.filter(function (val) {
-            return typeof val === 'string' || !!val;
-        });
     }
 
     // Now lets return it

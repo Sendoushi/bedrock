@@ -8,13 +8,26 @@ var Joi = require('joi');
 
 var STRUCT = Joi.object().keys({
     src: Joi.string().required(),
-    dest: Joi.string().required()
+    dest: Joi.string()
     // ignore: Joi.string().default('').allow(''),
     // order: Joi.number().default(0),
 });
 
 //-------------------------------------
 // Functions
+
+function del(tasks, cb) {
+    var srcs = tasks.map(function (task) {
+        return task.src;
+    });
+
+    if (!srcs.length) {
+        return cb();
+    }
+
+    // Lets delete files
+    del(srcs).then(cb.bind(null, null, null));
+}
 
 /**
  * Initialize tasks
@@ -29,4 +42,4 @@ function copy(tasks) {
 // --------------------------------
 // Export
 
-module.exports = { STRUCT: STRUCT, copy: copy };
+module.exports = { STRUCT: STRUCT, copy: copy, del: del };

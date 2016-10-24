@@ -27,13 +27,15 @@
     "gulp-less": "^3.1.0",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-util": "^3.0.7",
     "gulp-webpack": "^1.5.0",
     "joi": "^9.2.0",
+    "json-loader": "^0.5.4",
     "page": "^1.7.1",
     "postcss": "^5.2.0",
+    "raw-loader": "^0.5.1",
     "webpack": "^1.13.2",
-    "webpack-closure-compiler": "^2.1.1"
+    "webpack-closure-compiler": "^2.1.1",
+    "yargs": "^6.3.0"
   },
   "scripts": {
     "test": "npm run eslint-test; npm run stylelint-test",

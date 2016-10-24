@@ -2,12 +2,124 @@
 'use strict';
 /* eslint-enable strict */
 
+//-------------------------------------
+// Example of usage
+/*
+// CLI:
+// node node_modules/gulp/bin/gulp.js project:build --gulpfile="node_modules/bedrock/tasks/gulpfile.js" --env=prod --config="CONFIG_SRC";
+
+// CONFIG:
+var config = {
+    projectName: 'foo',
+    tasks: [{
+        "type": "del",
+        "env": "prod",
+        "data": [
+            { "src": "./build/*" }
+        ]
+    }, {
+        "type": "copy",
+        "env": "*",
+        "data": [
+            { "src": "./src/imgs/**\/*", "dest": "./build/imgs" },
+            { "src": "./src/**\/*.php", "dest": "./build" }
+        ]
+    }, {
+        "type": "style",
+        "env": "dev",
+        "data": [
+            {
+                "src": "./src/css/main.scss",
+                "dest": "./build/style.css",
+                "options": {
+                    "sourceMap": true,
+                    "include": [
+                        "imports", "blocks", "partials", "vendor",
+                        "override", "module", "mixin", "layout",
+                        "function", "core", "content"
+                    ]
+                }
+            }
+        ]
+    }, {
+        "type": "style",
+        "env": "prod",
+        "data": [{
+            "src": "$SOURCE/css/main.scss",
+            "dest": "$BUILD/style.css",
+            "options": {
+                "minify": true,
+                "autoprefixer": [
+                    "last 2 versions",
+                    "iOS >= 7",
+                    "Android >= 5",
+                    "IE >= 11"
+                ],
+                "include": [
+                    "imports", "blocks", "partials", "vendor",
+                    "override", "module", "mixin", "layout",
+                    "function", "core", "content"
+                ]
+            }
+        }]
+    }, {
+        "type": "script",
+        "env": "dev",
+        "data": [{
+            "src": "./src/script/main.js",
+            "dest": "./build/app.js",
+            "options": {
+                "externals": { "jquery": "jQuery" },
+                "plugins": [{
+                    "name": "define",
+                    "args": [{
+                        "IS_BROWSER": true
+                    }]
+                }]
+            },
+        }]
+    }], {
+        "type": "script",
+        "env": "prod",
+        "data": [{
+            "src": "./src/script/main.js",
+            "dest": "./build/app.js",
+            "options": {
+                "externals": { "jquery": "jQuery" },
+                "cache": true,
+                "debug": false,
+                "devtool": false,
+                "plugins": [{
+                    "name": "define",
+                    "args": [{
+                        "IS_BROWSER": true
+                    }]
+                }, {
+                    "name": "webpack-closure-compiler",
+                    "args": [{
+                        "compiler": {
+                            "language_in": "ECMASCRIPT5",
+                            "language_out": "ECMASCRIPT5",
+                            "compilation_level": "ADVANCED"
+                        },
+                        "concurrency": 3,
+                    }]
+                }]
+            },
+        }]
+    }]
+};
+*/
+
+//-------------------------------------
+// Vars / Imports
+
 // Import packages
 var path = require('path');
-var gulp = require('gulp');
-var util = require('gulp-util');
+var argv = require('yargs').argv;
 var del = require('del');
 var Joi = require('joi');
+var gulp = require('gulp');
 
 // Import modules
 var modules = {
@@ -41,27 +153,28 @@ var STRUCT = Joi.object().keys({
  * @return {boolean}
  */
 function verify(config) {
-    var results = [];
+    var errors = [];
+    var values;
+    var result;
     var task;
     var i;
 
     // General config
-    results.push(Joi.validate(config, STRUCT));
+    result = Joi.validate(config, STRUCT);
+    result.error && errors.push(result.error);
+    values = result.value;
 
     // Now the tasks
+    values.tasks = [];
     for (i = 0; i < config.tasks.length; i += 1) {
         task = config.tasks[i];
-        results.push(Joi.validate(task.args, tasks[task.type].STRUCT));
+
+        result = Joi.validate(task.args, tasks[task.type].STRUCT);
+        result.error && errors.push(result.error);
+        result.value && values.tasks.push(result.value);
     }
 
-    // Lets parse the results
-    results = results.map(function (val) {
-        return val.error;
-    }).filter(function (val) {
-        return !!val;
-    });
-
-    return (results.length) ? results : false;
+    return { error: errors, value: values };
 }
 
 /**
@@ -73,10 +186,12 @@ function verify(config) {
 function getTasks(tasks, type) {
     return tasks.filter(function (task) {
         var isType = task.type === type;
-        var isEnv = task.env === '*' || !!util.env[task.env];
+        var isEnv = task.env === '*' || !!argv.env === task.env;
 
         return isType && isEnv;
-    }));
+    })).map(function (task) {
+        return task.data;
+    });
 }
 
 /**
@@ -84,168 +199,39 @@ function getTasks(tasks, type) {
  * @param  {object} config
  */
 function init(config) {
-    var isOk = verify(config);
+    var result = verify(config);
 
     // Verify config
-    if (!isOk) {
-        throw new Error(isOk);
+    if (result.error && result.error.length) {
+        throw new Error(result.error);
     }
 
-    gulp.task('dist:clean', [], function (cb) {
-        if (util.env.production || util.env.prod) {
-            del([path.join(config.srcPath, '*')])
-            .then(cb.bind(null, null, null));
-        } else {
-            cb();
-        }
+    // Set the right config
+    config = result.value;
+
+    gulp.task('project:clean', [], function (cb) {
+        tasks['del'].fn(getTasks(config.tasks, 'copy'), cb);
     });
 
-    gulp.task('dist:copy', [], function () {
+    gulp.task('project:copy', [], function () {
         tasks['copy'].fn(getTasks(config.tasks, 'copy'));
     });
 
-    gulp.task('dist:sprite', [], function () {
+    gulp.task('project:sprite', [], function () {
         tasks['sprite'].fn(getTasks(config.tasks, 'sprite'));
     });
 
-    gulp.task('dist:css', ['dist:sprite'], function () {
+    gulp.task('project:css', ['project:sprite'], function () {
         tasks['style'].fn(getTasks(config.tasks, 'style'));
     });
 
     // Prepare build for dev
-    gulp.task('dist:build', ['dist:clean', 'dist:copy', 'dist:css'], function () {
+    gulp.task('project:build', ['project:clean', 'project:copy', 'project:css'], function () {
         tasks['script'].fn(getTasks(config.tasks, 'script'));
     });
 }
 
-/**
- * Example of usage
- *
- var config = {
-    projectName: 'foo',
-    tasks: [{
-        "type": "copy",
-        "env": "*",
-        "args": [
-            { "src": "./src/imgs/**\/*", "dest": "./build/imgs" },
-            { "src": "./src/**\/*.php", "dest": "./build" }
-        ]
-    }, {
-        "type": "style",
-        "env": "dev",
-        "args": [
-            {
-                "src": "./src/css/main.scss",
-                "dest": "./build/style.css",
-                "options": {
-                    "sourceMap": true,
-                    "include": [
-                        "imports", "blocks", "partials", "vendor",
-                        "override", "module", "mixin", "layout",
-                        "function", "core", "content"
-                    ]
-                }
-            }
-        ]
-    }, {
-        "type": "style",
-        "env": "prod",
-        "args": [{
-            "src": "$SOURCE/css/main.scss",
-            "dest": "$BUILD/style.css",
-            "options": {
-                "minify": true,
-                "autoprefixer": [
-                    "last 2 versions",
-                    "iOS >= 7",
-                    "Android >= 5",
-                    "IE >= 11"
-                ],
-                "include": [
-                    "imports", "blocks", "partials", "vendor",
-                    "override", "module", "mixin", "layout",
-                    "function", "core", "content"
-                ]
-            }
-        }]
-    }, {
-        "type": "script",
-        "env": "dev",
-        "args": [{
-            "src": "./src/script/main.js",
-            "dest": "./build/app.js",
-            "options": {
-                "output": {
-                    "filename": "app.js",
-                },
-                "target": "web",
-                "externals": { "jquery": "jQuery" },
-                "devtool": "source-map",
-                "bail": true,
-                "debug": true,
-                "resolve": {
-                    "extensions": ["", ".js"],
-                    "modulesDirectories": ["./node_modules", "./src/script"]
-                },
-                "module": {
-                    "loaders": [{
-                        "test": "/\\.json?$/",
-                        "loader": "json-loader",
-                        "exclude": "/(node_modules|bower_components)/"
-                    }]
-                },
-                "plugins": [{
-                    "name": "define",
-                    "args": [{
-                        "IS_BROWSER": true
-                    }]
-                }]
-            },
-        }]
-    }], {
-        "type": "script",
-        "env": "prod",
-        "args": [{
-            "src": "./src/script/main.js",
-            "dest": "./build/app.js",
-            "options": {
-                "output": {
-                    "filename": "app.js",
-                },
-                "target": "web",
-                "externals": { "jquery": "jQuery" },
-                "cache": true,
-                "bail": true,
-                "debug": true,
-                "resolve": {
-                    "extensions": ["", ".js"],
-                    "modulesDirectories": ["./node_modules", "./src/script"]
-                },
-                "module": {
-                    "loaders": [{
-                        "test": "/\\.json?$/",
-                        "loader": "json-loader",
-                        "exclude": "/(node_modules|bower_components)/"
-                    }]
-                },
-                "plugins": [{
-                    "name": "define",
-                    "args": [{
-                        "IS_BROWSER": true
-                    }]
-                }, {
-                    "name": "webpack-closure-compiler",
-                    "args": [{
-                        "compiler": {
-                            "language_in": "ECMASCRIPT5",
-                            "language_out": "ECMASCRIPT5",
-                            "compilation_level": "ADVANCED"
-                        },
-                        "concurrency": 3,
-                    }]
-                }]
-            },
-        }]
-    }]
- };
- */
+//-------------------------------------
+// Runtime
+
+init(require(argv.config));
