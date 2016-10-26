@@ -21,12 +21,12 @@ var modules = {
     styleguide: require('./modules/styleguide.js')
 };
 var tasks = {
-    clean: { fn: modules.file.clean },
-    copy: { fn: modules.file.copy },
-    script: { fn: modules.script.build },
-    style: { fn: modules.style.build },
-    sprite: { fn: modules.sprite.build },
-    styleguide: { fn: modules.styleguide.build }
+    clean: { struct: modules.file.STRUCT, fn: modules.file.clean },
+    copy: { struct: modules.file.STRUCT, fn: modules.file.copy },
+    script: { struct: modules.script.STRUCT, fn: modules.script.build },
+    style: { struct: modules.style.STRUCT, fn: modules.style.build },
+    sprite: { struct: modules.sprite.STRUCT, fn: modules.sprite.build },
+    styleguide: { struct: modules.styleguide.STRUCT, fn: modules.styleguide.build }
 };
 
 var STRUCT = Joi.object().keys({
@@ -35,13 +35,7 @@ var STRUCT = Joi.object().keys({
     tasks: Joi.array().items(Joi.object().keys({
         type: Joi.string().required(),
         env: Joi.string().default('*'),
-        data: Joi.array().items(
-            modules.file.STRUCT,
-            modules.script.STRUCT,
-            modules.style.STRUCT,
-            modules.sprite.STRUCT,
-            modules.styleguide.STRUCT
-        )
+        data: Joi.array()
     })).default([])
 }).required();
 
@@ -77,7 +71,37 @@ function readFile(pathSrc) {
  */
 function verify(config) {
     var result = Joi.validate(config, STRUCT);
-    return { error: result.error, value: result.value };
+    var value = result.value;
+    var schema;
+    var task;
+    var i;
+    var c;
+
+    if (result.error) {
+        return {
+            error: { type: 'root', err: result.error }
+        };
+    }
+
+    // Lets check data now
+    for (i = 0; i < value.tasks.length; i += 1) {
+        task = value.tasks[i];
+        schema = tasks[task.type].struct;
+
+        for (c = 0; c < task.data.length; c += 1) {
+            result = Joi.validate(task.data[c], schema);
+
+            if (result.error) {
+                return {
+                    error: { type: task.type, msg: result.error }
+                };
+            } else {
+                task.data[c] = result.value;
+            }
+        }
+    }
+
+    return { value: value };
 }
 
 /**
@@ -140,34 +164,39 @@ config = verify(JSON.parse(config));
 
 // Verify config
 if (config.error) {
-    throw new Error(config.error);
+    console.error('Error happened in: ' + config.error.type);
+    throw new Error(config.error.msg);
 } else {
     config = config.value;
 }
 
 // Initialize
 gulp.task('project:clean', [], function (cb) {
-    setTasks(tasks['clean'].fn, getTasks(config, 'clean'), cb);
+    setTasks(tasks.clean.fn, getTasks(config, 'clean'), cb);
 });
 
 gulp.task('project:styleguide', [], function (cb) {
-    setTasks(tasks['styleguide'].fn, getTasks(config, 'styleguide'), cb);
+    cb();
+    // TODO: need to fix
+    //setTasks(tasks.styleguide.fn, getTasks(config, 'styleguide'), cb);
 });
 
 gulp.task('project:copy', [], function (cb) {
-    setTasks(tasks['copy'].fn, getTasks(config, 'copy'), cb);
+    setTasks(tasks.copy.fn, getTasks(config, 'copy'), cb);
 });
 
 gulp.task('project:sprite', [], function (cb) {
-    setTasks(tasks['sprite'].fn, getTasks(config, 'sprite'), cb);
+    cb();
+    // TODO: need to setup
+    // setTasks(tasks.sprite.fn, getTasks(config, 'sprite'), cb);
 });
 
-gulp.task('project:style', [], function (cb) {
-    setTasks(tasks['style'].fn, getTasks(config, 'style'), cb);
+gulp.task('project:style', ['project:styleguide', 'project:sprite'], function (cb) {
+    setTasks(tasks.style.fn, getTasks(config, 'style'), cb);
 });
 
 gulp.task('project:script', [], function (cb) {
-    setTasks(tasks['script'].fn, getTasks(config, 'script'), cb);
+    setTasks(tasks.script.fn, getTasks(config, 'script'), cb);
 });
 
 // Prepare build for dev

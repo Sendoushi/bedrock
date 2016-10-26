@@ -28,6 +28,7 @@ var STRUCT = Joi.object().keys({
  */
 function build(tasks, cb) {
     // TODO: ...
+    cb();
 }
 
 // --------------------------------

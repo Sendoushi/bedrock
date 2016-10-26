@@ -103,7 +103,7 @@ var OPTIONS_STRUCT = Joi.object().keys({
     profile: Joi.boolean(),
     cache: Joi.boolean().default(true),
     debug: Joi.boolean().default(false),
-    devtool: Joi.string(),
+    devtool: Joi.string().default(''),
     devServer: Joi.string(),
     node: Joi.string(),
     amd: Joi.string(),

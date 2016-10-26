@@ -2,9 +2,9 @@
     "projectId": "foo",
     "projectName": "Foo",
     "tasks": [{
-        "type": "del",
+        "type": "clean",
         "env": "prod",
-        "data": [{ "src": "./test/testdest/*" }]
+        "data": [{ "src": "./test/testdest/*.php" }]
     }, {
         "type": "copy",
         "env": "*",
@@ -48,7 +48,7 @@
         "type": "style",
         "env": "prod",
         "data": [{
-            "src": "./test/testsrc/main.scss",
+            "src": "./test/testsrc/style.scss",
             "dest": "./test/testdest"
         }]
     }, {
