@@ -45,6 +45,11 @@
     "stylelint": "./node_modules/.bin/stylelint",
     "stylelint-test": "npm run stylelint -- ./src/**/*.scss",
     "gulp": "./node_modules/.bin/gulp",
-    "suite-test": "npm run gulp -- project:build --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config.json\""
+
+    "suite-copy-test": "npm run gulp -- project:copy --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-copy.json\"",
+    "suite-clean-test": "npm run gulp -- project:clean --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-clean.json\"",
+    "suite-sprite-test": "npm run gulp -- project:sprite --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-sprite.json\"",
+    "suite-style-test": "npm run gulp -- project:style --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-style.json\"",
+    "suite-test": "npm run gulp -- project:build --env=prod --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config.json\""
   }
 }

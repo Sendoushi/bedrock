@@ -128,8 +128,9 @@ function getLayouts(task) {
 /**
  * Initialize tasks
  * @param  {array} tasks
+ * @param  {function} cb
  */
-function build(tasks) {
+function build(tasks, cb) {
     tasks.forEach(function (task) {
         var buildSrc = path.join(task.dest, 'styleguide.html');
         var components = getComponents(task);
@@ -143,9 +144,9 @@ function build(tasks) {
             template: tmpl
         });
 
-        return gulp.task('taskname', function (cb) {
-            fs.writeFile(buildSrc, tmpl, cb);
-        });
+        gulp.task('taskname', function () {
+            fs.writeFileSync(buildSrc, tmpl);
+        }).on('end', function () { cb(); });
     });
 }
 

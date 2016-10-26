@@ -36,8 +36,9 @@ var STRUCT = Joi.object().keys({
 /**
  * Initialize tasks
  * @param  {array} tasks
+ * @param  {function} cb
  */
-function build(tasks) {
+function build(tasks, cb) {
     tasks.forEach(function (task) {
         var gulpTask = gulp.src(task.src);
         var isSass = task.src.replace('.scss', '') !== task.src || task.src.replace('.sass', '') !== task.src;
@@ -67,14 +68,15 @@ function build(tasks) {
             gulpTask = gulpTask.pipe(sourcemaps.write());
         }
 
-        if (task.options.autoprefixer) {
+        if (task.options.autoprefixer.length) {
             gulpTask = gulpTask.pipe(autoprefixer({
                 browsers: task.options.autoprefixer,
                 cascade: false
             }));
         }
 
-        return gulpTask.pipe(gulp.dest(task.dest));
+        gulpTask.pipe(gulp.dest(task.dest))
+        .on('end', function () { cb(); });
     });
 }
 

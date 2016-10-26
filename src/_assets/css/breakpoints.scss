@@ -39,7 +39,7 @@ $breakpoints-between: (
 ///        }
 ///    }
 
-@mixin breakpoint($name, $type) {
+@mixin breakpoint($name, $type: '') {
     @if map-has-key($breakpoints, $name) {
         @if $type == 'between' {
             @media #{inspect(map-get($breakpoints-between, $name))} {
@@ -62,10 +62,10 @@ $breakpoints-between: (
 @mixin wrapper($type: 'break', $padding-huge: 15px, $padding-large: 15px, $padding-medium: 20px, $padding-small: 10px) {
     .wrapper {
         @if $type == 'break' {
-            width: $breakpoints-large;
+            width: $breakpoint-large;
         } @else {
             width: 100%;
-            max-width: $breakpoints-huge;
+            max-width: $breakpoint-huge;
         }
         margin: 0 auto;
         padding-left: $padding-huge;
@@ -73,7 +73,7 @@ $breakpoints-between: (
 
         @include breakpoint(large) {
             @if $type == 'break' {
-                width: $breakpoints-medium;
+                width: $breakpoint-medium;
             }
             padding-left: $padding-large;
             padding-right: $padding-large;
@@ -81,7 +81,7 @@ $breakpoints-between: (
 
         @include breakpoint(medium) {
             @if $type == 'break' {
-                width: $breakpoints-small;
+                width: $breakpoint-small;
             }
             padding-left: $padding-medium;
             padding-right: $padding-medium;
@@ -89,7 +89,7 @@ $breakpoints-between: (
 
         @include breakpoint(small) {
             @if $type == 'break' {
-                width: $breakpoints-tiny;
+                width: $breakpoint-tiny;
             }
             padding-left: $padding-small;
             padding-right: $padding-small;

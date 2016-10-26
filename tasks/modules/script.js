@@ -295,8 +295,9 @@ convert = function (value) {
 /**
  * Initialize tasks
  * @param  {array} tasks
+ * @param  {function} cb
  */
-function build(tasks) {
+function build(tasks, cb) {
     tasks.forEach(function (task) {
         var options;
 
@@ -306,7 +307,8 @@ function build(tasks) {
 
         gulp.src(task.src)
         .pipe(gulpWebpack(options))
-        .pipe(gulp.dest(task.dest));
+        .pipe(gulp.dest(task.dest))
+        .on('end', function () { cb(); });
     });
 }
 

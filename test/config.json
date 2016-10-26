@@ -4,20 +4,20 @@
     "tasks": [{
         "type": "del",
         "env": "prod",
-        "data": [{ "src": "./testdest/*" }]
+        "data": [{ "src": "./test/testdest/*" }]
     }, {
         "type": "copy",
         "env": "*",
         "data": [
-            { "src": "./testsrc/imgs/**/*", "dest": "./testdest/imgs" },
-            { "src": "./testsrc/**/*.php", "dest": "./testdest" }
+            { "src": "./test/testsrc/imgs/**/*", "dest": "./test/testdest/imgs" },
+            { "src": "./test/testsrc/**/*.php", "dest": "./test/testdest" }
         ]
     }, {
         "type": "styleguide",
         "env": "*",
         "data": [{
-            "src": "../examples/styleguide",
-            "dest": "./testdest/styleguide",
+            "src": "./examples/styleguide",
+            "dest": "./test/testdest/styleguide",
             "options": {
                 "layouts": {
                     "general": "general_layout.html",
@@ -36,39 +36,27 @@
         "type": "style",
         "env": "dev",
         "data": [{
-            "src": "./testsrc/main.scss",
-            "dest": "./testdest/style.css",
+            "src": "./test/testsrc/style.scss",
+            "dest": "./test/testdest",
             "options": {
                 "minify": false,
                 "sourceMap": true,
-                "autoprefixer": false,
-                "include": [
-                    "imports", "blocks", "partials", "vendor",
-                    "override", "module", "mixin", "layout",
-                    "function", "core", "content"
-                ]
+                "autoprefixer": []
             }
         }]
     }, {
         "type": "style",
         "env": "prod",
         "data": [{
-            "src": "./testsrc/main.scss",
-            "dest": "./testdest/style.css",
-            "options": {
-                "include": [
-                    "imports", "blocks", "partials", "vendor",
-                    "override", "module", "mixin", "layout",
-                    "function", "core", "content"
-                ]
-            }
+            "src": "./test/testsrc/main.scss",
+            "dest": "./test/testdest"
         }]
     }, {
         "type": "script",
         "env": "dev",
         "data": [{
-            "src": "./testsrc/main.js",
-            "dest": "./testdest",
+            "src": "./test/testsrc/main.js",
+            "dest": "./test/testdest",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "cache": false,
@@ -93,8 +81,8 @@
         "type": "script",
         "env": "prod",
         "data": [{
-            "src": "./testsrc/main.js",
-            "dest": "./testdest",
+            "src": "./test/testsrc/main.js",
+            "dest": "./test/testdest",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "plugins": [{

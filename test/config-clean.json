@@ -1,0 +1,9 @@
+{
+    "projectId": "fooclean",
+    "projectName": "Foo clean",
+    "tasks": [{
+        "type": "clean",
+        "env": "*",
+        "data": [{ "src": "./test/testdest/*" }]
+    }]
+}

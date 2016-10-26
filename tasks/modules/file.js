@@ -5,6 +5,7 @@
 // Import packages
 var gulp = require('gulp');
 var Joi = require('joi');
+var del = require('del');
 
 var STRUCT = Joi.object().keys({
     src: Joi.string().required(),
@@ -16,7 +17,12 @@ var STRUCT = Joi.object().keys({
 //-------------------------------------
 // Functions
 
-function del(tasks, cb) {
+/**
+ * Deletes
+ * @param  {array} tasks
+ * @param  {Function} cb
+ */
+function clean(tasks, cb) {
     var srcs = tasks.map(function (task) {
         return task.src;
     });
@@ -26,20 +32,24 @@ function del(tasks, cb) {
     }
 
     // Lets delete files
-    del(srcs).then(cb.bind(null, null, null));
+    del(srcs, {
+        force: true
+    }).then(cb.bind(null, null, null));
 }
 
 /**
- * Initialize tasks
+ * Copies
  * @param  {array} tasks
+ * @param  {function} cb
  */
-function copy(tasks) {
+function copy(tasks, cb) {
     tasks.forEach(function (task) {
-        gulp.src(task.src).pipe(gulp.dest(task.dest));
+        gulp.src(task.src).pipe(gulp.dest(task.dest))
+        .on('end', function () { cb(); });
     });
 }
 
 // --------------------------------
 // Export
 
-module.exports = { STRUCT: STRUCT, copy: copy, del: del };
+module.exports = { STRUCT: STRUCT, copy: copy, clean: clean };
