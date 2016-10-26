@@ -4,20 +4,20 @@
     "tasks": [{
         "type": "del",
         "env": "prod",
-        "data": [{ "src": "./build/*" }]
+        "data": [{ "src": "./testdest/*" }]
     }, {
         "type": "copy",
         "env": "*",
         "data": [
-            { "src": "./src/imgs/**/*", "dest": "./build/imgs" },
-            { "src": "./src/**/*.php", "dest": "./build" }
+            { "src": "./testsrc/imgs/**/*", "dest": "./testdest/imgs" },
+            { "src": "./testsrc/**/*.php", "dest": "./testdest" }
         ]
     }, {
         "type": "styleguide",
         "env": "*",
         "data": [{
-            "src": "./src/styleguide",
-            "dest": "./build/styleguide",
+            "src": "../examples/styleguide",
+            "dest": "./testdest/styleguide",
             "options": {
                 "layouts": {
                     "general": "general_layout.html",
@@ -36,8 +36,8 @@
         "type": "style",
         "env": "dev",
         "data": [{
-            "src": "./src/main.scss",
-            "dest": "./build/style.css",
+            "src": "./testsrc/main.scss",
+            "dest": "./testdest/style.css",
             "options": {
                 "minify": false,
                 "sourceMap": true,
@@ -53,8 +53,8 @@
         "type": "style",
         "env": "prod",
         "data": [{
-            "src": "./src/main.scss",
-            "dest": "./build/style.css",
+            "src": "./testsrc/main.scss",
+            "dest": "./testdest/style.css",
             "options": {
                 "include": [
                     "imports", "blocks", "partials", "vendor",
@@ -67,8 +67,8 @@
         "type": "script",
         "env": "dev",
         "data": [{
-            "src": "./src/script/main.js",
-            "dest": "./build",
+            "src": "./testsrc/main.js",
+            "dest": "./testdest",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "cache": false,
@@ -87,14 +87,14 @@
                         "Promise": "imports?this=>global!exports?global.Promise!es6-promise"
                     }]
                 }]
-            },
+            }
         }]
     }, {
         "type": "script",
         "env": "prod",
         "data": [{
-            "src": "./src/script/main.js",
-            "dest": "./build",
+            "src": "./testsrc/main.js",
+            "dest": "./testdest",
             "options": {
                 "externals": { "jquery": "jQuery" },
                 "plugins": [{
@@ -119,7 +119,7 @@
                             "language_out": "ECMASCRIPT5",
                             "compilation_level": "ADVANCED"
                         },
-                        "concurrency": 3,
+                        "concurrency": 3
                     }]
                 }, {
                     "name": "uglify",
@@ -134,7 +134,7 @@
                         "sourceMap": false
                     }]
                 }]
-            },
+            }
         }]
     }]
 }

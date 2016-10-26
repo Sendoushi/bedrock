@@ -93,7 +93,8 @@ var config = {
                     "name": "define",
                     "args": [{
                         "IS_BROWSER": true
-                    }, {
+                    }]
+                }, {
                     "name": "provide",
                     "args": [{
                         "$": "jquery",
@@ -158,6 +159,7 @@ var config = {
 // Vars / Imports
 
 // Import packages
+var fs = require('fs');
 var path = require('path');
 var argv = require('yargs').argv;
 var del = require('del');
@@ -173,11 +175,12 @@ var modules = {
     styleguide: require('./modules/styleguide.js')
 };
 var tasks = {
-    copy: { STRUCT: file.STRUCT, fn: file.copy },
-    script: { STRUCT: script.STRUCT, fn: script.build },
-    style: { STRUCT: style.STRUCT, fn: style.build },
-    sprite: { STRUCT: sprite.STRUCT, fn: sprite.build },
-    styleguide: { STRUCT: styleguide.STRUCT, fn: styleguide.build }
+    del: { STRUCT: modules.file.STRUCT, fn: modules.file.del },
+    copy: { STRUCT: modules.file.STRUCT, fn: modules.file.copy },
+    script: { STRUCT: modules.script.STRUCT, fn: modules.script.build },
+    style: { STRUCT: modules.style.STRUCT, fn: modules.style.build },
+    sprite: { STRUCT: modules.sprite.STRUCT, fn: modules.sprite.build },
+    styleguide: { STRUCT: modules.styleguide.STRUCT, fn: modules.styleguide.build }
 };
 
 var STRUCT = Joi.object().keys({
@@ -186,12 +189,22 @@ var STRUCT = Joi.object().keys({
     tasks: Joi.array().items(Joi.object().keys({
         type: Joi.string().required(),
         env: Joi.string().default('*'),
-        args: Joi.array().required()
+        data: Joi.array().required()
     })).default([])
 }).required();
 
 //-------------------------------------
 // Functions
+
+/**
+ * Returns file in raw mode
+ * @param  {string} pathSrc
+ * @return {string}
+ */
+function readFile(pathSrc) {
+    var filename = require.resolve(pathSrc);
+    return fs.readFileSync(filename, 'utf8');
+}
 
 /**
  * Verify if config is right
@@ -215,6 +228,7 @@ function verify(config) {
     for (i = 0; i < config.tasks.length; i += 1) {
         task = config.tasks[i];
 
+        console.log("TASK TYPE", task.type);
         result = Joi.validate(task.args, tasks[task.type].STRUCT);
         result.error && errors.push(result.error);
         result.value && values.tasks.push(result.value);
@@ -239,7 +253,7 @@ function getTasks(config, type) {
         var isEnv = task.env === '*' || !!argv.env === task.env;
 
         return isType && isEnv;
-    })).map(function (task) {
+    }).map(function (task) {
         task = task.data;
         task.projectId = projectId;
         task.projectName = projectName;
@@ -253,7 +267,7 @@ function getTasks(config, type) {
  * @param  {object} config
  */
 function init(config) {
-    var result = verify(config);
+    var result = verify(JSON.parse(config));
 
     // Verify config
     if (result.error && result.error.length) {
@@ -292,4 +306,8 @@ function init(config) {
 //-------------------------------------
 // Runtime
 
-init(require(argv.config));
+// Force dir to be the right one
+process.chdir(process.env.PWD);
+
+// Initialize
+init(readFile(path.join(process.env.PWD, argv.config)));

@@ -88,7 +88,9 @@ function getComponents(task) {
         // Lets build the final component
         comp = {
             template: !!comp.template && readFile(path.join(base, comp.template)),
+            // TODO: Need to compile...
             style: !!comp.style && readFile(path.join(base, comp.style)),
+            // TODO: Need to compile...
             script: !!comp.script && readFile(path.join(base, comp.script)),
 
             parentModifiers: comp.parentModifiers || [''],
