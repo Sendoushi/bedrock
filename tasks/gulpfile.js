@@ -10,7 +10,8 @@
 
 // CONFIG:
 var config = {
-    projectName: 'foo',
+    projectId: 'foo',
+    projectName: 'Foo',
     tasks: [{
         "type": "del",
         "env": "prod",
@@ -23,6 +24,26 @@ var config = {
         "data": [
             { "src": "./src/imgs/**\/*", "dest": "./build/imgs" },
             { "src": "./src/**\/*.php", "dest": "./build" }
+        ]
+    }, {
+        "type": "styleguide",
+        "env": "*",
+        "data": [
+            "src": "./src/styleguide",
+            "dest": "./build/styleguide",
+            "options": {
+                "layouts": {
+                    "general": "general_layout.html",
+                    "pattern": "pattern_layout.html",
+                    "pattern2": "pattern_2_layout.html"
+                },
+                "components": [
+                    "00_config/config.json",
+                    "01_button/button.json"
+                ],
+                "generalLayout": "general",
+                "patternLayout": "pattern"
+            }
         ]
     }, {
         "type": "style",
@@ -148,17 +169,20 @@ var modules = {
     file: require('./modules/file.js'),
     script: require('./modules/script.js'),
     style: require('./modules/style.js'),
-    sprite: require('./modules/sprite.js')
+    sprite: require('./modules/sprite.js'),
+    styleguide: require('./modules/styleguide.js')
 };
 var tasks = {
     copy: { STRUCT: file.STRUCT, fn: file.copy },
     script: { STRUCT: script.STRUCT, fn: script.build },
     style: { STRUCT: style.STRUCT, fn: style.build },
-    sprite: { STRUCT: sprite.STRUCT, fn: sprite.build }
+    sprite: { STRUCT: sprite.STRUCT, fn: sprite.build },
+    styleguide: { STRUCT: styleguide.STRUCT, fn: styleguide.build }
 };
 
 var STRUCT = Joi.object().keys({
-    projectName: Joi.string().default('projectname'),
+    projectId: Joi.string().default('projectname'),
+    projectName: Joi.string().default('Project Name'),
     tasks: Joi.array().items(Joi.object().keys({
         type: Joi.string().required(),
         env: Joi.string().default('*'),
@@ -201,18 +225,26 @@ function verify(config) {
 
 /**
  * Gets tasks
- * @param  {array} tasks
+ * @param  {object} config
  * @param  {type} type
  * @return {array}
  */
-function getTasks(tasks, type) {
+function getTasks(config, type) {
+    var tasks = config.tasks;
+    var projectName = config.projectName;
+    var projectId = config.projectId;
+
     return tasks.filter(function (task) {
         var isType = task.type === type;
         var isEnv = task.env === '*' || !!argv.env === task.env;
 
         return isType && isEnv;
     })).map(function (task) {
-        return task.data;
+        task = task.data;
+        task.projectId = projectId;
+        task.projectName = projectName;
+
+        return task;
     });
 }
 
@@ -232,24 +264,28 @@ function init(config) {
     config = result.value;
 
     gulp.task('project:clean', [], function (cb) {
-        tasks['del'].fn(getTasks(config.tasks, 'copy'), cb);
+        tasks['del'].fn(getTasks(config, 'copy'), cb);
+    });
+
+    gulp.task('project:styleguide', [], function () {
+        tasks['styleguide'].fn(getTasks(config, 'styleguide'));
     });
 
     gulp.task('project:copy', [], function () {
-        tasks['copy'].fn(getTasks(config.tasks, 'copy'));
+        tasks['copy'].fn(getTasks(config, 'copy'));
     });
 
     gulp.task('project:sprite', [], function () {
-        tasks['sprite'].fn(getTasks(config.tasks, 'sprite'));
+        tasks['sprite'].fn(getTasks(config, 'sprite'));
     });
 
     gulp.task('project:css', ['project:sprite'], function () {
-        tasks['style'].fn(getTasks(config.tasks, 'style'));
+        tasks['style'].fn(getTasks(config, 'style'));
     });
 
     // Prepare build for dev
     gulp.task('project:build', ['project:clean', 'project:copy', 'project:css'], function () {
-        tasks['script'].fn(getTasks(config.tasks, 'script'));
+        tasks['script'].fn(getTasks(config, 'script'));
     });
 }
 

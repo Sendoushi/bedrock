@@ -1,0 +1,8 @@
+{
+    "template": "button.html",
+    "style": "button.scss",
+    "script": "button.js",
+    "parentModifiers": ["", "inverse"],
+    "modifiers": ["", "active", "hover", "focus"],
+    "patternLayout": "pattern2"
+}

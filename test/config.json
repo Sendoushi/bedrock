@@ -1,0 +1,140 @@
+{
+    "projectId": "foo",
+    "projectName": "Foo",
+    "tasks": [{
+        "type": "del",
+        "env": "prod",
+        "data": [{ "src": "./build/*" }]
+    }, {
+        "type": "copy",
+        "env": "*",
+        "data": [
+            { "src": "./src/imgs/**/*", "dest": "./build/imgs" },
+            { "src": "./src/**/*.php", "dest": "./build" }
+        ]
+    }, {
+        "type": "styleguide",
+        "env": "*",
+        "data": [{
+            "src": "./src/styleguide",
+            "dest": "./build/styleguide",
+            "options": {
+                "layouts": {
+                    "general": "general_layout.html",
+                    "pattern": "pattern_layout.html",
+                    "pattern2": "pattern_2_layout.html"
+                },
+                "components": [
+                    "00_config/config.json",
+                    "01_button/button.json"
+                ],
+                "generalLayout": "general",
+                "patternLayout": "pattern"
+            }
+        }]
+    }, {
+        "type": "style",
+        "env": "dev",
+        "data": [{
+            "src": "./src/main.scss",
+            "dest": "./build/style.css",
+            "options": {
+                "minify": false,
+                "sourceMap": true,
+                "autoprefixer": false,
+                "include": [
+                    "imports", "blocks", "partials", "vendor",
+                    "override", "module", "mixin", "layout",
+                    "function", "core", "content"
+                ]
+            }
+        }]
+    }, {
+        "type": "style",
+        "env": "prod",
+        "data": [{
+            "src": "./src/main.scss",
+            "dest": "./build/style.css",
+            "options": {
+                "include": [
+                    "imports", "blocks", "partials", "vendor",
+                    "override", "module", "mixin", "layout",
+                    "function", "core", "content"
+                ]
+            }
+        }]
+    }, {
+        "type": "script",
+        "env": "dev",
+        "data": [{
+            "src": "./src/script/main.js",
+            "dest": "./build",
+            "options": {
+                "externals": { "jquery": "jQuery" },
+                "cache": false,
+                "debug": true,
+                "devtool": "source-map",
+                "plugins": [{
+                    "name": "define",
+                    "args": [{
+                        "IS_BROWSER": true
+                    }]
+                }, {
+                    "name": "provide",
+                    "args": [{
+                        "$": "jquery",
+                        "jQuery": "jquery",
+                        "Promise": "imports?this=>global!exports?global.Promise!es6-promise"
+                    }]
+                }]
+            },
+        }]
+    }, {
+        "type": "script",
+        "env": "prod",
+        "data": [{
+            "src": "./src/script/main.js",
+            "dest": "./build",
+            "options": {
+                "externals": { "jquery": "jQuery" },
+                "plugins": [{
+                    "name": "define",
+                    "args": [{
+                        "IS_BROWSER": true
+                    }]
+                }, {
+                    "name": "dedupe"
+                }, {
+                    "name": "provide",
+                    "args": [{
+                        "$": "jquery",
+                        "jQuery": "jquery",
+                        "Promise": "imports?this=>global!exports?global.Promise!es6-promise"
+                    }]
+                }, {
+                    "name": "webpack-closure-compiler",
+                    "args": [{
+                        "compiler": {
+                            "language_in": "ECMASCRIPT5",
+                            "language_out": "ECMASCRIPT5",
+                            "compilation_level": "ADVANCED"
+                        },
+                        "concurrency": 3,
+                    }]
+                }, {
+                    "name": "uglify",
+                    "args": [{
+                        "mangle": {
+                            "except": ["$", "exports", "require"]
+                        },
+                        "compress": {
+                            "warnings": false
+                        },
+                        "comments": false,
+                        "sourceMap": false
+                    }]
+                }]
+            },
+        }]
+    }]
+}

@@ -2,7 +2,8 @@
     background: $background;
     color: $text-color;
 
-    &:hover {
+    &:hover,
+    &.hover {
         background: $background-hover;
         color: $text-color-hover;
 
@@ -26,7 +27,8 @@
     border: $border;
     transition: color $animation-time $animation-ease, border-color $animation-time $animation-ease;
 
-    &:hover {
+    &:hover,
+    &.hover {
         background: transparent;
         color: $text-color-hover;
         border-color: $border-color-hover;
@@ -49,7 +51,8 @@
     background: $background;
     color: $text-color;
 
-    &:hover {
+    &:hover,
+    &.hover {
         background: $background-hover;
         color: $text-color-hover;
 
@@ -81,11 +84,14 @@
     cursor: pointer;
     transition: background $animation-time $animation-ease, color $animation-time $animation-ease;
 
-    &, &:hover {
+    &,
+    &:hover,
+    &.hover {
         text-decoration: none;
     }
 
-    &:hover {
+    &:hover,
+    &.hover {
         background: $background-hover;
         color: $text-color-hover;
 
