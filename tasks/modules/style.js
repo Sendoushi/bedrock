@@ -10,6 +10,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var Joi = require('joi');
 
+// TODO: Defaults not working!
 var OPTIONS_STRUCT = Joi.object().keys({
     minify: Joi.boolean().default(true),
     autoprefixer: Joi.array().default(['last 2 versions']),

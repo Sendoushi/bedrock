@@ -11,9 +11,7 @@ var webpack = require('webpack');
 var PLUGIN_STRUCT = Joi.object().keys({
     name: Joi.string(),
     type: Joi.string(),
-    args: Joi.array().items(Joi.string()).default([])
-}).default({
-    args: []
+    args: Joi.array().default([])
 });
 
 var RESOLVE_STRUCT = Joi.object().keys({
@@ -99,7 +97,7 @@ var OPTIONS_STRUCT = Joi.object().keys({
     module: MODULE_STRUCT,
     resolve: RESOLVE_STRUCT,
     resolveLoader: RESOLVE_STRUCT,
-    externals: Joi.array().items(Joi.string()).default([]),
+    externals: Joi.object().default({}),
     target: Joi.string().default('web'),
     bail: Joi.boolean().default(true),
     profile: Joi.boolean(),

@@ -37,10 +37,10 @@ var STRUCT = Joi.object().keys({
         env: Joi.string().default('*'),
         data: Joi.array().items(
             modules.file.STRUCT,
-            // modules.script.STRUCT,
+            modules.script.STRUCT,
             modules.style.STRUCT,
-            modules.sprite.STRUCT
-            // modules.styleguide.STRUCT
+            modules.sprite.STRUCT,
+            modules.styleguide.STRUCT
         )
     })).default([])
 }).required();
@@ -162,7 +162,7 @@ gulp.task('project:sprite', [], function (cb) {
     setTasks(tasks['sprite'].fn, getTasks(config, 'sprite'), cb);
 });
 
-gulp.task('project:style', ['project:sprite'], function (cb) {
+gulp.task('project:style', [], function (cb) {
     setTasks(tasks['style'].fn, getTasks(config, 'style'), cb);
 });
 

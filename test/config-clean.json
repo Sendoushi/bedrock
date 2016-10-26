@@ -4,6 +4,10 @@
     "tasks": [{
         "type": "clean",
         "env": "*",
-        "data": [{ "src": "./test/testdest/*" }]
+        "data": [
+            { "src": "./test/testdest/**/*.php" },
+            { "src": "./test/testdest/**/*.js" },
+            { "src": "./test/testdest/**/*.js.map" }
+        ]
     }]
 }

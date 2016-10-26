@@ -45,3 +45,4 @@ out/
 # App Files
 # --------------------
 node_modules
+test/testdest
