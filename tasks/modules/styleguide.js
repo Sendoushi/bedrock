@@ -143,11 +143,10 @@ function buildComponents(comps, layouts) {
         });
 
         // Now under the pattern
-        compTmpl = layouts[comp.patternLayout]({
+        compTmpl = compTmpl ? layouts[comp.patternLayout]({
             template: compTmpl,
-            runtime: comp.runtime,
             parentModifiers: comp.parentModifiers
-        });
+        }) : '';
 
         tmpl += compTmpl;
     }
@@ -233,12 +232,18 @@ function build(task, cb) {
     }).map(function (comp) {
         return { name: comp.name, src: comp.style };
     });
+    var runtime = components.filter(function (comp) {
+        return !!comp.runtime;
+    }).map(function (comp) {
+        return comp.runtime;
+    });
 
     // We need to pass now the template to the right layout
     tmpl = layouts[task.options.generalLayout]({
         projectId: task.projectId,
         projectName: task.projectName,
-        template: tmpl
+        template: tmpl,
+        runtime: runtime.join('\n\n')
     });
 
     // Ensure dirs exist
