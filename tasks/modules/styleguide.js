@@ -5,15 +5,19 @@
 // Import packages
 var fs = require('fs');
 var path = require('path');
-var gulp = require('gulp');
+var mkdirp = require('mkdirp');
 var Joi = require('joi');
 var doT = require('dot');
+var scriptModule = require('./script.js');
+var styleModule = require('./style.js');
 
 var OPTIONS_STRUCT = Joi.object().keys({
     layouts: Joi.object().min(2).required(),
     components: Joi.array().items(Joi.string()).required().default([]),
     generalLayout: Joi.string().required(),
-    patternLayout: Joi.string().required()
+    patternLayout: Joi.string().required(),
+    scriptCompileOptions: scriptModule.OPTIONS_STRUCT,
+    styleCompileOptions: styleModule.OPTIONS_STRUCT
 });
 
 var STRUCT = Joi.object().keys({
@@ -38,6 +42,36 @@ function readFile(pathSrc) {
 }
 
 /**
+ * Compiles style
+ * @param  {string} src
+ * @param  {object} options
+ * @return {string}
+ */
+function compileStyle(src, options) {
+    if (!src || src === '') {
+        return;
+    }
+
+    return styleModule.raw({ src: src, options: options });
+}
+
+/**
+ * Compiles script
+ * @param  {string} src
+ * @param  {object} options
+ * @return {string}
+ */
+function compileScript(src, options) {
+    if (!src || src === '') {
+        return;
+    }
+
+    // TODO: Need to review this!!
+
+    return scriptModule.raw({ src: src, options: options });
+}
+
+/**
  * Builds components
  * @param  {array} comps
  * @param  {object} layouts
@@ -59,8 +93,8 @@ function buildComponents(comps, layouts) {
         // Now under the pattern
         compTmpl = layouts[comp.patternLayout]({
             template: compTmpl,
-            script: comp.script,
-            style: comp.style,
+            script: compileScript(comp.script, comp.scriptCompileOptions),
+            style: compileStyle(comp.style, comp.styleCompileOptions),
             parentModifiers: comp.parentModifiers
         });
 
@@ -88,14 +122,15 @@ function getComponents(task) {
         // Lets build the final component
         comp = {
             template: !!comp.template && readFile(path.join(base, comp.template)),
-            // TODO: Need to compile...
-            style: !!comp.style && readFile(path.join(base, comp.style)),
-            // TODO: Need to compile...
+            style: !!comp.style && path.join(base, comp.style),
             script: !!comp.script && readFile(path.join(base, comp.script)),
 
             parentModifiers: comp.parentModifiers || [''],
             modifiers: comp.modifiers || [''],
-            patternLayout: comp.patternLayout || task.patternLayout
+            patternLayout: comp.patternLayout || task.options.patternLayout,
+
+            scriptCompileOptions: task.options.scriptCompileOptions,
+            styleCompileOptions: task.options.styleCompileOptions
         };
 
         return comp;
@@ -127,26 +162,30 @@ function getLayouts(task) {
 
 /**
  * Initialize tasks
- * @param  {array} tasks
+ * @param  {object} task
  * @param  {function} cb
  */
-function build(tasks, cb) {
-    tasks.forEach(function (task) {
-        var buildSrc = path.join(task.dest, 'styleguide.html');
-        var components = getComponents(task);
-        var layouts = getLayouts(task);
-        var tmpl = buildComponents(components, layouts, task);
+function build(task, cb) {
+    var buildSrc = path.join(task.dest, 'styleguide.html');
+    var components = getComponents(task);
+    var layouts = getLayouts(task);
+    var tmpl = buildComponents(components, layouts, task);
 
-        // We need to pass now the template to the right layout
-        tmpl = layouts[task.options.generalLayout]({
-            projectId: task.projectId,
-            projectName: task.projectName,
-            template: tmpl
-        });
+    // We need to pass now the template to the right layout
+    tmpl = layouts[task.options.generalLayout]({
+        projectId: task.projectId,
+        projectName: task.projectName,
+        template: tmpl
+    });
 
-        gulp.task('taskname', function () {
-            fs.writeFileSync(buildSrc, tmpl);
-        }).on('end', function () { cb(); });
+    // Ensure dirs exist
+    mkdirp(path.dirname(buildSrc), function (err) {
+        if (err) {
+            throw new Error(err);
+        }
+
+        // Save file
+        fs.writeFile(buildSrc, tmpl, cb);
     });
 }
 

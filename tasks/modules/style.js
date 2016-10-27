@@ -3,10 +3,14 @@
 /* eslint-enable strict */
 
 // Import packages
+var fs = require('fs');
 var gulp = require('gulp');
-var sass = require('gulp-sass');
-var less = require('gulp-less');
-var autoprefixer = require('gulp-autoprefixer');
+var sass = require('node-sass');
+var gulpSass = require('gulp-sass');
+var gulpLess = require('gulp-less');
+var postcss = require('postcss');
+var autoprefixer = require('autoprefixer');
+var gulpAutoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var Joi = require('joi');
 
@@ -35,53 +39,82 @@ var STRUCT = Joi.object().keys({
 // Functions
 
 /**
- * Initialize tasks
- * @param  {array} tasks
+ * Raw build
+ * @param  {object} task
+ * @return {string}
+ */
+function rawBuild(task) {
+    var css = sass.renderSync({
+        file: task.src,
+        outputStyle: task.options.minify ? 'compressed' : 'expanded',
+        sourceMap: task.options.sourceMap,
+        sourceMapEmbed: task.options.sourceMap,
+        sourceMapContents: task.options.sourceMap
+    }).css;
+
+    // The prefixer...
+    if (task.options.autoprefixer && task.options.autoprefixer.length) {
+        css = postcss(autoprefixer({
+            browsers: task.options.autoprefixer
+        })).process(css).css;
+    }
+
+    task.dest && fs.writeFileSync(task.dest, css);
+
+    return css;
+}
+
+/**
+ * Gulp build
+ * @param  {object}
  * @param  {function} cb
  */
-function build(tasks, cb) {
-    tasks.forEach(function (task) {
-        var gulpTask = gulp.src(task.src);
-        var isSass = task.src.replace('.scss', '') !== task.src || task.src.replace('.sass', '') !== task.src;
-        var isLess = task.src.replace('.less', '') !== task.src;
+function gulpBuild(task, cb) {
+    var gulpTask = gulp.src(task.src);
+    var isSass = task.src.replace('.scss', '') !== task.src || task.src.replace('.sass', '') !== task.src;
+    var isLess = task.src.replace('.less', '') !== task.src;
 
-        if (isSass) {
-            gulpTask = gulpTask.pipe(sass().on('error', sass.logError));
-        } else if (isLess) {
-            // Nothing to do here...
-        } else {
-            return;
-        }
+    if (isSass) {
+        gulpTask = gulpTask.pipe(gulpSass().on('error', gulpSass.logError));
+    } else if (isLess) {
+        // Nothing to do here...
+    } else {
+        return;
+    }
 
-        if (task.options.sourceMap) {
-            gulpTask = gulpTask.pipe(sourcemaps.init());
-        }
+    if (task.options.sourceMap) {
+        gulpTask = gulpTask.pipe(sourcemaps.init());
+    }
 
-        if (isSass) {
-            gulpTask = gulpTask.pipe(sass({
-                outputStyle: task.options.minify ? 'compressed' : 'expanded'
-            }).on('error', sass.logError));
-        } else if (isLess) {
-            gulpTask = gulpTask.pipe(less());
-        }
+    if (isSass) {
+        gulpTask = gulpTask.pipe(gulpSass({
+            outputStyle: task.options.minify ? 'compressed' : 'expanded'
+        }).on('error', gulpSass.logError));
+    } else if (isLess) {
+        gulpTask = gulpTask.pipe(gulpLess());
+    }
 
-        if (task.options.sourceMap) {
-            gulpTask = gulpTask.pipe(sourcemaps.write());
-        }
+    if (task.options.sourceMap) {
+        gulpTask = gulpTask.pipe(sourcemaps.write());
+    }
 
-        if (task.options.autoprefixer.length) {
-            gulpTask = gulpTask.pipe(autoprefixer({
-                browsers: task.options.autoprefixer,
-                cascade: false
-            }));
-        }
+    if (task.options.autoprefixer.length) {
+        gulpTask = gulpTask.pipe(gulpAutoprefixer({
+            browsers: task.options.autoprefixer,
+            cascade: false
+        }));
+    }
 
-        gulpTask.pipe(gulp.dest(task.dest))
-        .on('end', function () { cb(); });
-    });
+    return gulpTask.pipe(gulp.dest(task.dest))
+    .on('end', function () { cb(); });
 }
 
 // --------------------------------
 // Export
 
-module.exports = { STRUCT: STRUCT, build: build };
+module.exports = {
+    STRUCT: STRUCT,
+    OPTIONS_STRUCT: OPTIONS_STRUCT,
+    build: gulpBuild,
+    raw: rawBuild
+};

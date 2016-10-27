@@ -19,13 +19,11 @@ var STRUCT = Joi.object().keys({
 
 /**
  * Deletes
- * @param  {array} tasks
+ * @param  {object} task
  * @param  {Function} cb
  */
-function clean(tasks, cb) {
-    var srcs = tasks.map(function (task) {
-        return task.src;
-    });
+function clean(task, cb) {
+    var srcs = !!task ? [task.src] : [];
 
     if (!srcs.length) {
         return cb();
@@ -39,14 +37,12 @@ function clean(tasks, cb) {
 
 /**
  * Copies
- * @param  {array} tasks
+ * @param  {object} task
  * @param  {function} cb
  */
-function copy(tasks, cb) {
-    tasks.forEach(function (task) {
-        gulp.src(task.src).pipe(gulp.dest(task.dest))
-        .on('end', function () { cb(); });
-    });
+function copy(task, cb) {
+    return gulp.src(task.src).pipe(gulp.dest(task.dest))
+    .on('end', function () { cb(); });
 }
 
 // --------------------------------

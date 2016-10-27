@@ -132,8 +132,11 @@ function getTasks(config, type) {
     // Go per task...
     for (i = 0; i < tasks.length; i += 1) {
         for (c = 0; c < tasks[i].length; c += 1) {
+            tasks[i][c].projectId = config.projectId;
+            tasks[i][c].projectName = config.projectName;
             tasks[i][c].src = getPath(tasks[i][c].src),
             tasks[i][c].dest = getPath(tasks[i][c].dest)
+
             internTasks.push(tasks[i][c]);
         }
     }
@@ -150,9 +153,11 @@ function getTasks(config, type) {
 function setTasks(fn, tasks, cb) {
     var cbs = [];
 
-    fn(tasks, function () {
-        cbs.push(1);
-        cbs.length === tasks.length && cb();
+    tasks.forEach(function (task) {
+        fn(task, function () {
+            cbs.push(1);
+            cbs.length === tasks.length && cb();
+        });
     });
 }
 
@@ -176,9 +181,7 @@ gulp.task('project:clean', [], function (cb) {
 });
 
 gulp.task('project:styleguide', [], function (cb) {
-    cb();
-    // TODO: need to fix
-    //setTasks(tasks.styleguide.fn, getTasks(config, 'styleguide'), cb);
+    setTasks(tasks.styleguide.fn, getTasks(config, 'styleguide'), cb);
 });
 
 gulp.task('project:copy', [], function (cb) {

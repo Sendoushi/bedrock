@@ -3,6 +3,7 @@
 /* eslint-enable strict */
 
 // Import packages
+var fs = require('fs');
 var Joi = require('joi');
 var gulp = require('gulp');
 var gulpWebpack = require('gulp-webpack');
@@ -291,26 +292,51 @@ convert = function (value) {
 };
 
 /**
- * Initialize tasks
- * @param  {array} tasks
+ * Raw build
+ * @param  {object} task
+ * @return {string}
+ */
+function rawBuild(task) {
+    var options;
+    var script;
+
+    // Lets take care of the options for webpack
+    options = convert(task.options);
+    options.plugins = convertPlugins(options.plugins);
+
+    // Set entry
+    options.entry = task.src;
+
+    // TODO: Need to review this!!
+
+    task.dest && fs.writeFileSync(task.dest, script);
+
+    return script;
+}
+
+/**
+ * Gulp build
+ * @param  {object} task
  * @param  {function} cb
  */
-function build(tasks, cb) {
-    tasks.forEach(function (task) {
-        var options;
+function gulpBuild(task, cb) {
+    var options;
 
-        // Lets take care of the options for webpack
-        options = convert(task.options);
-        options.plugins = convertPlugins(options.plugins);
+    // Lets take care of the options for webpack
+    options = convert(task.options);
+    options.plugins = convertPlugins(options.plugins);
 
-        gulp.src(task.src)
-        .pipe(gulpWebpack(options))
-        .pipe(gulp.dest(task.dest))
-        .on('end', function () { cb(); });
-    });
+    return gulp.src(task.src)
+    .pipe(gulpWebpack(options))
+    .pipe(gulp.dest(task.dest))
+    .on('end', function () { cb(); });
 }
 
 // --------------------------------
 // Export
 
-module.exports = { STRUCT: STRUCT, build: build };
+module.exports = {
+    STRUCT: STRUCT,
+    OPTIONS_STRUCT: OPTIONS_STRUCT,
+    build: gulpBuild
+};

@@ -23,10 +23,10 @@ var STRUCT = Joi.object().keys({
 
 /**
  * Initialize tasks
- * @param  {array} tasks
+ * @param  {object} task
  * @param  {function} cb
  */
-function build(tasks, cb) {
+function build(task, cb) {
     // TODO: ...
     cb();
 }
