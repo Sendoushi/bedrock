@@ -8,6 +8,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var Joi = require('joi');
 var doT = require('dot');
+var del = require('del');
 var scriptModule = require('./script.js');
 var styleModule = require('./style.js');
 
@@ -43,32 +44,81 @@ function readFile(pathSrc) {
 
 /**
  * Compiles style
- * @param  {string} src
+ * @param  {array} srcs
  * @param  {object} options
- * @return {string}
+ * @param  {string} buildSrc
  */
-function compileStyle(src, options) {
-    if (!src || src === '') {
+function compileStyle(srcs, options, buildSrc) {
+    var tmpl = '';
+    var tmpFile = path.join(buildSrc, '_tmp.scss');
+    var i;
+
+    if (!srcs.length) {
         return;
     }
 
-    return styleModule.raw({ src: src, options: options });
+    // First we need to create a global js
+    for (i = 0; i < srcs.length; i += 1) {
+        tmpl += '@import \'' + srcs[i].src + '\';\n';
+    }
+
+    // Write the temporary file
+    fs.writeFileSync(tmpFile, tmpl);
+
+    // Now finally compile the script
+    styleModule.raw({
+        src: tmpFile,
+        dest: path.join(buildSrc, 'styleguide.css'),
+        options: options
+    }, function (err) {
+        if (err) {
+            throw new Error(err);
+        }
+
+        // Remove tmp file
+        del.sync([tmpFile], { force: true });
+    });
 }
 
 /**
  * Compiles script
- * @param  {string} src
+ * @param  {array} srcs
  * @param  {object} options
- * @return {string}
+ * @param  {string} buildSrc
  */
-function compileScript(src, options) {
-    if (!src || src === '') {
+function compileScript(srcs, options, buildSrc) {
+    var tmpl = '';
+    var tmpFile = path.join(buildSrc, '_tmp.js');
+    var i;
+
+    if (!srcs.length) {
         return;
     }
 
-    // TODO: Need to review this!!
+    // First we need to create a global js
+    tmpl += 'window.styleguide = {\n';
+    for (i = 0; i < srcs.length; i += 1) {
+        tmpl += '    ' + srcs[i].name + ': require(\'' + srcs[i].src + '\')';
+        tmpl += (i + 1 === srcs.length - 1) ? ',\n' : '\n';
+    }
+    tmpl += '};\n';
 
-    return scriptModule.raw({ src: src, options: options });
+    // Write the temporary file
+    fs.writeFileSync(tmpFile, tmpl);
+
+    // Now finally compile the script
+    scriptModule.raw({
+        src: tmpFile,
+        dest: path.join(buildSrc, 'styleguide.js'),
+        options: options
+    }, function (err) {
+        if (err) {
+            throw new Error(err);
+        }
+
+        // Remove tmp file
+        del.sync([tmpFile], { force: true });
+    });
 }
 
 /**
@@ -88,13 +138,14 @@ function buildComponents(comps, layouts) {
         comp = comps[i];
 
         // First the component template
-        compTmpl = !!comp.template && doT.template(comp.template)({ modifiers: comp.modifiers });
+        compTmpl = !!comp.template && doT.template(comp.template)({
+            modifiers: comp.modifiers
+        });
 
         // Now under the pattern
         compTmpl = layouts[comp.patternLayout]({
             template: compTmpl,
-            script: compileScript(comp.script, comp.scriptCompileOptions),
-            style: compileStyle(comp.style, comp.styleCompileOptions),
+            runtime: comp.runtime,
             parentModifiers: comp.parentModifiers
         });
 
@@ -121,16 +172,16 @@ function getComponents(task) {
 
         // Lets build the final component
         comp = {
+            name: comp.name,
+
             template: !!comp.template && readFile(path.join(base, comp.template)),
             style: !!comp.style && path.join(base, comp.style),
-            script: !!comp.script && readFile(path.join(base, comp.script)),
+            script: !!comp.script && path.join(base, comp.script),
+            runtime: !!comp.runtime && readFile(path.join(base, comp.runtime)),
 
             parentModifiers: comp.parentModifiers || [''],
             modifiers: comp.modifiers || [''],
-            patternLayout: comp.patternLayout || task.options.patternLayout,
-
-            scriptCompileOptions: task.options.scriptCompileOptions,
-            styleCompileOptions: task.options.styleCompileOptions
+            patternLayout: comp.patternLayout || task.options.patternLayout
         };
 
         return comp;
@@ -166,10 +217,22 @@ function getLayouts(task) {
  * @param  {function} cb
  */
 function build(task, cb) {
-    var buildSrc = path.join(task.dest, 'styleguide.html');
     var components = getComponents(task);
     var layouts = getLayouts(task);
-    var tmpl = buildComponents(components, layouts, task);
+    var tmpl = buildComponents(components, layouts);
+    var styleCompileOptions = task.options.styleCompileOptions;
+    var scriptCompileOptions = task.options.scriptCompileOptions;
+
+    var scripts = components.filter(function (comp) {
+        return !!comp.name && !!comp.script;
+    }).map(function (comp) {
+        return { name: comp.name, src: comp.script };
+    });
+    var styles = components.filter(function (comp) {
+        return !!comp.style;
+    }).map(function (comp) {
+        return { name: comp.name, src: comp.style };
+    });
 
     // We need to pass now the template to the right layout
     tmpl = layouts[task.options.generalLayout]({
@@ -179,13 +242,17 @@ function build(task, cb) {
     });
 
     // Ensure dirs exist
-    mkdirp(path.dirname(buildSrc), function (err) {
+    mkdirp(path.dirname(task.dest), function (err) {
         if (err) {
             throw new Error(err);
         }
 
-        // Save file
-        fs.writeFile(buildSrc, tmpl, cb);
+        // Lets compile all assets
+        compileScript(scripts, scriptCompileOptions, task.dest);
+        compileStyle(styles, styleCompileOptions, task.dest);
+
+        // Save template file
+        fs.writeFile(path.join(task.dest, 'styleguide.html'), tmpl, cb);
     });
 }
 

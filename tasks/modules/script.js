@@ -3,7 +3,7 @@
 /* eslint-enable strict */
 
 // Import packages
-var fs = require('fs');
+var path = require('path');
 var Joi = require('joi');
 var gulp = require('gulp');
 var gulpWebpack = require('gulp-webpack');
@@ -294,11 +294,10 @@ convert = function (value) {
 /**
  * Raw build
  * @param  {object} task
- * @return {string}
+ * @param  {function} cb
  */
-function rawBuild(task) {
+function rawBuild(task, cb) {
     var options;
-    var script;
 
     // Lets take care of the options for webpack
     options = convert(task.options);
@@ -306,12 +305,15 @@ function rawBuild(task) {
 
     // Set entry
     options.entry = task.src;
+    options.output.path = path.dirname(task.dest);
+    options.output.filename = path.basename(task.dest);
 
-    // TODO: Need to review this!!
-
-    task.dest && fs.writeFileSync(task.dest, script);
-
-    return script;
+    // Finally compile!
+    webpack(options, cb || function (err) {
+        if (err) {
+            throw new Error(err);
+        }
+    });
 }
 
 /**
@@ -338,5 +340,6 @@ function gulpBuild(task, cb) {
 module.exports = {
     STRUCT: STRUCT,
     OPTIONS_STRUCT: OPTIONS_STRUCT,
-    build: gulpBuild
+    build: gulpBuild,
+    raw: rawBuild
 };

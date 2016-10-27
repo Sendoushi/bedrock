@@ -41,9 +41,10 @@ var STRUCT = Joi.object().keys({
 /**
  * Raw build
  * @param  {object} task
+ * @param  {function} cb
  * @return {string}
  */
-function rawBuild(task) {
+function rawBuild(task, cb) {
     var css = sass.renderSync({
         file: task.src,
         outputStyle: task.options.minify ? 'compressed' : 'expanded',
@@ -60,6 +61,7 @@ function rawBuild(task) {
     }
 
     task.dest && fs.writeFileSync(task.dest, css);
+    cb();
 
     return css;
 }
