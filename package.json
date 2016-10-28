@@ -19,41 +19,16 @@
     "stylelint-scss": "^1.3.4"
   },
   "dependencies": {
-    "autoprefixer": "^6.5.1",
     "deepmerge": "^1.2.0",
-    "del": "^2.2.2",
     "dot": "^1.0.3",
     "es6-promise": "^4.0.5",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-less": "^3.1.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-webpack": "^1.5.0",
-    "joi": "^9.2.0",
-    "json-loader": "^0.5.4",
-    "mkdirp": "^0.5.1",
-    "node-sass": "^3.10.1",
-    "page": "^1.7.1",
-    "postcss": "^5.2.5",
-    "raw-loader": "^0.5.1",
-    "webpack": "^1.13.2",
-    "webpack-closure-compiler": "^2.1.1",
-    "yargs": "^6.3.0"
+    "page": "^1.7.1"
   },
   "scripts": {
     "test": "npm run eslint-test; npm run stylelint-test",
     "eslint": "./node_modules/.bin/eslint",
     "eslint-test": "npm run eslint -- ./src/**/*.js",
     "stylelint": "./node_modules/.bin/stylelint",
-    "stylelint-test": "npm run stylelint -- ./src/**/*.scss",
-    "gulp": "./node_modules/.bin/gulp",
-    "suite-copy-test": "npm run gulp -- project:copy --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-copy.json\"",
-    "suite-clean-test": "npm run gulp -- project:clean --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-clean.json\"",
-    "suite-script-test": "npm run gulp -- project:script --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-script.json\"",
-    "suite-sprite-test": "npm run gulp -- project:sprite --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-sprite.json\"",
-    "suite-style-test": "npm run gulp -- project:style --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-style.json\"",
-    "suite-styleguide-test": "npm run gulp -- project:styleguide --env=dev --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config-styleguide.json\"",
-    "suite-test": "npm run gulp -- project:build --env=prod --gulpfile=\"./tasks/gulpfile.js\" --config=\"./test/config.json\""
+    "stylelint-test": "npm run stylelint -- ./src/**/*.scss"
   }
 }
