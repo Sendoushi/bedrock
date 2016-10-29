@@ -13,14 +13,14 @@ var component = require('../component.js');
 var DEFAULTS = {
     targetClose: null,
     classes: {
-        anchor: 'accordion-anchor',
-        content: 'accordion-content',
-        unactive: 'out'
+        anchor: 'c-accordion__anchor',
+        content: 'c-accordion__content',
+        unactive: 'is-out'
     },
     events: {
-        open: 'accordion-open',
-        close: 'accordion-close',
-        anchorClick: 'accordion-anchor-click'
+        open: 'accordion.open',
+        close: 'accordion.close',
+        anchorClick: 'accordion.anchor-click'
     }
 };
 

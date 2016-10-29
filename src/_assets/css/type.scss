@@ -9,7 +9,7 @@ a {
     }
 }
 
-.cta-link {
+.c-cta-link {
     font-size: inherit;
     line-height: 1;
 
@@ -21,7 +21,7 @@ a {
         }
     }
 
-    &.alt {
+    &.is-alt {
         > *,
         &::after {
             display: inline-block;
@@ -37,7 +37,7 @@ a {
     }
 }
 
-.back-cta-link {
+.c-back-cta-link {
     &::before {
         content: "«";
         margin-right: 8px;

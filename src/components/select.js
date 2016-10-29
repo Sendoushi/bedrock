@@ -14,13 +14,15 @@ var component = require('../component.js');
 var DEFAULTS = {
     targetClose: null,
     classes: {
-        wrap: 'select-wrap',
-        options: 'select-options',
-        option: 'select-option',
-        placeholder: 'select-placeholder',
-        value: 'select-value',
+        wrap: 'c-select__wrap',
+        options: 'c-select__options',
+        option: 'c-select__option',
+        placeholder: 'c-select__placeholder',
+        value: 'c-select__value',
         error: 'has-error',
-        set: 'select-set'
+        isSet: 'is-set',
+        active: 'is-active',
+        set: 'c-select__set'
     },
     events: {
         change: 'change'
@@ -147,13 +149,13 @@ function setLayout(el) {
  * Open select
  * @param  {jquery} el
  */
-function open(el) { el.addClass('active'); }
+function open(el) { el.addClass(DEFAULTS.classes.active); }
 
 /**
  * Close select
  * @param  {jquery} el
  */
-function close(el) { el.removeClass('active'); }
+function close(el) { el.removeClass(DEFAULTS.classes.active); }
 
 /**
  * Sets value
@@ -189,9 +191,9 @@ function setValue(el, val, isFirst, force) {
     valEl.text(itemText);
 
     if (!val || val === '' || !itemText || itemText === '') {
-        el.removeClass('set');
+        el.removeClass(DEFAULTS.classes.isSet);
     } else {
-        el.addClass('set');
+        el.addClass(DEFAULTS.classes.isSet);
     }
 
     // Select the right option
@@ -226,7 +228,7 @@ function onSelectClick(comp, evt) {
     });
 
     // Lets check the one
-    if (!comp._newEl.hasClass('active')) {
+    if (!comp._newEl.hasClass(DEFAULTS.classes.active)) {
         open(comp._newEl);
     } else {
         close(comp._newEl);

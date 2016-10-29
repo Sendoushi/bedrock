@@ -8,7 +8,7 @@
     pointer-events: none;
     text-align: center;
 
-    &.in {
+    &.is-in {
         position: fixed;
         bottom: 0;
         opacity: 1;
@@ -16,19 +16,19 @@
         z-index: 1000;
     }
 
-    .modal-content {
+    .c-modal__content {
         position: relative;
     }
 
-    .modal-close {
+    .c-modal__close {
         position: absolute;
         top: 0;
         right: 0;
         z-index: 10;
         cursor: pointer;
 
-        .icon-wrapper {
-            .icon {
+        .c-icon__wrapper {
+            .c-icon {
                 width: $close-size;
                 height: $close-size;
 

@@ -1,5 +1,5 @@
 @mixin select-options($padding: 5px, $border: 1px solid currentColor, $background: transparent, $text-color: currentColor) {
-    .select-options {
+    .c-select__options {
         display: none;
         position: absolute;
         top: calc(100% - 1px);
@@ -17,7 +17,7 @@
         z-index: 100;
     }
 
-    .select-option {
+    .c-select__option {
         display: block;
         margin: 0;
         padding: $padding;
@@ -35,7 +35,7 @@
 }
 
 @mixin select-values($padding: 5px, $border: 1px solid currentColor, $background: transparent, $placeholder-color: currentColor) {
-    .select-blank {
+    .c-select__blank {
         position: absolute;
         top: 0;
         left: 0;
@@ -44,8 +44,8 @@
         background-color: $background;
     }
 
-    .select-placeholder,
-    .select-value {
+    .c-select__placeholder,
+    .c-select__value {
         position: absolute;
         top: 0;
         right: 0;
@@ -60,11 +60,11 @@
         text-overflow: ellipsis;
     }
 
-    .select-placeholder {
+    .c-select__placeholder {
         color: $placeholder-color;
     }
 
-    .select-value {
+    .c-select__value {
         &:after {
             content: "»";
             position: absolute;
@@ -85,7 +85,7 @@
     @include select-options($padding, $border, $background, $text-color);
     @include select-values($padding, $border, $background, $placeholder-color);
 
-    .select-wrap {
+    .c-select__wrap {
         position: relative;
         height: $height;
         font-size: $font-size;
@@ -98,18 +98,18 @@
             visibility: hidden;
         }
 
-        & + .select-blank {
+        & + .c-select__blank {
             display: none;
         }
 
-        &.set .select-placeholder {
+        &.is-set .c-select__placeholder {
             display: none;
         }
 
-        &.active {
+        &.is-active {
             border-bottom: 0;
 
-            .select-options {
+            .c-select__options {
                 display: block;
             }
         }

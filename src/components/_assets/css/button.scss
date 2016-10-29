@@ -3,18 +3,18 @@
     color: $text-color;
 
     &:hover,
-    &.hover {
+    &.is-hover {
         background: $background-hover;
         color: $text-color-hover;
 
-        .icon-wrapper .icon {
+        .c-icon__wrapper .c-icon {
             > * {
                 fill: $text-color-hover;
             }
         }
     }
 
-    .icon-wrapper .icon {
+    .c-icon__wrapper .c-icon {
         > * {
             fill: $text-color;
         }
@@ -28,19 +28,19 @@
     transition: color $animation-time $animation-ease, border-color $animation-time $animation-ease;
 
     &:hover,
-    &.hover {
+    &.is-hover {
         background: transparent;
         color: $text-color-hover;
         border-color: $border-color-hover;
 
-        .icon {
+        .c-icon {
             > * {
                 fill: $text-color-hover;
             }
         }
     }
 
-    .icon {
+    .c-icon {
         > * {
             fill: $text-color;
         }
@@ -52,18 +52,18 @@
     color: $text-color;
 
     &:hover,
-    &.hover {
+    &.is-hover {
         background: $background-hover;
         color: $text-color-hover;
 
-        .icon-wrapper .icon {
+        .c-icon__wrapper .c-icon {
             > * {
                 fill: $text-color-hover;
             }
         }
     }
 
-    .icon-wrapper .icon {
+    .c-icon__wrapper .c-icon {
         > * {
             fill: $text-color;
         }
@@ -86,16 +86,16 @@
 
     &,
     &:hover,
-    &.hover {
+    &.is-hover {
         text-decoration: none;
     }
 
     &:hover,
-    &.hover {
+    &.is-hover {
         background: $background-hover;
         color: $text-color-hover;
 
-        .icon {
+        .c-icon {
             > * {
                 fill: $text-color-hover;
             }
@@ -108,7 +108,7 @@
         margin-top: 1px;
     }
 
-    .icon {
+    .c-icon {
         width: $icon-size;
         height: $icon-size;
 

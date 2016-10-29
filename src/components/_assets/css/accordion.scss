@@ -2,12 +2,12 @@
 
 @mixin accordion-anchor($width: 100%, $height: 100%, $icon-color: currentColor, $icon-size: 1em) {
     &,
-    .accordion-title,
-    .accordion-anchor-wrapper {
+    .c-accordion__title,
+    .c-accordion__anchor__wrapper {
         position: relative;
     }
 
-    .accordion-anchor {
+    .c-accordion__anchor {
         position: absolute;
         top: 0;
         right: 0;
@@ -18,13 +18,13 @@
         cursor: pointer;
     }
 
-    .accordion-anchor {
-        .icon-wrapper {
+    .c-accordion__anchor {
+        .c-icon__wrapper {
             width: 100%;
             height: 100%;
         }
 
-        .icon {
+        .c-icon {
             position: absolute;
             top: calc(50% - #{$icon-size} / 2);
             right: 0;
@@ -36,22 +36,22 @@
             }
         }
 
-        .icon-minus {
+        .c-icon---minus {
             display: block;
         }
 
-        .icon-plus {
+        .c-icon--plus {
             display: none;
         }
     }
 
-    &.out {
-        .accordion-anchor {
-            .icon-minus {
+    &.is-out {
+        .c-accordion__anchor {
+            .c-icon--minus {
                 display: none;
             }
 
-            .icon-plus {
+            .c-icon--plus {
                 display: block;
             }
         }
@@ -59,7 +59,7 @@
 }
 
 @mixin accordion-content($animation-time: 0.15s, $animation-ease: ease-out) {
-    .accordion-content {
+    .c-accordion__content {
         overflow: hidden;
         transition: max-height $animation-time $animation-ease, padding $animation-time $animation-ease;
 
@@ -77,12 +77,12 @@
 
 @mixin accordion-resp($anchor-width: 100%, $anchor-height: 100%, $anchor-icon-color: currentColor, $anchor-icon-size: 1em, $animation-time: 0.15s, $animation-ease: ease-out) {
 
-    .accordion {
+    .c-accordion {
         @include accordion($anchor-width, $anchor-height, $anchor-icon-color, $anchor-icon-size, $animation-time, $animation-ease);
     }
 
-    .accordion-tablet {
-        .accordion-anchor {
+    .c-accordion--tablet {
+        .c-accordion__anchor {
             display: none;
 
             @include breakpoint(medium) {
@@ -90,7 +90,7 @@
             }
         }
 
-        .accordion-content {
+        .c-accordion__content {
             @include breakpoint(medium, 'at-least') {
                 max-height: none !important;
             }
@@ -101,8 +101,8 @@
         }
     }
 
-    .accordion-mobile {
-        .accordion-anchor {
+    .c-accordion--mobile {
+        .c-accordion__anchor {
             display: none;
 
             @include breakpoint(small) {
@@ -110,7 +110,7 @@
             }
         }
 
-        .accordion-content {
+        .c-accordion__content {
             @include breakpoint(small, 'at-least') {
                 max-height: none !important;
             }
