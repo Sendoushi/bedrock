@@ -18,15 +18,7 @@ body {
 // -------------------------------
 // Media related
 
-.u-media-is-tablet {
-    display: none;
-
-    @include breakpoint(medium, 'between') {
-        display: block;
-    }
-}
-
-.u-media-is-mobile {
+.o-is-mobile {
     display: none;
 
     @include breakpoint(small) {
@@ -34,7 +26,23 @@ body {
     }
 }
 
-.u-media-is-over {
+.o-is-tablet {
+    display: none;
+
+    @include breakpoint(medium, 'between') {
+        display: block;
+    }
+}
+
+.o-is-desktop {
+    display: none;
+
+    @include breakpoint(large, 'between') {
+        display: block;
+    }
+}
+
+.o-is-over {
     display: none;
 
     @include breakpoint(huge, 'at-least') {

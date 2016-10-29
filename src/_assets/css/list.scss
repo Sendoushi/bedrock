@@ -5,7 +5,7 @@ ol {
     list-style-type: none;
 }
 
-@mixin list($not-selector: :not(.not-general), $padding-top: 4px, $padding-left: 22px; $margin-top: 30px, $marker-size: 7px; $marker-color: currentColor, $font-size: inherit) {
+@mixin list($not-selector: ":not(.not-general)", $padding-top: 4px, $padding-left: 22px, $margin-top: 30px, $marker-size: 7px, $marker-color: currentColor, $font-size: inherit) {
     ul#{$not-selector},
     ol#{$not-selector} {
         li {
