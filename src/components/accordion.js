@@ -181,7 +181,7 @@ function handleClick(obj, evt) {
     }));
 
     // Announce the event
-    el.trigger(DEFAULTS.event.anchorClick);
+    el.trigger(DEFAULTS.events.anchorClick);
 }
 
 /**
@@ -193,13 +193,13 @@ function setEvents(comp, obj) {
     var throttler;
 
     // Force to remove the height
-    obj.contentEl.removeAttr('style');
+    obj.content.removeAttr('style');
 
     // Remove old event
-    obj.anchorEl.off('click');
+    obj.anchor.off('click');
 
     // Now lets set the events
-    obj.anchorEl.on('click', handleClick.bind(null, obj));
+    obj.anchor.on('click', handleClick.bind(null, obj));
     $(window).on('resize', function () {
         throttler && clearTimeout(throttler);
         throttler = setTimeout(function () {

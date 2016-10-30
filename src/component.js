@@ -11,7 +11,7 @@ var dom = require('./utils/dom.js');
 
 var DEFAULTS = {
     el: null,
-    parent: document.body,
+    parent: null,
     tmpl: null
 };
 
@@ -72,8 +72,12 @@ var render = function (comp, data) {
  * @return {object}
  */
 var init = function (comp) {
-    var parent = comp.parent;
+    // It is a selector... needs to be here
+    var parent = comp.parent || document.body;
     var classList = (parent === document.body) ? document.body.classList : null;
+
+    // Cache the parent
+    comp.parent = parent;
 
     // Remove class no-script
     classList && classList.remove('no-script');
@@ -102,7 +106,7 @@ module.exports = {
         var comp = merge(DEFAULTS, data, { clone: true });
 
         // Wait for document to be ready and go on!
-        return isDomReady.then(init.bind(null, comp));
+        return isDomReady().then(init.bind(null, comp));
     },
     render: render
 };
