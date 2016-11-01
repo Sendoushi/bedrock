@@ -50,10 +50,10 @@ var render = function (comp, data) {
     var tmpl = comp.tmpl;
 
     // Cache the data
-    comp.data = data;
+    comp.renderedData = data || comp.renderedData;
 
     if (tmpl && typeof tmpl === 'function') {
-        tmpl = tmpl(comp, data);
+        tmpl = tmpl(comp, comp.renderedData);
     }
 
     if (!tmpl || typeof tmpl !== 'string') {
@@ -61,9 +61,30 @@ var render = function (comp, data) {
     }
 
     // Lets set now!
-    comp.el && dom.html(comp.el, tmpl);
+    if (comp.el) {
+        (tmpl !== comp.renderedTmpl) && dom.html(comp.el, tmpl);
+        dom.trigger(comp.el, 'render', comp);
+    }
+
+    // Lets cache tmpl for future usage...
+    comp.renderedTmpl = tmpl;
 
     return comp;
+};
+
+/**
+ * Destroys component
+ * @param  {object} comp
+ */
+var destroy = function (comp) {
+    // Lets inform!
+    if (comp.el) {
+        if (comp.tmpl) {
+            dom.empty(comp.el);
+        }
+
+        dom.trigger(comp.el, 'destroy', comp);
+    }
 };
 
 /**
@@ -108,7 +129,8 @@ module.exports = {
         // Wait for document to be ready and go on!
         return isDomReady().then(init.bind(null, comp));
     },
-    render: render
+    render: render,
+    destroy: destroy
 };
 
 /*

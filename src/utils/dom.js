@@ -151,6 +151,24 @@ var html = function (el, tmpl) {
 };
 
 /**
+ * Empties element
+ * @param  {element} el
+ * @return {string}
+ */
+var empty = function (el) {
+    if (!el) {
+        return;
+    }
+
+    // Jquery is preferred
+    if ($) {
+        return get$(el).empty();
+    }
+
+    el.innerHTML = '';
+};
+
+/**
  * Sets text in element
  * @param  {element} el
  * @param  {string} tmpl
@@ -428,6 +446,7 @@ module.exports = {
     find: find,
     closest: closest,
     children: children,
+    empty: empty,
     html: html,
     text: text,
     attr: attr,

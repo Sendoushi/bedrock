@@ -206,4 +206,4 @@ var outdatedBrowser = function(options) {
 };
 
 // Return the function
-export default outdatedBrowser.bind({});
+module.exports = outdatedBrowser.bind({});

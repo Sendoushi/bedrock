@@ -21,6 +21,14 @@ var isIe = function () {
 };
 
 /**
+ * Is edge
+ * @return {Boolean}
+ */
+var isEdge = function () {
+    return /Edge\/\d./i.test(navigator.userAgent);
+};
+
+/**
  * Is it mobile?
  * @return {boolean}
  */
@@ -37,9 +45,9 @@ var isMobile = function () {
  * @return {boolean}
  */
 var mediaIs = function (target) {
-    var isMediaMobile = dom.find(document.body, '.media-is-mobile').is(':visible');
-    var isMediaTablet = dom.find(document.body, '.media-is-tablet').is(':visible');
-    var isMediaOver = dom.find(document.body, '.media-is-over').is(':visible');
+    var isMediaMobile = dom.find(document.body, '.o-is-mobile').is(':visible');
+    var isMediaTablet = dom.find(document.body, '.o-is-tablet').is(':visible');
+    var isMediaOver = dom.find(document.body, '.o-is-over').is(':visible');
     var isMediaDesktop = !isMediaMobile && !isMediaTablet;
 
     if (target === 'mobile' && isMediaMobile) {
@@ -61,6 +69,7 @@ var mediaIs = function (target) {
 
 module.exports = {
     isIe: isIe,
+    isEdge: isEdge,
     isMobile: isMobile,
     mediaIs: mediaIs
 };
