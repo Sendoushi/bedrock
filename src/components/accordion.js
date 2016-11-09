@@ -7,7 +7,6 @@
 // Vars / Imports
 
 var $ = require('jquery');
-var merge = require('deepmerge');
 var component = require('../component.js');
 
 var DEFAULTS = {
@@ -230,7 +229,7 @@ function init(comp) {
 
     // Cache for later use
     // TODO: Close accordions
-    comp._all = !!targetClose ? $(targetClose) : null;
+    comp.all = !!targetClose ? $(targetClose) : null;
 
     // Lets go per el
     comp.el.each(function () {
@@ -243,7 +242,7 @@ function init(comp) {
             el: el,
             anchor: anchorEl,
             content: contentEl,
-            closeAll: comp._all
+            closeAll: comp.all
         });
     });
 
@@ -254,14 +253,14 @@ function init(comp) {
 // Export
 
 module.exports = {
-    init: function (data) {
-        var comp = merge(DEFAULTS, data, { clone: true });
-
-        // Wait for document to be ready and go on!
-        return component.init(comp).then(init);
+    init: function (el, data) {
+        var comp = component.getComp(data, DEFAULTS);
+        comp = component.init(el, comp);
+        return init(comp);
     },
     updateSize: updateSize,
     isOpen: isOpen,
     open: open,
-    close: close
+    close: close,
+    destroy: function () {}
 };

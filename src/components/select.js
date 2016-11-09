@@ -8,7 +8,6 @@
 // Vars / Imports
 
 var $ = require('jquery');
-var merge = require('deepmerge');
 var component = require('../component.js');
 
 var DEFAULTS = {
@@ -86,12 +85,18 @@ function getPlaceholder(el) {
  * @return {string}
  */
 function getInitialValue(el) {
+    var hasPlaceholder = el.attr('data-placeholder');
     var selectValue = el.attr('data-value') || '';
     var selectEl = el;
 
+    // Check if there is a placeholder
+    hasPlaceholder = !!hasPlaceholder && hasPlaceholder !== '';
+
     // We may still not have the right value
-    if (!selectValue || selectValue === '') {
-        selectValue = selectEl.find('option:selected').attr('value') || '';
+    if (!hasPlaceholder) {
+        if (!selectValue || selectValue === '') {
+            selectValue = selectEl.find('option:selected').attr('value') || '';
+        }
     }
 
     return selectValue;
@@ -219,19 +224,19 @@ function onSelectClick(comp, evt) {
     evt.stopPropagation();
 
     // Close all others
-    comp._all && comp._all.filter('.' + DEFAULTS.classes.set).each(function () {
+    comp.all && comp.all.filter('.' + DEFAULTS.classes.set).each(function () {
         var wrapper = $(this).closest(DEFAULTS.classes.wrap);
 
-        if (!wrapper.is(comp._newEl)) {
+        if (!wrapper.is(comp.newEl)) {
             close(wrapper);
         }
     });
 
     // Lets check the one
-    if (!comp._newEl.hasClass(DEFAULTS.classes.active)) {
-        open(comp._newEl);
+    if (!comp.newEl.hasClass(DEFAULTS.classes.active)) {
+        open(comp.newEl);
     } else {
-        close(comp._newEl);
+        close(comp.newEl);
     }
 }
 
@@ -244,8 +249,8 @@ function onItemClick(comp, evt) {
     var clickVal = $(evt.currentTarget).attr('data-value');
 
     // Set values an close
-    setValue(comp._newEl, clickVal);
-    close(comp._newEl);
+    setValue(comp.newEl, clickVal);
+    close(comp.newEl);
 }
 
 /**
@@ -253,9 +258,14 @@ function onItemClick(comp, evt) {
  * @param  {object} comp
  */
 function setEvents(comp) {
-    var el = comp._newEl;
+    var el = comp.newEl;
     var valEl = el.find('.' + DEFAULTS.classes.value);
     var listItems = el.find('li');
+
+    // Off other events
+    valEl.off('click');
+    listItems.off('click');
+    $(document).off('click.select');
 
     // Set event to open and close
     valEl.on('click', onSelectClick.bind(null, comp));
@@ -281,6 +291,13 @@ function updateData(el, newEl) {
 
     ulEl.html(layoutTmpl);
     placeholderEl.html(placeholder);
+
+    // Set events
+    // TODO: This shouldn't be like this! It should be a comp!
+    setEvents({
+        el: el,
+        newEl: newEl
+    });
 
     // Set values
     setValue(newEl, selectValue, true);
@@ -312,14 +329,14 @@ function init(comp) {
     var selectValue = getInitialValue(comp);
 
     // Cache for later use
-    comp._all = !!targetClose ? $(targetClose) : null;
-    comp._newEl = setLayout(comp);
+    comp.all = !!targetClose ? $(targetClose) : null;
+    comp.newEl = setLayout(comp);
 
     // Set events
     setEvents(comp);
 
     // Set values
-    setValue(comp._newEl, selectValue, true);
+    setValue(comp.newEl, selectValue, true);
 
     return comp;
 }
@@ -328,11 +345,10 @@ function init(comp) {
 // Exports
 
 module.exports = {
-    init: function (data) {
-        var comp = merge(DEFAULTS, data, { clone: true });
-
-        // Wait for document to be ready and go on!
-        return component.init(comp).then(init);
+    init: function (el, data) {
+        var comp = component.getComp(data, DEFAULTS);
+        comp = component.init(el, comp);
+        return init(comp);
     },
     open: function (el) {
         var newEl = getWrap(el);

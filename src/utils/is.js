@@ -5,7 +5,7 @@
 // -----------------------------------------
 // VARS / IMPORTS
 
-var dom = require('./dom.js');
+var $ = require('jquery');
 
 // -----------------------------------------
 // PUBLIC FUNCTIONS
@@ -45,19 +45,17 @@ var isMobile = function () {
  * @return {boolean}
  */
 var mediaIs = function (target) {
-    var isMediaMobile = dom.find(document.body, '.o-is-mobile').is(':visible');
-    var isMediaTablet = dom.find(document.body, '.o-is-tablet').is(':visible');
-    var isMediaOver = dom.find(document.body, '.o-is-over').is(':visible');
-    var isMediaDesktop = !isMediaMobile && !isMediaTablet;
+    var body = $(document.body);
 
-    if (target === 'mobile' && isMediaMobile) {
-        return true;
-    } else if (target === 'tablet' && isMediaTablet) {
-        return true;
-    } else if (target === 'desktop' && isMediaDesktop) {
-        return true;
-    } else if (target === 'over' && isMediaOver) {
-        return true;
+    if (target === 'mobile') {
+        return body.find('.o-is-mobile').is(':visible');
+    } else if (target === 'tablet') {
+        return body.find('.o-is-tablet').is(':visible');
+    } else if (target === 'desktop') {
+        return !(body.find('.o-is-mobile').is(':visible')) &&
+               !(body.find('.o-is-tablet').is(':visible'));
+    } else if (target === 'over') {
+        return body.find('.o-is-over').is(':visible');
     }
 };
 

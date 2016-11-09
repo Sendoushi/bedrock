@@ -5,8 +5,7 @@
 // --------------------------------
 // Vars / Imports
 
-var merge = require('deepmerge');
-var dom = require('../utils/dom.js');
+var $ = require('jquery');
 var component = require('../component.js');
 var mailbox = require('../mailbox.js');
 
@@ -36,7 +35,7 @@ function onClose(comp, evt) {
     evt.preventDefault();
 
     comp.el[0].className = comp.classes.wrap;
-    dom.removeClass(document.body, comp.classes.disableScroll);
+    $(document.body).removeClass(comp.classes.disableScroll);
 }
 
 /**
@@ -47,13 +46,13 @@ function onClose(comp, evt) {
 function onOpen(comp, data) {
     var close;
 
-    dom.html(comp._content, data.tmpl);
+    comp.content.html(data.tmpl);
 
     comp.el[0].className = comp.classes.wrap + ' ' + comp.classes.active + ' ' + (data.class || '');
-    dom.addClass(document.body, comp.classes.disableScroll);
+    $(document.body).addClass(comp.classes.disableScroll);
 
     // Lets take care of other stuff
-    close = dom.find(comp.el, '.' + comp.classes.closeButton);
+    close = comp.el.find('.' + comp.classes.closeButton);
 
     // Add events
     close.on('click', onClose.bind(null, comp));
@@ -65,11 +64,11 @@ function onOpen(comp, data) {
  * @return {object}
  */
 function init(comp) {
-    comp._content = dom.find(comp.el, '.' + comp.classes.content);
+    comp.content = comp.el.find('.' + comp.classes.content);
 
     // Add events
     comp.el.on('click', onClose.bind(null, comp));
-    comp._content.on('click', function (evt) {
+    comp.content.on('click', function (evt) {
         evt.stopPropagation();
     });
 
@@ -86,10 +85,10 @@ function init(comp) {
 // Export
 
 module.exports = {
-    init: function (data) {
-        var comp = merge(DEFAULTS, data, { clone: true });
-
-        // Wait for document to be ready and go on!
-        return component.init(comp).then(init);
-    }
+    init: function (el, data) {
+        var comp = component.getComp(data, DEFAULTS);
+        comp = component.init(el, comp);
+        return init(comp);
+    },
+    destroy: function () {}
 };

@@ -80,7 +80,9 @@ var start = function (opts) {
 // Runtime
 
 mailbox.on(DEFAULTS.events.start, start);
-mailbox.on(DEFAULTS.events.add, add);
+mailbox.on(DEFAULTS.events.add, function (data) {
+    add(data.route, data.cb);
+});
 
 // --------------------------------
 // Export
