@@ -7,20 +7,17 @@ The api documentation is **[here](doc/API.md)**.
 
 ## Examples of installation
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#0.1.26
+npm install --save git://github.com/Sendoushi/bedrock.git#0.1.27
 ```
 
 ## Styleguide
 
-This project follows a [this](https://seesparkbox.com/foundry/thoughtful_css_architecture) methodology.
+This project follows a [this](https://en.bem.info/methodology/naming-convention/) methodology.
 
 #### Cheatsheet of what is used
 
-`[TYPE]-[BLOCK]__[ELEMENT]-—[MODIFIER]`
+`[BLOCK]__[ELEMENT]--[MODIFIER]`
 
-Type list:
-- `o-...`: Object / layout
-- `c-...`: Component
-- `is-...` or `has-...`: State
-- `t-...`: Theme
-- `u-...`: Util
+State should be set as such:
+- `is-[STATE]--[MODIFIER]`
+- `has-[STATE]--[MODIFIER]`

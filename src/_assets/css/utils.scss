@@ -1,5 +1,5 @@
 /* Clearfix for floats */
-.u-clearfix {
+.clearfix {
     &::before,
     &::after {
         content: " ";
@@ -12,7 +12,7 @@
 }
 
 /* Truncate */
-.u-truncate {
+.truncate {
     word-wrap: normal;
     overflow-wrap: normal;
     white-space: nowrap;
@@ -22,7 +22,7 @@
 
 /* Align middle utility class that aligns content horizontally
 /* of unknown width */
-.u-align-middle__wrapper {
+.align-middle__wrapper {
     height: 100%;
     text-align: center;
     font-size: 0;
@@ -38,19 +38,19 @@
 
 
 /* The element to be centered, can also be of any width and height */
-.u-align-middle {
+.align-middle {
     display: inline-block;
     vertical-align: middle;
     text-align: left;
 }
 
 /* Removes transitions */
-.u-no-transition {
+.no-transition {
     transition: none !important;
 }
 
 /* Disables scroll on Y */
-.u-disable-scroll {
+.disable-scroll {
     overflow-y: hidden;
 }
 

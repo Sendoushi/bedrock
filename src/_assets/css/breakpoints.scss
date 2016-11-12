@@ -65,7 +65,7 @@ $breakpoints-between: (
 }
 
 @mixin wrapper($type: 'break') {
-    .o-wrapper {
+    .wrapper {
         @if $type == 'break' {
             width: $breakpoint-large;
         } @else {
@@ -100,7 +100,7 @@ $breakpoints-between: (
             padding-right: $padding-small;
         }
 
-        .o-wrapper {
+        .wrapper {
             @if $type == 'break' {
                 width: auto;
             }

@@ -1,4 +1,4 @@
-@import './breakpoints.scss';
+@import "./breakpoints.scss";
 
 *,
 input[type="search"] {
@@ -18,7 +18,7 @@ body {
 // -------------------------------
 // Media related
 
-.o-is-mobile {
+.is-mobile {
     display: none;
 
     @include breakpoint(small) {
@@ -26,26 +26,26 @@ body {
     }
 }
 
-.o-is-tablet {
+.is-tablet {
     display: none;
 
-    @include breakpoint(medium, 'between') {
+    @include breakpoint(medium, "between") {
         display: block;
     }
 }
 
-.o-is-desktop {
+.is-desktop {
     display: none;
 
-    @include breakpoint(large, 'between') {
+    @include breakpoint(large, "between") {
         display: block;
     }
 }
 
-.o-is-over {
+.is-over {
     display: none;
 
-    @include breakpoint(huge, 'at-least') {
+    @include breakpoint(huge, "at-least") {
         display: block;
     }
 }

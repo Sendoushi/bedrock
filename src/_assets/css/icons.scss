@@ -1,5 +1,5 @@
-@mixin icon($size, $color; $animation-time: 0.15s, $animation-ease: ease-out) {
-    .c-icon__wrapper {
+@mixin icon($size, $color, $animation-time: 0.15s, $animation-ease: ease-out) {
+    .icon__wrapper {
         display: inline-block;
         vertical-align: middle;
         font-size: 0;
@@ -9,12 +9,12 @@
             vertical-align: middle;
         }
 
-        .c-icon {
+        .icon {
             width: $size;
             height: $size;
         }
 
-        .c-icon > * {
+        .icon > * {
             fill: $color;
             transition: fill $animation-time $animation-ease;
         }

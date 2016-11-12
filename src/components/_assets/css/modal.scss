@@ -16,19 +16,19 @@
         z-index: 1000;
     }
 
-    .c-modal__content {
+    .modal__content {
         position: relative;
     }
 
-    .c-modal__close {
+    .modal__close {
         position: absolute;
         top: 0;
         right: 0;
         z-index: 10;
         cursor: pointer;
 
-        .c-icon__wrapper {
-            .c-icon {
+        .icon__wrapper {
+            .icon {
                 width: $close-size;
                 height: $close-size;
 

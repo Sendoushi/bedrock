@@ -12,8 +12,8 @@ var component = require('../component.js');
 var DEFAULTS = {
     targetClose: null,
     classes: {
-        anchor: 'c-accordion__anchor',
-        content: 'c-accordion__content',
+        anchor: 'accordion__anchor',
+        content: 'accordion__content',
         unactive: 'is-out'
     },
     events: {

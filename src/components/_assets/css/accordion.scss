@@ -1,13 +1,13 @@
-@impot '../../../_assets/css/breakpoints.scss';
+@import '../../../_assets/css/breakpoints.scss';
 
 @mixin accordion-anchor($width: auto, $height: auto, $icon-color: currentColor, $icon-size: 1em) {
     &,
-    .c-accordion__title,
-    .c-accordion__anchor__wrapper {
+    .accordion__title,
+    .accordion__anchor__wrapper {
         position: relative;
     }
 
-    .c-accordion__anchor {
+    .accordion__anchor {
         position: absolute;
         top: 0;
         right: 0;
@@ -18,13 +18,13 @@
         cursor: pointer;
     }
 
-    .c-accordion__anchor {
-        .c-icon__wrapper {
+    .accordion__anchor {
+        .icon__wrapper {
             width: 100%;
             height: 100%;
         }
 
-        .c-icon {
+        .icon {
             position: absolute;
             top: calc(50% - #{$icon-size} / 2);
             right: 0;
@@ -36,22 +36,22 @@
             }
         }
 
-        .c-icon---minus {
+        .icon---minus {
             display: block;
         }
 
-        .c-icon--plus {
+        .icon--plus {
             display: none;
         }
     }
 
     &.is-out {
-        .c-accordion__anchor {
-            .c-icon--minus {
+        .accordion__anchor {
+            .icon--minus {
                 display: none;
             }
 
-            .c-icon--plus {
+            .icon--plus {
                 display: block;
             }
         }
@@ -59,7 +59,7 @@
 }
 
 @mixin accordion-content($animation-time: 0.15s, $animation-ease: ease-out) {
-    .c-accordion__content {
+    .accordion__content {
         overflow: hidden;
         transition: max-height $animation-time $animation-ease, padding $animation-time $animation-ease;
 
@@ -82,12 +82,12 @@
 
 @mixin accordion-resp($anchor-width: auto, $anchor-height: auto, $anchor-icon-color: currentColor, $anchor-icon-size: 1em, $animation-time: 0.15s, $animation-ease: ease-out) {
 
-    .c-accordion {
+    .accordion {
         @include accordion($anchor-width, $anchor-height, $anchor-icon-color, $anchor-icon-size, $animation-time, $animation-ease);
     }
 
-    .c-accordion--tablet {
-        .c-accordion__anchor {
+    .accordion--tablet {
+        .accordion__anchor {
             display: none;
 
             @include breakpoint(medium) {
@@ -95,7 +95,7 @@
             }
         }
 
-        .c-accordion__content {
+        .accordion__content {
             @include breakpoint(medium, 'at-least') {
                 max-height: none !important;
             }
@@ -106,8 +106,8 @@
         }
     }
 
-    .c-accordion--mobile {
-        .c-accordion__anchor {
+    .accordion--mobile {
+        .accordion__anchor {
             display: none;
 
             @include breakpoint(small) {
@@ -115,7 +115,7 @@
             }
         }
 
-        .c-accordion__content {
+        .accordion__content {
             @include breakpoint(small, 'at-least') {
                 max-height: none !important;
             }

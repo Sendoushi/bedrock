@@ -11,11 +11,11 @@ var mailbox = require('../mailbox.js');
 
 var DEFAULTS = {
     classes: {
-        wrap: 'c-modal',
+        wrap: 'modal',
         active: 'is-in',
-        content: 'c-modal__content',
-        disableScroll: 'u-disable-scroll',
-        closeButton: 'c-modal__close'
+        content: 'modal__content',
+        disableScroll: 'disable-scroll',
+        closeButton: 'modal__close'
     },
     events: {
         in: 'modal.in',

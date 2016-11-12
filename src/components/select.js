@@ -13,15 +13,15 @@ var component = require('../component.js');
 var DEFAULTS = {
     targetClose: null,
     classes: {
-        wrap: 'c-select__wrap',
-        options: 'c-select__options',
-        option: 'c-select__option',
-        placeholder: 'c-select__placeholder',
-        value: 'c-select__value',
+        wrap: 'select__wrap',
+        options: 'select__options',
+        option: 'select__option',
+        placeholder: 'select__placeholder',
+        value: 'select__value',
         error: 'has-error',
         isSet: 'is-set',
         active: 'is-active',
-        set: 'c-select__set'
+        set: 'select__set'
     },
     events: {
         change: 'change'

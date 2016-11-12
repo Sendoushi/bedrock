@@ -23,14 +23,14 @@ var DEFAULTS = {
     sources: [],
     queryParam: 'QUERY',
     classes: {
-        input: 'c-completer__input',
-        showAll: 'c-completer__show--all',
-        showLess: 'c-completer__show--less',
-        item: 'c-completer__item',
+        input: 'completer__input',
+        showAll: 'completer__show--all',
+        showLess: 'completer__show--less',
+        item: 'completer__item',
         hasAll: 'has-all',
         hasError: 'has-error',
-        hasErrorMinChars: 'has-error has-error-min-chars',
-        hasErrorNoResults: 'has-error has-error-no-results',
+        hasErrorMinChars: 'has-error has-error--min-chars',
+        hasErrorNoResults: 'has-error has-error--no-results',
         isActive: 'is-active'
     },
     events: {
