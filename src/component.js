@@ -45,8 +45,6 @@ var render = function (comp, data) {
         if (tmpl !== comp.renderedTmpl) {
             comp.el.html(tmpl);
         }
-
-        comp.el.trigger('render', comp);
     }
 
     // Lets cache tmpl for future usage...
@@ -68,8 +66,6 @@ var destroy = function (comp) {
     if (comp.tmpl) {
         comp.el.empty();
     }
-
-    comp.el.trigger('destroy', comp);
 };
 
 /**

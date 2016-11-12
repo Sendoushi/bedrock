@@ -13,47 +13,46 @@ var handlers = {};
 /**
  * Listens and waits for messages
  * @param  {string} msg
+ * @param  {string} id
  * @param  {function} cb
+ * @return {string}
  */
-var on = function (msg, cb) {
-    var handler = handlers[msg];
+var on = function (msg, id, cb) {
+    if (typeof id === 'function') {
+        cb = id;
+        id = Math.random() * 100000;
+    }
 
     // Lets see if the message is already defined
-    if (!handler) {
+    if (!handlers[msg]) {
         handlers[msg] = [];
-        handler = handlers[msg];
     }
 
     // Cache the callback for later use
-    handler.push(cb);
+    handlers[msg].push({ id: id, listener: cb });
+
+    return id;
 };
 
 /**
  * Removes listener
  * @param  {string} msg
- * @param  {function} cb
+ * @param  {string} id
  */
-var off = function (msg, cb) {
-    var handler;
-    var i;
-
-    if (!msg) {
+var off = function (msg, id) {
+    if (!msg || !handlers[msg]) {
         return;
     }
 
-    // Cache handler
-    handler = handlers[msg];
-
-    if (cb && handler.length) {
-        // Lets try and find the same callback
-        i = handler.indexOf(cb);
-        if (i > -1) {
-            handler.splice(i, 1);
-        }
-    } else {
+    if (!id) {
         // Lets remove all messages
         handlers[msg] = null;
+        return;
     }
+
+    handlers[msg] = handlers[msg].filter(function (val) {
+        return val.id !== id;
+    });
 };
 
 /**
@@ -70,7 +69,7 @@ var send = function (msg, data) {
     }
 
     for (i = 0; i < handler.length; i += 1) {
-        handler[i](data);
+        handler[i].listener(data);
     }
 };
 
