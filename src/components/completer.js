@@ -171,45 +171,6 @@ function close(comp) {
 }
 
 /**
- * Opens
- * @param  {object} comp
- * @return {object}
- */
-function open(comp) {
-    var tmpl = comp.tmpl(getRenderData(comp));
-    var oldClasses = [
-        comp.classes.hasError,
-        comp.classes.hasErrorMinChars,
-        comp.classes.hasErrorNoResults
-    ];
-    var newClasses = [
-        (comp.err ? comp.err : ''),
-        comp.classes.isActive
-    ];
-
-    comp.throttler && clearTimeout(comp.throttler);
-
-    comp.el.html(tmpl);
-    comp.el.removeClass(oldClasses.join(' '));
-    comp.el.addClass(newClasses.join(' '));
-
-    // Cache items
-    comp.els.items = comp.el.find('.' + comp.classes.item);
-    comp.els.showAll = comp.el.find('.' + comp.classes.showAll);
-    comp.els.showLess = comp.el.find('.' + comp.classes.showLess);
-
-    // Set items event
-    comp.els.items.on('click', onItem.bind(null, comp));
-    comp.els.showAll.on('click', onShowAll.bind(null, comp));
-    comp.els.showLess.on('click', onShowLess.bind(null, comp));
-
-    // Inform
-    comp.input.trigger(comp.events.open);
-
-    return comp;
-}
-
-/**
  * Handles item select
  * @param  {object} comp
  * @param  {event} evt
@@ -250,6 +211,45 @@ function onShowLess(comp, evt) {
     evt.preventDefault();
     evt.stopPropagation();
     comp.el.removeClass(comp.classes.hasAll);
+}
+
+/**
+ * Opens
+ * @param  {object} comp
+ * @return {object}
+ */
+function open(comp) {
+    var tmpl = comp.tmpl(getRenderData(comp));
+    var oldClasses = [
+        comp.classes.hasError,
+        comp.classes.hasErrorMinChars,
+        comp.classes.hasErrorNoResults
+    ];
+    var newClasses = [
+        (comp.err ? comp.err : ''),
+        comp.classes.isActive
+    ];
+
+    comp.throttler && clearTimeout(comp.throttler);
+
+    comp.el.html(tmpl);
+    comp.el.removeClass(oldClasses.join(' '));
+    comp.el.addClass(newClasses.join(' '));
+
+    // Cache items
+    comp.els.items = comp.el.find('.' + comp.classes.item);
+    comp.els.showAll = comp.el.find('.' + comp.classes.showAll);
+    comp.els.showLess = comp.el.find('.' + comp.classes.showLess);
+
+    // Set items event
+    comp.els.items.on('click', onItem.bind(null, comp));
+    comp.els.showAll.on('click', onShowAll.bind(null, comp));
+    comp.els.showLess.on('click', onShowLess.bind(null, comp));
+
+    // Inform
+    comp.input.trigger(comp.events.open);
+
+    return comp;
 }
 
 /**
@@ -419,7 +419,7 @@ function init(comp) {
         comp.input.on('focus.completer', onKey.bind(null, comp));
         comp.input.on('blur.completer', onBlur.bind(null, comp));
         if (comp.minChars === 0) {
-            comp.input.on('click.completer', onClick.bind(null, comp))
+            comp.input.on('click.completer', onClick.bind(null, comp));
         }
 
         comp.el.on('click.completer', function (evt) {
