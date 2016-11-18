@@ -13,9 +13,9 @@ var req = require('../utils/req.js');
 
 var DEFAULTS = {
     input: null,
-    els: {},
     tmpl: '',
-    throttle: 250,
+    keyThrottle: 250,
+    blurThrottle: 250,
     maxResults: 5,
     minChars: 3,
     dontAuto: false,
@@ -35,6 +35,7 @@ var DEFAULTS = {
     },
     events: {
         open: 'completer.open',
+        blur: 'completer.blur',
         close: 'completer.close',
         destroy: 'completer.destroy',
         selected: 'completer.selected'
@@ -53,7 +54,16 @@ require('es6-promise').polyfill();
  * @return {Boolean}
  */
 function isQuery(val, query) {
-    return typeof val === 'string' && val.replace(query, '') !== val;
+    if (typeof val !== 'string') {
+        return false;
+    } else if (query === '') {
+        return true;
+    }
+
+    val = val.toLowerCase();
+    query = query.toLowerCase();
+
+    return val.replace(query, '') !== val;
 }
 
 /**
@@ -149,35 +159,6 @@ function getRenderData(comp) {
 }
 
 /**
- * Handles item select
- * @param  {object} comp
- * @param  {event} evt
- */
-function onItem(comp, evt) {
-    comp.el.trigger(comp.events.selected, $(evt.currentTarget));
-}
-
-/**
- * Handles show all click event
- * @param  {object} comp
- * @param  {event} evt
- */
-function onShowAll(comp, evt) {
-    evt.preventDefault();
-    comp.el.addClass(comp.classes.hasAll);
-}
-
-/**
- * Handles show all click event
- * @param  {object} comp
- * @param  {event} evt
- */
-function onShowLess(comp, evt) {
-    evt.preventDefault();
-    comp.el.removeClass(comp.classes.hasAll);
-}
-
-/**
  * Close
  * @param  {object} comp
  * @return {object}
@@ -206,6 +187,8 @@ function open(comp) {
         comp.classes.isActive
     ];
 
+    comp.throttler && clearTimeout(comp.throttler);
+
     comp.el.html(tmpl);
     comp.el.removeClass(oldClasses.join(' '));
     comp.el.addClass(newClasses.join(' '));
@@ -224,6 +207,49 @@ function open(comp) {
     comp.input.trigger(comp.events.open);
 
     return comp;
+}
+
+/**
+ * Handles item select
+ * @param  {object} comp
+ * @param  {event} evt
+ */
+function onItem(comp, evt) {
+    comp.throttler && clearTimeout(comp.throttler);
+
+    evt.stopPropagation();
+
+    comp.el.trigger(comp.events.selected, $(evt.currentTarget));
+
+    if (!evt.defaultPrevented) {
+        close(comp);
+    }
+}
+
+/**
+ * Handles show all click event
+ * @param  {object} comp
+ * @param  {event} evt
+ */
+function onShowAll(comp, evt) {
+    comp.throttler && clearTimeout(comp.throttler);
+
+    evt.preventDefault();
+    evt.stopPropagation();
+    comp.el.addClass(comp.classes.hasAll);
+}
+
+/**
+ * Handles show all click event
+ * @param  {object} comp
+ * @param  {event} evt
+ */
+function onShowLess(comp, evt) {
+    comp.throttler && clearTimeout(comp.throttler);
+
+    evt.preventDefault();
+    evt.stopPropagation();
+    comp.el.removeClass(comp.classes.hasAll);
 }
 
 /**
@@ -248,7 +274,7 @@ function updateData(comp, query, setOpen) {
         comp.query = query;
 
         // Check for query errors
-        if (query < comp.minChars) {
+        if (query.length < comp.minChars) {
             comp.err = comp.classes.hasErrorMinChars;
 
             return resolve(comp);
@@ -307,21 +333,57 @@ function updateData(comp, query, setOpen) {
 }
 
 /**
+ * Handles click event
+ * @param  {object} comp
+ * @param  {event} evt
+ */
+function onClick(comp, evt) {
+    var val = comp.input.val();
+
+    evt.stopPropagation();
+
+    if (!evt.defaultPrevented) {
+        updateData(comp, val, true);
+    }
+}
+
+/**
  * Handles key event
  * @param  {object} comp
  * @param  {event} evt
  */
 function onKey(comp, evt) {
-    if (evt.keyCode === 27) {
+    evt.stopPropagation();
+
+    // TODO: Need to solve the ENTER!!!
+    if (!evt.defaultPrevented && evt.keyCode === 27 || !evt.keyCode) {
         return close(comp);
+    } else if (!evt.defaultPrevented && evt.keyCode === 13) {
+        // TODO: Not working!
+        evt.preventDefault();
+        // return close(comp);
     }
 
     comp.throttler && clearTimeout(comp.throttler);
     comp.throttler = setTimeout(function () {
-        var val = comp.input.val();
+        // Let click handle as usual
+        onClick(comp, evt);
+    }, comp.keyThrottle);
+}
 
-        updateData(comp, val, true);
-    }, comp.throttle);
+/**
+ * Handles blur event
+ * @param  {object} comp
+ * @param  {event} evt
+ */
+function onBlur(comp, evt) {
+    comp.throttler && clearTimeout(comp.throttler);
+    comp.throttler = setTimeout(function () {
+        if (!evt.defaultPrevented) {
+            comp.el.trigger(comp.events.blur, comp);
+            close(comp);
+        }
+    }, comp.blurThrottle);
 }
 
 /**
@@ -330,9 +392,14 @@ function onKey(comp, evt) {
  */
 function destroy(comp) {
     comp.throttler && clearTimeout(comp.throttler);
+
     comp.input.off('keyup.completer');
     comp.input.off('focus.completer');
     comp.input.off('blur.completer');
+    comp.input.off('click.completer');
+    comp.el.off('click.completer');
+    $(document.body).off('click.completer');
+
     comp.input.trigger(comp.events.destroy);
     component.destroy(comp);
 }
@@ -343,11 +410,25 @@ function destroy(comp) {
  * @return {object}
  */
 function init(comp) {
+    // Input shouldn't have autocompletion from browser
+    comp.input.attr('autocomplete', 'off');
+
     // Set events
     if (!comp.dontAuto) {
         comp.input.on('keyup.completer', onKey.bind(null, comp));
         comp.input.on('focus.completer', onKey.bind(null, comp));
-        comp.input.on('blur.completer', close.bind(null, comp));
+        comp.input.on('blur.completer', onBlur.bind(null, comp));
+        if (comp.minChars === 0) {
+            comp.input.on('click.completer', onClick.bind(null, comp))
+        }
+
+        comp.el.on('click.completer', function (evt) {
+            comp.throttler && clearTimeout(comp.throttler);
+
+            evt.preventDefault();
+            evt.stopPropagation();
+        });
+        $(document.body).on('click.completer', onBlur.bind(null, comp));
     }
 
     return comp;
@@ -362,7 +443,7 @@ module.exports = {
         comp = component.init(el, comp);
 
         // Elements need to be set out other way
-        comp.input = !!data ? data.input : null;
+        comp.input = data.input || el.find('.' + comp.classes.input);
 
         return init(comp);
     },
