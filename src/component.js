@@ -5,7 +5,7 @@
 // --------------------------------
 // Vars / Imports
 
-var merge = require('deepmerge');
+var deepMixIn = require('mout/object/deepMixIn.js');
 var DEFAULTS = {
     el: null,
     parent: null,
@@ -75,9 +75,7 @@ var destroy = function (comp) {
  * @return {object}
  */
 var getComp = function (data, DEFAULTS_COMP) {
-    return merge(DEFAULTS_COMP || {}, data || DEFAULTS_COMP, {
-        clone: true
-    });
+    return deepMixIn({}, DEFAULTS_COMP || {}, data || DEFAULTS_COMP);
 };
 
 /**

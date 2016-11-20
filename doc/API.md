@@ -117,7 +117,7 @@ module.exports = {
 ```js 
 var INITIAL_STATE = { project: {} };
 var redux = require('redux');
-var merge = require('deepmerge');
+var deepMixIn = require('mout/object/deepMixIn.js');
 var bedrockStore = require('bedrock/store.js');
 var store = bedrockStore.init({
     project: function (INITIAL) {
@@ -126,9 +126,9 @@ var store = bedrockStore.init({
 
             switch (action.type) {
             case 'SAVE_ON':
-                return merge(state, action.data, { clone: true });
+                return deepMixIn({}, state, action.data);
             default:
-                return merge({}, state, { clone: true });
+                return deepMixIn({}, state);
             }
         };
     }(INITIAL_STATE.project),

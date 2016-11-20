@@ -7,7 +7,7 @@
 // Vars / Imports
 
 var $ = require('jquery');
-var merge = require('deepmerge');
+var deepMixIn = require('mout/object/deepMixIn.js');
 var component = require('../component.js');
 var req = require('../utils/req.js');
 
@@ -135,10 +135,10 @@ function getRenderData(comp) {
         }
 
         // Lets create the new object
-        data.push(merge({
+        data.push(deepMixIn({}, {
             sourceIndex: i,
             data: source.reqData
-        }, source, { clone: true }));
+        }, source));
     }
 
     // Are there no results?

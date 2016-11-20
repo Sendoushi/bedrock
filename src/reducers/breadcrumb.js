@@ -5,7 +5,7 @@
 // -----------------------------------------
 // VARS
 
-var merge = require('deepmerge');
+var deepMixIn = require('mout/object/deepMixIn.js');
 
 // -----------------------------------------
 // FUNCTIONS
@@ -91,7 +91,7 @@ var reducer = function (INITIAL_STATE, BREADCRUMB_SCHEMA) {
         case 'SET_CONTENT':
             return setContent(action, BREADCRUMB_SCHEMA);
         default:
-            return merge([], state, { clone: true });
+            return deepMixIn([], state);
         }
     };
 };

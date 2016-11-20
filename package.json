@@ -1,6 +1,6 @@
 {
   "name": "bedrock",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "description": "Frontend top layer",
   "authors": [
     "Joel Santos <joel@sendoushi.com>"
@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "deep-diff": "^0.3.4",
-    "deepmerge": "^1.2.0",
     "dot": "^1.0.3",
     "es6-promise": "^4.0.5",
+    "mout": "^1.0.0",
     "page": "^1.7.1",
     "redux": "^3.6.0"
   },

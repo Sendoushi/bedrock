@@ -5,7 +5,7 @@
 // --------------------------------
 // Vars / Imports
 
-var merge = require('deepmerge');
+var deepMixIn = require('mout/object/deepMixIn.js');
 var diff = require('deep-diff').diff;
 
 // -----------------------------------------
@@ -21,7 +21,7 @@ var diff = require('deep-diff').diff;
  * @return {object}
  */
 var getNew = function (oldState, newState) {
-    var newData = merge(oldState, newState, { clone: true });
+    var newData = deepMixIn({}, oldState, newState);
     var isDiff = diff(oldState, newData);
 
     if (!isDiff) { return; }
