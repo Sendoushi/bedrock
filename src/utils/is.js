@@ -41,6 +41,14 @@ var isMobile = function () {
 };
 
 /**
+ * Check if device is touch
+ * @return {boolean}
+ */
+var isTouch = function () {
+    return !!('ontouchstart' in window) || !!('msmaxtouchpoints' in window.navigator);
+};
+
+/**
  * Check if media is...
  * @return {boolean}
  */
@@ -69,5 +77,6 @@ module.exports = {
     isIe: isIe,
     isEdge: isEdge,
     isMobile: isMobile,
+    isTouch: isTouch,
     mediaIs: mediaIs
 };

@@ -96,7 +96,6 @@ module.exports = {
 
         // Merge will mess with elements
         comp.el = el;
-        comp.els = data && data.els || DEFAULTS.els;
 
         return init(comp);
     },

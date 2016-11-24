@@ -59,7 +59,7 @@ var camelcase = function (str, alsoFirst, dontJoin) {
     str = str.toLowerCase().replace(/-/g, ' ').replace(/_/g, ' ').replace(/\//g, ' ');
 
     // Uppercase all
-    str = str.replace(/(^|\s)([a-z])/g, (m, p1, p2) => {
+    str = str.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
         return p1 + p2.toUpperCase();
     });
 
