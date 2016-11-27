@@ -5,6 +5,7 @@
 // --------------------------------
 // Vars / Imports
 
+var deepClone = require('mout/lang/deepClone.js');
 var deepMixIn = require('mout/object/deepMixIn.js');
 var DEFAULTS = {
     el: null,
@@ -75,7 +76,10 @@ var destroy = function (comp) {
  * @return {object}
  */
 var getComp = function (data, DEFAULTS_COMP) {
-    return deepMixIn({}, DEFAULTS_COMP || {}, data || DEFAULTS_COMP);
+    var defaults = !!DEFAULTS_COMP ? deepClone(DEFAULTS_COMP) : {};
+    var compData = !!data ? deepClone(data) : {};
+
+    return deepMixIn({}, defaults, compData);
 };
 
 /**
