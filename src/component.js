@@ -1,9 +1,4 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var deepClone = require('mout/lang/deepClone.js');
 var deepMixIn = require('mout/object/deepMixIn.js');
@@ -16,10 +11,7 @@ var DEFAULTS = {
 };
 
 // -----------------------------------------
-// PRIVATE FUNCTIONS
-
-// -----------------------------------------
-// PUBLIC FUNCTIONS
+// Functions
 
 /**
  * Renders
@@ -27,7 +19,7 @@ var DEFAULTS = {
  * @param  {object} data
  * @return {object}
  */
-var render = function (comp, data) {
+function render(comp, data) {
     var tmpl = comp.tmpl;
 
     // Cache the data
@@ -52,13 +44,13 @@ var render = function (comp, data) {
     comp.renderedTmpl = tmpl;
 
     return comp;
-};
+}
 
 /**
  * Destroys component
  * @param  {object} comp
  */
-var destroy = function (comp) {
+function destroy(comp) {
     if (!comp.el) {
         return comp;
     }
@@ -67,7 +59,7 @@ var destroy = function (comp) {
     if (comp.tmpl) {
         comp.el.empty();
     }
-};
+}
 
 /**
  * Gets comp object
@@ -75,21 +67,21 @@ var destroy = function (comp) {
  * @param  {object} DEFAULTS
  * @return {object}
  */
-var getComp = function (data, DEFAULTS_COMP) {
+function getComp(data, DEFAULTS_COMP) {
     var defaults = !!DEFAULTS_COMP ? deepClone(DEFAULTS_COMP) : {};
     var compData = !!data ? deepClone(data) : {};
 
     return deepMixIn({}, defaults, compData);
-};
+}
 
 /**
  * Initializes
  * @param  {object} comp
  * @return {object}
  */
-var init = function (comp) {
+function init(comp) {
     return comp;
-};
+}
 
 // --------------------------------
 // Export

@@ -1,18 +1,10 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var deepMixIn = require('mout/object/deepMixIn.js');
 var diff = require('deep-diff').diff;
 
 // -----------------------------------------
-// PRIVATE FUNCTIONS
-
-// -----------------------------------------
-// PUBLIC FUNCTIONS
+// Functions
 
 /**
  * Gets new state
@@ -20,7 +12,7 @@ var diff = require('deep-diff').diff;
  * @param  {*} newState
  * @return {object}
  */
-var getNew = function (oldState, newState) {
+function getNew(oldState, newState) {
     var newData = deepMixIn({}, oldState, newState);
     var isDiff = diff(oldState, newData);
 
@@ -31,7 +23,7 @@ var getNew = function (oldState, newState) {
         diff: isDiff,
         state: newData
     };
-};
+}
 
 // --------------------------------
 // Export

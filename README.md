@@ -7,7 +7,7 @@ The api documentation is **[here](doc/API.md)**.
 
 ## Examples of installation
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#0.1.35
+npm install --save git://github.com/Sendoushi/bedrock.git#0.2.1
 ```
 
 ## Styleguide

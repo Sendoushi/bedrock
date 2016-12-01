@@ -1,22 +1,14 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 // -----------------------------------------
-// PRIVATE FUNCTIONS
-
-// -----------------------------------------
-// PUBLIC FUNCTIONS
+// Functions
 
 /**
  * Takes care of a request
  * @param  {object} obj
  * @return {promise}
  */
-var action = function (obj) {
+function action(obj) {
     var store = obj.store;
     var requestMade = obj.request;
     var actionType = obj.action;
@@ -56,7 +48,7 @@ var action = function (obj) {
     });
 
     return promise;
-};
+}
 
 // --------------------------------
 // Export

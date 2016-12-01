@@ -1,15 +1,7 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 // -----------------------------------------
-// PRIVATE FUNCTIONS
-
-// -----------------------------------------
-// PUBLIC FUNCTIONS
+// Functions
 
 /**
  * Initializes actions with a store
@@ -17,7 +9,7 @@
  * @param  {object} actions
  * @return {object}
  */
-var init = function (store, actions) {
+function init(store, actions) {
     var keys = Object.keys(actions);
     var newActions = {};
     var i;
@@ -27,7 +19,7 @@ var init = function (store, actions) {
     }
 
     return newActions;
-};
+}
 
 // --------------------------------
 // Export

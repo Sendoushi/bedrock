@@ -1,19 +1,14 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 // -----------------------------------------
-// VARS
-
-// -----------------------------------------
-// FUNCTIONS
+// Functions
 
 /**
  * Loading reducer maker
  * @param  {boolean}  INITIAL_STATE
  * @return {function}
  */
-var reducer = function (INITIAL_STATE) {
+function reducer(INITIAL_STATE) {
     INITIAL_STATE = INITIAL_STATE || false;
 
     // Finally return the reducer
@@ -29,9 +24,9 @@ var reducer = function (INITIAL_STATE) {
 
         return diff ? action.loading : state;
     };
-};
+}
 
 // -----------------------------------------
-// EXPORT
+// Export
 
 module.exports = reducer;

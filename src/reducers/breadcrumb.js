@@ -1,14 +1,9 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// -----------------------------------------
-// VARS
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var deepMixIn = require('mout/object/deepMixIn.js');
 
 // -----------------------------------------
-// FUNCTIONS
+// Functions
 
 /**
  * Sets crumb in breadcrumb
@@ -16,7 +11,7 @@ var deepMixIn = require('mout/object/deepMixIn.js');
  * @param  {object} crumb
  * @return {array}
  */
-var pushCrumb = function (breadcrumb, crumb) {
+function pushCrumb(breadcrumb, crumb) {
     var params = crumb && crumb.params;
     var type = crumb && crumb.type;
     var name = crumb && crumb.name;
@@ -29,7 +24,7 @@ var pushCrumb = function (breadcrumb, crumb) {
     }
 
     return breadcrumb;
-};
+}
 
 /**
  * Set content related
@@ -37,7 +32,7 @@ var pushCrumb = function (breadcrumb, crumb) {
  * @param  {object} schema
  * @return {array}
  */
-var setContent = function (action, schema) {
+function setContent(action, schema) {
     var params = action.content.params;
     var breadcrumb = [];
     var type = action.content.type;
@@ -70,7 +65,7 @@ var setContent = function (action, schema) {
 
     // Finally inform of the breadcrumb
     return breadcrumb.reverse();
-};
+}
 
 /**
  * Loading reducer maker
@@ -78,7 +73,7 @@ var setContent = function (action, schema) {
  * @param  {object} BREADCRUMB_SCHEMA
  * @return {function}
  */
-var reducer = function (INITIAL_STATE, BREADCRUMB_SCHEMA) {
+function reducer(INITIAL_STATE, BREADCRUMB_SCHEMA) {
     INITIAL_STATE = INITIAL_STATE || [];
     BREADCRUMB_SCHEMA = BREADCRUMB_SCHEMA || {};
 
@@ -94,9 +89,9 @@ var reducer = function (INITIAL_STATE, BREADCRUMB_SCHEMA) {
             return deepMixIn([], state);
         }
     };
-};
+}
 
 // -----------------------------------------
-// EXPORT
+// Export
 
 module.exports = reducer;

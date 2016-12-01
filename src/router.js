@@ -1,9 +1,4 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var page = require('page');
 var mailbox = require('./mailbox.js');
@@ -24,20 +19,20 @@ var DEFAULTS = {
  * @param  {object} route
  * @param  {object} ctx
  */
-var cbRoute = function (route, ctx, next) {
+function cbRoute(route, ctx, next) {
     var c;
 
     for (c = 0; c < route.cbs.length; c += 1) {
         route.cbs[c](ctx, next);
     }
-};
+}
 
 /**
  * Adds a route
  * @param {string} route
  * @param {function} cb
  */
-var add = function (route, cb) {
+function add(route, cb) {
     var i;
 
     // Lets see if the route is already defined
@@ -50,13 +45,13 @@ var add = function (route, cb) {
 
     // Cache the callback and route for later use
     routes.push({ route: route, cbs: [cb] });
-};
+}
 
 /**
  * Starts the router
  * @param  {object} opts
  */
-var start = function (opts) {
+function start(opts) {
     var route;
     var i;
 
@@ -74,7 +69,7 @@ var start = function (opts) {
 
     // Finally starting the routes
     page.start(opts);
-};
+}
 
 // --------------------------------
 // Runtime

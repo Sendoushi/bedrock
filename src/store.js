@@ -1,9 +1,4 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var redux = require('redux');
 var mailbox = require('./mailbox.js');
@@ -17,17 +12,14 @@ var DEFAULTS = {
 };
 
 // -----------------------------------------
-// PRIVATE FUNCTIONS
-
-// -----------------------------------------
-// PUBLIC FUNCTIONS
+// Functions
 
 /**
  * Connects store
  * @param  {redux} store
  * @return {function}
  */
-var connect = function (store) {
+function connect(store) {
     var unsubscribe = store.subscribe(function () {
         var state = store.getState();
 
@@ -45,7 +37,7 @@ var connect = function (store) {
     });
 
     return unsubscribe;
-};
+}
 
 /**
  * Initializes store
@@ -53,7 +45,7 @@ var connect = function (store) {
  * @param  {*} INITIAL_STATE
  * @return {object}
  */
-var init = function (storeReducers, INITIAL_STATE) {
+function init(storeReducers, INITIAL_STATE) {
     var reducers = redux.combineReducers(storeReducers);
     var isDev = process && process.env && process.env.NODE_ENV === 'development';
     var devTools = window.devToolsExtension;
@@ -66,7 +58,7 @@ var init = function (storeReducers, INITIAL_STATE) {
     store.getInitial = function () { return INITIAL_STATE || {}; };
 
     return store;
-};
+}
 
 // --------------------------------
 // Export

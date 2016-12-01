@@ -1,9 +1,4 @@
-/* eslint-disable strict */
-'use strict';
-/* eslint-enable strict */
-
-// --------------------------------
-// Vars / Imports
+/* eslint-disable strict */'use strict';/* eslint-enable strict */
 
 var handlers = {};
 
@@ -17,7 +12,7 @@ var handlers = {};
  * @param  {function} cb
  * @return {string}
  */
-var on = function (msg, id, cb) {
+function on(msg, id, cb) {
     if (typeof id === 'function') {
         cb = id;
         id = Math.random() * 100000;
@@ -32,14 +27,14 @@ var on = function (msg, id, cb) {
     handlers[msg].push({ id: id, listener: cb });
 
     return id;
-};
+}
 
 /**
  * Removes listener
  * @param  {string} msg
  * @param  {string} id
  */
-var off = function (msg, id) {
+function off(msg, id) {
     if (!msg || !handlers[msg]) {
         return;
     }
@@ -53,14 +48,14 @@ var off = function (msg, id) {
     handlers[msg] = handlers[msg].filter(function (val) {
         return val.id !== id;
     });
-};
+}
 
 /**
  * Sends message
  * @param  {string} msg
  * @param  {object} data
  */
-var send = function (msg, data) {
+function send(msg, data) {
     var handler = handlers[msg];
     var i;
 
@@ -71,7 +66,7 @@ var send = function (msg, data) {
     for (i = 0; i < handler.length; i += 1) {
         handler[i].listener(data);
     }
-};
+}
 
 // --------------------------------
 // Export
