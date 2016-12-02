@@ -5,6 +5,8 @@ It isn't a new framework, just a set of utils to work with.
 
 The api documentation is **[here](doc/API.md)**.
 
+[![Build Status](https://travis-ci.org/Sendoushi/bedrock.svg?branch=master)](https://travis-ci.org/Sendoushi/bedrock)
+
 ## Examples of installation
 ```
 npm install --save git://github.com/Sendoushi/bedrock.git#0.2.1
