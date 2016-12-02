@@ -18,6 +18,14 @@ function on(msg, id, cb) {
         id = Math.random() * 100000;
     }
 
+    if (!msg && typeof msg !== 'function') {
+        throw new Error('A message handler is needed!');
+    }
+
+    if (!cb && typeof cb !== 'function') {
+        throw new Error('A listener function is needed!');
+    }
+
     // Lets see if the message is already defined
     if (!handlers[msg]) {
         handlers[msg] = [];
@@ -68,7 +76,14 @@ function send(msg, data) {
     }
 }
 
+/**
+ * Resets all listeners
+ */
+function reset() {
+    handlers = {};
+}
+
 // --------------------------------
 // Export
 
-module.exports = { on: on, off: off, send: send };
+module.exports = { on: on, off: off, send: send, reset: reset };

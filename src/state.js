@@ -1,5 +1,6 @@
 /* eslint-disable strict */'use strict';/* eslint-enable strict */
 
+var deepClone = require('mout/lang/deepClone.js');
 var deepMixIn = require('mout/object/deepMixIn.js');
 var diff = require('deep-diff').diff;
 
@@ -13,14 +14,12 @@ var diff = require('deep-diff').diff;
  * @return {object}
  */
 function getNew(oldState, newState) {
-    var newData = deepMixIn({}, oldState, newState);
+    var newData = deepMixIn({}, deepClone(oldState), deepClone(newState));
     var isDiff = diff(oldState, newData);
-
-    if (!isDiff) { return; }
 
     // Update data
     return {
-        diff: isDiff,
+        diff: !!isDiff ? isDiff : false,
         state: newData
     };
 }
