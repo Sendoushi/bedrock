@@ -1,8 +1,9 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+/* @flow *//* :: import type {GetNew} from './_test/state.flow.js'; */
+'use strict';
 
-var deepClone = require('mout/lang/deepClone.js');
-var deepMixIn = require('mout/object/deepMixIn.js');
-var diff = require('deep-diff').diff;
+import cloneDeep from 'lodash/cloneDeep.js';
+import merge from 'lodash/merge.js';
+import { diff } from 'deep-diff';
 
 // -----------------------------------------
 // Functions
@@ -13,20 +14,18 @@ var diff = require('deep-diff').diff;
  * @param  {*} newState
  * @return {object}
  */
-function getNew(oldState, newState) {
-    var newData = deepMixIn({}, deepClone(oldState), deepClone(newState));
-    var isDiff = diff(oldState, newData);
+const getNew/* :: :GetNew */ = (oldState = {}, newState = {}) => {
+    const newData = merge({}, cloneDeep(oldState), cloneDeep(newState));
+    const isDiff = diff(oldState, newData);
 
     // Update data
     return {
         diff: !!isDiff ? isDiff : false,
         state: newData
     };
-}
+};
 
 // --------------------------------
 // Export
 
-module.exports = {
-    getNew: getNew
-};
+export default { getNew };

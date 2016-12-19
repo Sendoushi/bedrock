@@ -1,8 +1,8 @@
 /* eslint-disable strict */'use strict';/* eslint-enable */
 /* global describe it */
 
-var expect = require('chai').expect;
-var router = require('../../src/router.js');
+// import { expect } from 'chai';
+// import router from '../../src/router.js';
 
 // --------------------------------
 // Functions
@@ -10,19 +10,19 @@ var router = require('../../src/router.js');
 // --------------------------------
 // Suite of tests
 
-describe('router', function () {
+describe('router', () => {
     // start
-    describe('start', function () {
+    describe('start', () => {
         // TODO: ...
     });
 
     // add
-    describe('add', function () {
+    describe('add', () => {
         // TODO: ...
     });
 
     // page
-    describe('page', function () {
+    describe('page', () => {
         // TODO: ...
     });
 });

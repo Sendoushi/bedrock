@@ -1,8 +1,8 @@
 /* eslint-disable strict */'use strict';/* eslint-enable */
 /* global describe it */
 
-var expect = require('chai').expect;
-var state = require('../../src/state.js');
+import { expect } from 'chai';
+import state from '../../src/state.js';
 
 // --------------------------------
 // Functions
@@ -10,11 +10,11 @@ var state = require('../../src/state.js');
 // --------------------------------
 // Suite of tests
 
-describe('state', function () {
+describe('state', () => {
     // getNew
-    describe('getNew', function () {
-        it('should get a new object', function () {
-            var result = state.getNew(null, { foo: 'bar' });
+    describe('getNew', () => {
+        it('should get a new object', () => {
+            const result = state.getNew(null, { foo: 'bar' });
 
             expect(result).to.be.an('object');
             expect(result).to.contain.keys(['diff', 'state']);
@@ -24,8 +24,8 @@ describe('state', function () {
             expect(result.state.foo).to.eql('bar');
         });
 
-        it('should merge states', function () {
-            var result = state.getNew({ bar: 'foo' }, { foo: 'bar' });
+        it('should merge states', () => {
+            const result = state.getNew({ bar: 'foo' }, { foo: 'bar' });
 
             expect(result).to.be.an('object');
             expect(result).to.contain.keys(['diff', 'state']);
@@ -37,8 +37,8 @@ describe('state', function () {
             expect(result.state.bar).to.eql('foo');
         });
 
-        it('should merge states and get the difference', function () {
-            var result = state.getNew({ bar: 'foo' }, { foo: 'bar' });
+        it('should merge states and get the difference', () => {
+            const result = state.getNew({ bar: 'foo' }, { foo: 'bar' });
 
             expect(result).to.be.an('object');
             expect(result).to.contain.keys(['diff', 'state']);
@@ -46,8 +46,8 @@ describe('state', function () {
             expect(result.diff).to.have.length.above(0);
         });
 
-        it('should return no diff without differences', function () {
-            var result = state.getNew({ foo: 'bar' }, { foo: 'bar' });
+        it('should return no diff without differences', () => {
+            const result = state.getNew({ foo: 'bar' }, { foo: 'bar' });
 
             expect(result).to.be.an('object');
             expect(result).to.contain.keys(['diff', 'state']);

@@ -1,6 +1,6 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+'use strict';
 
-var deepMixIn = require('mout/object/deepMixIn.js');
+import merge from 'lodash/merge.js';
 
 // -----------------------------------------
 // Functions
@@ -11,12 +11,10 @@ var deepMixIn = require('mout/object/deepMixIn.js');
  * @param  {object} crumb
  * @return {array}
  */
-function pushCrumb(breadcrumb, crumb) {
-    var params = crumb && crumb.params;
-    var type = crumb && crumb.type;
-    var name = crumb && crumb.name;
-
-    breadcrumb = breadcrumb || [];
+const pushCrumb = (breadcrumb = [], crumb = {}) => {
+    const params = crumb.params;
+    const type = crumb.type;
+    const name = crumb.name;
 
     // Add the type without parentType
     if (!!type && !!name) {
@@ -24,7 +22,7 @@ function pushCrumb(breadcrumb, crumb) {
     }
 
     return breadcrumb;
-}
+};
 
 /**
  * Set content related
@@ -32,20 +30,16 @@ function pushCrumb(breadcrumb, crumb) {
  * @param  {object} schema
  * @return {array}
  */
-function setContent(action, schema) {
-    var params = action.content.params;
-    var breadcrumb = [];
-    var type = action.content.type;
-    var breadcrumbType = schema[type] || {};
+const setContent = (action, schema) => {
+    const params = action.content.params;
+    let breadcrumb = [];
+    let type = action.content.type;
+    let breadcrumbType = schema[type] || {};
 
     // Loop to get all breadcrumbs with parent
     while (breadcrumbType.hasOwnProperty('parentType')) {
         // Set a new breadcrumb
-        breadcrumb = pushCrumb(breadcrumb, {
-            name: breadcrumbType && breadcrumbType.name,
-            type: type,
-            params: params
-        });
+        breadcrumb = pushCrumb(breadcrumb, { name: breadcrumbType && breadcrumbType.name, type, params });
 
         // Set the new breadcrumb for the parent
         type = breadcrumbType.parentType;
@@ -57,15 +51,11 @@ function setContent(action, schema) {
     }
 
     // Add the type without parentType
-    breadcrumb = pushCrumb(breadcrumb, {
-        name: breadcrumbType && breadcrumbType.name,
-        type: type,
-        params: params
-    });
+    breadcrumb = pushCrumb(breadcrumb, { name: breadcrumbType && breadcrumbType.name, type, params });
 
     // Finally inform of the breadcrumb
     return breadcrumb.reverse();
-}
+};
 
 /**
  * Loading reducer maker
@@ -73,25 +63,16 @@ function setContent(action, schema) {
  * @param  {object} BREADCRUMB_SCHEMA
  * @return {function}
  */
-function reducer(INITIAL_STATE, BREADCRUMB_SCHEMA) {
-    INITIAL_STATE = INITIAL_STATE || [];
-    BREADCRUMB_SCHEMA = BREADCRUMB_SCHEMA || {};
-
-    // Finally return the reducer
-    return function (state, action) {
-        state = state || INITIAL_STATE;
-        action = action || {};
-
-        switch (action.type) {
-        case 'SET_CONTENT':
-            return setContent(action, BREADCRUMB_SCHEMA);
-        default:
-            return deepMixIn([], state);
-        }
-    };
-}
+const reducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => (state = INITIAL_STATE, action = {}) => {
+    switch (action.type) {
+    case 'SET_CONTENT':
+        return setContent(action, BREADCRUMB_SCHEMA);
+    default:
+        return merge([], state);
+    }
+};
 
 // -----------------------------------------
 // Export
 
-module.exports = reducer;
+export default reducer;

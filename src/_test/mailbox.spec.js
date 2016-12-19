@@ -1,8 +1,8 @@
 /* eslint-disable strict */'use strict';/* eslint-enable */
 /* global describe it beforeEach */
 
-var expect = require('chai').expect;
-var mailbox = require('../../src/mailbox.js');
+import { expect } from 'chai';
+import mailbox from '../../src/mailbox.js';
 
 // --------------------------------
 // Functions
@@ -10,30 +10,31 @@ var mailbox = require('../../src/mailbox.js');
 // --------------------------------
 // Suite of tests
 
-describe('mailbox', function () {
-    beforeEach(function () {
+describe('mailbox', () => {
+    beforeEach(() => {
         mailbox.reset();
     });
 
     // on
-    describe('on', function () {
-        it('should return an id', function () {
-            var id = mailbox.on('foo', () => {});
-            expect(id).to.be.a('number');
+    describe('on', () => {
+        it('should return an id', () => {
+            const id = mailbox.on('foo', () => {});
+            expect(id).to.be.a('string');
+            expect(id).to.have.length.above(0);
         });
 
-        it('should return a custom id', function () {
-            var id = mailbox.on('foo', 'bar', () => {});
+        it('should return a custom id', () => {
+            const id = mailbox.on('foo', 'bar', () => {});
             expect(id).to.be.a('string');
             expect(id).to.eql('bar');
         });
 
-        it('should listen to events', function (done) {
+        it('should listen to events', (done) => {
             mailbox.on('foo', done);
             mailbox.send('foo');
         });
 
-        it('should error without a message', function (done) {
+        it('should error without a message', (done) => {
             try {
                 mailbox.on(null, () => {});
                 done('An error should have happened');
@@ -42,7 +43,7 @@ describe('mailbox', function () {
             }
         });
 
-        it('should error without a listener', function (done) {
+        it('should error without a listener', (done) => {
             try {
                 mailbox.on('foo');
                 done('An error should have happened');
@@ -53,10 +54,13 @@ describe('mailbox', function () {
     });
 
     // off
-    describe('off', function () {
-        it('should not listen', function (done) {
-            var timer;
-            var id = mailbox.on('foo', function () {
+    describe('off', () => {
+        it('should not listen', (done) => {
+            let setDone;
+            /* eslint-disable prefer-const */
+            let timer;
+            /* eslint-enable prefer-const */
+            const id = mailbox.on('foo', () => {
                 timer && clearTimeout(timer);
 
                 if (setDone) { return; }
@@ -72,10 +76,12 @@ describe('mailbox', function () {
             timer = setTimeout(done, 500);
         });
 
-        it('should not remove all id msg listeners', function (done) {
-            var timer;
-            var otherSet = false;
-            var id = mailbox.on('foo', function () {
+        it('should not remove all id msg listeners', (done) => {
+            /* eslint-disable prefer-const */
+            let timer;
+            /* eslint-enable prefer-const */
+            let otherSet = false;
+            const id = mailbox.on('foo', () => {
                 timer && clearTimeout(timer);
                 done('It should not listen to the one with id!');
             });
@@ -85,22 +91,24 @@ describe('mailbox', function () {
             mailbox.send('foo');
 
             // Now lets wait for nothing to happen
-            timer = setTimeout(function () {
+            timer = setTimeout(() => {
                 done(!otherSet ? 'Other isn\'t set!' : null);
             }, 500);
         });
 
-        it('should remove all id msg listeners', function (done) {
-            var setDone = false;
-            var listener = function (num) {
+        it('should remove all id msg listeners', (done) => {
+            let setDone = false;
+            /* eslint-disable prefer-const */
+            let timer;
+            /* eslint-enable prefer-const */
+            const listener = function (num) {
                 timer && clearTimeout(timer);
 
                 if (setDone) { return; }
                 setDone = true;
 
-                done('It should not listen to the ' + num + '!');
+                done(`It should not listen to the ${num}!`);
             };
-            var timer;
 
             mailbox.on('foo', listener.bind(null, 'first'));
             mailbox.on('foo', listener.bind(null, 'second'));
@@ -114,16 +122,14 @@ describe('mailbox', function () {
     });
 
     // send
-    describe('send', function () {
-        it('should send message', function (done) {
-            mailbox.on('foo', function (data) {
-                done();
-            });
+    describe('send', () => {
+        it('should send message', (done) => {
+            mailbox.on('foo', () => done());
             mailbox.send('foo');
         });
 
-        it('should send message with data', function (done) {
-            mailbox.on('foo', function (data) {
+        it('should send message with data', (done) => {
+            mailbox.on('foo', (data) => {
                 expect(data).to.be.an('string');
                 expect(data).to.eql('bar');
 
@@ -132,8 +138,8 @@ describe('mailbox', function () {
             mailbox.send('foo', 'bar');
         });
 
-        it('should send message with data object', function (done) {
-            mailbox.on('foo', function (data) {
+        it('should send message with data object', (done) => {
+            mailbox.on('foo', (data) => {
                 expect(data).to.be.an('object');
                 expect(data).to.contain.keys(['foo']);
                 expect(data.foo).to.eql('bar');
@@ -145,11 +151,13 @@ describe('mailbox', function () {
     });
 
     // reset
-    describe('reset', function () {
-        it('should reset', function (done) {
-            var timer;
+    describe('reset', () => {
+        it('should reset', (done) => {
+            /* eslint-disable prefer-const */
+            let timer;
+            /* eslint-enable prefer-const */
 
-            mailbox.on('foo', function () {
+            mailbox.on('foo', () => {
                 timer && clearTimeout(timer);
                 done('It shouldn\'t happen!');
             });

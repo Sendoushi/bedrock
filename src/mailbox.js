@@ -1,6 +1,7 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+/* @flow *//* :: import type {Handlers, Handler, On, Off, Send, Reset} from './_test/mailbox.flow.js'; */
+'use strict';
 
-var handlers = {};
+let handlers/* :: :Handlers */ = {};
 
 // --------------------------------
 // Functions
@@ -12,10 +13,10 @@ var handlers = {};
  * @param  {function} cb
  * @return {string}
  */
-function on(msg, id, cb) {
+const on/* :: :On */ = (msg, id, cb) => {
     if (typeof id === 'function') {
         cb = id;
-        id = Math.random() * 100000;
+        id = `${Math.random() * 100000}`;
     }
 
     if (!msg && typeof msg !== 'function') {
@@ -26,64 +27,58 @@ function on(msg, id, cb) {
         throw new Error('A listener function is needed!');
     }
 
-    // Lets see if the message is already defined
-    if (!handlers[msg]) {
-        handlers[msg] = [];
-    }
+    // Lets see if the message is already defined and cache it
+    const msgHandler/* :: :Handler[] */ = handlers[msg] || [];
 
-    // Cache the callback for later use
-    handlers[msg].push({ id: id, listener: cb });
+    // Now lets cache it
+    msgHandler.push({ id, listener: cb });
+    handlers[msg] = msgHandler;
 
     return id;
-}
+};
 
 /**
  * Removes listener
  * @param  {string} msg
  * @param  {string} id
  */
-function off(msg, id) {
+const off/* :: :Off */ = (msg, id) => {
     if (!msg || !handlers[msg]) {
         return;
     }
 
     if (!id) {
         // Lets remove all messages
-        handlers[msg] = null;
+        handlers[msg] = undefined;
         return;
     }
 
-    handlers[msg] = handlers[msg].filter(function (val) {
-        return val.id !== id;
-    });
-}
+    handlers[msg] = handlers[msg].filter((val) => val.id !== id);
+};
 
 /**
  * Sends message
  * @param  {string} msg
  * @param  {object} data
  */
-function send(msg, data) {
-    var handler = handlers[msg];
-    var i;
+const send/* :: :Send */ = (msg, data) => {
+    const handler = handlers[msg];
 
     if (!handler) {
         return;
     }
 
-    for (i = 0; i < handler.length; i += 1) {
+    for (let i/* :: :number */ = 0; i < handler.length; i += 1) {
         handler[i].listener(data);
     }
-}
+};
 
 /**
  * Resets all listeners
  */
-function reset() {
-    handlers = {};
-}
+const reset/* :: :Reset */ = () => { handlers = {}; };
 
 // --------------------------------
 // Export
 
-module.exports = { on: on, off: off, send: send, reset: reset };
+export default { on, off, send, reset };

@@ -1,4 +1,4 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+'use strict';
 
 // -----------------------------------------
 // Functions
@@ -8,30 +8,27 @@
  * @param  {object} obj
  * @return {promise}
  */
-function action(obj) {
-    var store = obj.store;
-    var requestMade = obj.request;
-    var actionType = obj.action;
-    var middleware = obj.middleware;
-    var lastStep = 'then';
-    var promise;
+const action = (obj) => {
+    const store = obj.store;
+    const requestMade = obj.request;
+    const actionType = obj.action;
+    const middleware = obj.middleware;
+    let lastStep = 'then';
 
     // Set loading
-    store.dispatch({ type: actionType + '_LOADING', loading: true });
+    store.dispatch({ type: `${actionType}_LOADING`, loading: true });
 
     // Make the request
-    promise = requestMade()
-    .then(function (data) {
-        return !!middleware ? middleware(data) : data;
-    })
-    .then(function (data) {
+    const promise = requestMade()
+    .then((data) => !!middleware ? middleware(data) : data)
+    .then((data) => {
         // Dispatch data
         store.dispatch({ type: actionType, data });
         return data;
     })
-    .catch(function (err) {
+    .catch((err) => {
         // Dispatch the error
-        store.dispatch({ type: actionType + '_ERR', err });
+        store.dispatch({ type: `${actionType}_ERR`, err });
     });
 
     // Check for the last step
@@ -40,17 +37,17 @@ function action(obj) {
     }
 
     // Now set the last step
-    promise[lastStep](function (data) {
+    promise[lastStep]((data) => {
         // Remove loading
-        store.dispatch({ type: actionType + '_LOADING', loading: false });
+        store.dispatch({ type: `${actionType}_LOADING`, loading: false });
 
         return data;
     });
 
     return promise;
-}
+};
 
 // --------------------------------
 // Export
 
-module.exports = action;
+export default action;

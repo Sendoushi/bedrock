@@ -1,4 +1,4 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+'use strict';
 
 // -----------------------------------------
 // Functions
@@ -8,25 +8,14 @@
  * @param  {*}  INITIAL_STATE
  * @return {function}
  */
-function reducer(INITIAL_STATE) {
-    INITIAL_STATE = INITIAL_STATE || false;
+const reducer = (INITIAL_STATE = false) => (state = INITIAL_STATE, action = {}) => {
+    const type = action.type;
+    const diff = type.replace('_ERR', '') !== type;
 
-    // Finally return the reducer
-    return function (state, action) {
-        var type;
-        var diff;
-
-        state = state || INITIAL_STATE;
-        action = action || {};
-
-        type = action.type;
-        diff = type.replace('_ERR', '') !== type;
-
-        return diff ? action.err : state;
-    };
-}
+    return diff ? action.err : state;
+};
 
 // -----------------------------------------
 // Export
 
-module.exports = reducer;
+export default reducer;

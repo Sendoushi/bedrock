@@ -1,8 +1,8 @@
 /* eslint-disable strict */'use strict';/* eslint-enable */
 /* global describe it */
 
-var expect = require('chai').expect;
-var store = require('../../src/store.js');
+// import { expect } from 'chai';
+// import store from '../../src/store.js';
 
 // --------------------------------
 // Functions
@@ -10,14 +10,14 @@ var store = require('../../src/store.js');
 // --------------------------------
 // Suite of tests
 
-describe('store', function () {
+describe('store', () => {
     // init
-    describe('init', function () {
+    describe('init', () => {
         // TODO: ...
     });
 
     // connect
-    describe('connect', function () {
+    describe('connect', () => {
         // TODO: ...
     });
 });

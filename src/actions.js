@@ -1,4 +1,5 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+/* @flow *//* :: import type {Actions, Init} from './_test/actions.flow.js'; */
+'use strict';
 
 // -----------------------------------------
 // Functions
@@ -9,21 +10,18 @@
  * @param  {object} actions
  * @return {object}
  */
-function init(store, actions) {
-    var keys = Object.keys(actions);
-    var newActions = {};
-    var i;
+const init/* :: :Init */ = (store, actions) => {
+    const keys/* :: :string[] */ = Object.keys(actions);
+    const newActions/* :: :Actions */ = {};
 
-    for (i = 0; i < keys.length; i += 1) {
+    for (let i/* :: :number */ = 0; i < keys.length; i += 1) {
         newActions[keys[i]] = actions[keys[i]](store);
     }
 
     return newActions;
-}
+};
 
 // --------------------------------
 // Export
 
-module.exports = {
-    init: init
-};
+export default { init };

@@ -1,9 +1,11 @@
-/* eslint-disable strict */'use strict';/* eslint-enable strict */
+/* @flow */
+/* :: import type {S, GetState, GetInitial, Store, Connect, Init} from './_test/store.flow.js'; */
+'use strict';
 
-var redux = require('redux');
-var mailbox = require('./mailbox.js');
+import redux from 'redux';
+import mailbox from './mailbox.js';
 
-var DEFAULTS = {
+const DEFAULTS = {
     events: {
         update: 'store.update',
         initialReq: 'store.initial.req',
@@ -19,25 +21,23 @@ var DEFAULTS = {
  * @param  {redux} store
  * @return {function}
  */
-function connect(store) {
-    var unsubscribe = store.subscribe(function () {
-        var state = store.getState();
+const connect/* :: :Connect */ = (store) => {
+    const unsubscribe/* :: :function */ = store.subscribe(() => {
+        const state/* :: :S */ = store.getState();
 
         // Inform of changes
         mailbox.send(DEFAULTS.events.update, state);
     });
 
     // Set general events
-    mailbox.on(DEFAULTS.events.initialReq, function (cb) {
-        var stateFn = store.getInitial || store.getState;
+    mailbox.on(DEFAULTS.events.initialReq, (cb) => {
+        const stateFn/* :: :GetInitial|GetState */ = store.getInitial || store.getState;
         cb(stateFn());
     });
-    mailbox.on(DEFAULTS.events.get, function (cb) {
-        cb(store.getState());
-    });
+    mailbox.on(DEFAULTS.events.get, (cb) => cb(store.getState()));
 
     return unsubscribe;
-}
+};
 
 /**
  * Initializes store
@@ -45,25 +45,21 @@ function connect(store) {
  * @param  {*} INITIAL_STATE
  * @return {object}
  */
-function init(storeReducers, INITIAL_STATE) {
-    var reducers = redux.combineReducers(storeReducers);
-    var isDev = process && process.env && process.env.NODE_ENV === 'development';
-    var devTools = window.devToolsExtension;
-    var finalCreateStore = redux.compose(
-        (isDev && devTools) ? devTools() : function (f) { return f; }
-    )(redux.createStore);
-    var store = finalCreateStore(reducers);
+const init/* :: :Init */ = (storeReducers, INITIAL_STATE = {}) => {
+    const reducers/* :: :function */ = redux.combineReducers(storeReducers);
+    const isDev/* :: :boolean */ = process && process.env && process.env.NODE_ENV === 'development' || false;
+    const devTools/* :: :?function */ = window.devToolsExtension;
+    const finalCreateStore/* :: :function */ = redux.compose((isDev && devTools) ? devTools() : (f) => f)(redux.createStore);
+    const store/* :: :Store */ = finalCreateStore(reducers);
+    const initialFn/* :: :GetInitial */ = () => INITIAL_STATE;
 
     // Register more methods
-    store.getInitial = function () { return INITIAL_STATE || {}; };
+    store.getInitial = initialFn;
 
     return store;
-}
+};
 
 // --------------------------------
 // Export
 
-module.exports = {
-    init: init,
-    connect: connect
-};
+export default { init, connect };

@@ -1,0 +1,369 @@
+[2016-12-17 16:25:23] Initializing Server (This might take some time)
+[2016-12-17 16:25:23] executable=/Users/sendoushi/work/public/bedrock/node_modules/flow-bin/flow-osx-v0.37.0/flow
+[2016-12-17 16:25:23] version=0.37.0
+[2016-12-17 16:25:23] Parsing
+[2016-12-17 16:25:24] Building package heap
+[2016-12-17 16:25:24] Loading libraries
+[2016-12-17 16:25:25] Running local inference
+[2016-12-17 16:25:25] Re-resolving directly dependent files
+[2016-12-17 16:25:25] Calculating dependencies
+[2016-12-17 16:25:25] Merging
+[2016-12-17 16:25:26] Done
+[2016-12-17 16:25:26] Server is READY
+[2016-12-17 16:25:26] Took 2.339834 seconds to initialize.
+[2016-12-17 16:25:26] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:25:59] Parsing
+[2016-12-17 16:25:59] Running local inference
+[2016-12-17 16:25:59] Merge prep
+[2016-12-17 16:25:59] Re-resolving directly dependent files
+[2016-12-17 16:25:59] Calculating dependencies
+[2016-12-17 16:25:59] Merging
+[2016-12-17 16:25:59] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:26:07] Parsing
+[2016-12-17 16:26:07] Running local inference
+[2016-12-17 16:26:07] Merge prep
+[2016-12-17 16:26:07] Re-resolving directly dependent files
+[2016-12-17 16:26:07] Calculating dependencies
+[2016-12-17 16:26:07] Merging
+[2016-12-17 16:26:07] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:26:29] Parsing
+[2016-12-17 16:26:29] Running local inference
+[2016-12-17 16:26:29] Merge prep
+[2016-12-17 16:26:29] Re-resolving directly dependent files
+[2016-12-17 16:26:29] Calculating dependencies
+[2016-12-17 16:26:29] Merging
+[2016-12-17 16:26:29] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:26:43] Parsing
+[2016-12-17 16:26:43] Running local inference
+[2016-12-17 16:26:43] Merge prep
+[2016-12-17 16:26:43] Re-resolving directly dependent files
+[2016-12-17 16:26:43] Calculating dependencies
+[2016-12-17 16:26:43] Merging
+[2016-12-17 16:26:43] Done
+[2016-12-17 16:26:57] Status: Error
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:27:18] Parsing
+[2016-12-17 16:27:18] Running local inference
+[2016-12-17 16:27:18] Merge prep
+[2016-12-17 16:27:18] Re-resolving directly dependent files
+[2016-12-17 16:27:18] Calculating dependencies
+[2016-12-17 16:27:18] Merging
+[2016-12-17 16:27:18] Done
+[2016-12-17 16:27:22] Status: Error
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:27:49] Parsing
+[2016-12-17 16:27:49] Running local inference
+[2016-12-17 16:27:49] Merge prep
+[2016-12-17 16:27:49] Re-resolving directly dependent files
+[2016-12-17 16:27:49] Calculating dependencies
+[2016-12-17 16:27:49] Merging
+[2016-12-17 16:27:49] Done
+[2016-12-17 16:27:51] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:28:22] Parsing
+[2016-12-17 16:28:22] Running local inference
+[2016-12-17 16:28:22] Merge prep
+[2016-12-17 16:28:22] Re-resolving directly dependent files
+[2016-12-17 16:28:22] Calculating dependencies
+[2016-12-17 16:28:22] Merging
+[2016-12-17 16:28:22] Done
+[2016-12-17 16:28:25] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:28:51] Parsing
+[2016-12-17 16:28:51] Running local inference
+[2016-12-17 16:28:51] Merge prep
+[2016-12-17 16:28:51] Re-resolving directly dependent files
+[2016-12-17 16:28:51] Calculating dependencies
+[2016-12-17 16:28:51] Merging
+[2016-12-17 16:28:51] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:29:31] Parsing
+[2016-12-17 16:29:31] Running local inference
+[2016-12-17 16:29:31] Merge prep
+[2016-12-17 16:29:31] Re-resolving directly dependent files
+[2016-12-17 16:29:31] Calculating dependencies
+[2016-12-17 16:29:31] Merging
+[2016-12-17 16:29:32] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:29:54] Parsing
+[2016-12-17 16:29:54] Running local inference
+[2016-12-17 16:29:54] Merge prep
+[2016-12-17 16:29:54] Re-resolving directly dependent files
+[2016-12-17 16:29:54] Calculating dependencies
+[2016-12-17 16:29:54] Merging
+[2016-12-17 16:29:54] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:30:06] Parsing
+[2016-12-17 16:30:06] Running local inference
+[2016-12-17 16:30:06] Merge prep
+[2016-12-17 16:30:06] Re-resolving directly dependent files
+[2016-12-17 16:30:06] Calculating dependencies
+[2016-12-17 16:30:06] Merging
+[2016-12-17 16:30:06] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:30:56] Parsing
+[2016-12-17 16:30:56] Running local inference
+[2016-12-17 16:30:56] Merge prep
+[2016-12-17 16:30:56] Re-resolving directly dependent files
+[2016-12-17 16:30:56] Calculating dependencies
+[2016-12-17 16:30:56] Merging
+[2016-12-17 16:30:56] Done
+[2016-12-17 16:30:57] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:37:22] Parsing
+[2016-12-17 16:37:22] Running local inference
+[2016-12-17 16:37:22] Merge prep
+[2016-12-17 16:37:22] Re-resolving directly dependent files
+[2016-12-17 16:37:22] Calculating dependencies
+[2016-12-17 16:37:22] Merging
+[2016-12-17 16:37:22] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:37:23] Parsing
+[2016-12-17 16:37:23] Running local inference
+[2016-12-17 16:37:24] Merge prep
+[2016-12-17 16:37:24] Re-resolving directly dependent files
+[2016-12-17 16:37:24] Calculating dependencies
+[2016-12-17 16:37:24] Merging
+[2016-12-17 16:37:24] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:38:06] Parsing
+[2016-12-17 16:38:06] Running local inference
+[2016-12-17 16:38:06] Merge prep
+[2016-12-17 16:38:06] Re-resolving directly dependent files
+[2016-12-17 16:38:06] Calculating dependencies
+[2016-12-17 16:38:06] Merging
+[2016-12-17 16:38:06] Done
+[2016-12-17 16:38:09] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:39:04] Parsing
+[2016-12-17 16:39:04] Running local inference
+[2016-12-17 16:39:04] Merge prep
+[2016-12-17 16:39:05] Re-resolving directly dependent files
+[2016-12-17 16:39:05] Calculating dependencies
+[2016-12-17 16:39:05] Merging
+[2016-12-17 16:39:05] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:39:18] Parsing
+[2016-12-17 16:39:18] Running local inference
+[2016-12-17 16:39:18] remerge 1 dependent files:
+[2016-12-17 16:39:18] 1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:39:18] Merge prep
+[2016-12-17 16:39:18] Re-resolving directly dependent files
+[2016-12-17 16:39:18] Calculating dependencies
+[2016-12-17 16:39:18] Merging
+[2016-12-17 16:39:18] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:39:34] Parsing
+[2016-12-17 16:39:34] Running local inference
+[2016-12-17 16:39:34] remerge 1 dependent files:
+[2016-12-17 16:39:34] 1/1: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:39:34] Merge prep
+[2016-12-17 16:39:34] Re-resolving directly dependent files
+[2016-12-17 16:39:34] Calculating dependencies
+[2016-12-17 16:39:34] Merging
+[2016-12-17 16:39:34] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:39:36] Parsing
+[2016-12-17 16:39:36] Running local inference
+[2016-12-17 16:39:36] remerge 1 dependent files:
+[2016-12-17 16:39:36] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:39:36] Merge prep
+[2016-12-17 16:39:36] Re-resolving directly dependent files
+[2016-12-17 16:39:36] Calculating dependencies
+[2016-12-17 16:39:36] Merging
+[2016-12-17 16:39:37] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:39:42] Parsing
+[2016-12-17 16:39:42] Running local inference
+[2016-12-17 16:39:42] remerge 1 dependent files:
+[2016-12-17 16:39:42] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:39:42] Merge prep
+[2016-12-17 16:39:42] Re-resolving directly dependent files
+[2016-12-17 16:39:42] Calculating dependencies
+[2016-12-17 16:39:42] Merging
+[2016-12-17 16:39:42] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:40:15] Parsing
+[2016-12-17 16:40:15] Running local inference
+[2016-12-17 16:40:15] remerge 1 dependent files:
+[2016-12-17 16:40:15] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:40:15] Merge prep
+[2016-12-17 16:40:15] Re-resolving directly dependent files
+[2016-12-17 16:40:15] Calculating dependencies
+[2016-12-17 16:40:15] Merging
+[2016-12-17 16:40:15] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:40:28] Parsing
+[2016-12-17 16:40:28] Running local inference
+[2016-12-17 16:40:28] Merge prep
+[2016-12-17 16:40:28] Re-resolving directly dependent files
+[2016-12-17 16:40:28] Calculating dependencies
+[2016-12-17 16:40:28] Merging
+[2016-12-17 16:40:28] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:40:30] Parsing
+[2016-12-17 16:40:30] Running local inference
+[2016-12-17 16:40:30] Merge prep
+[2016-12-17 16:40:30] Re-resolving directly dependent files
+[2016-12-17 16:40:30] Calculating dependencies
+[2016-12-17 16:40:30] Merging
+[2016-12-17 16:40:30] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:41:52] Parsing
+[2016-12-17 16:41:52] Running local inference
+[2016-12-17 16:41:52] remerge 1 dependent files:
+[2016-12-17 16:41:52] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:41:52] Merge prep
+[2016-12-17 16:41:52] Re-resolving directly dependent files
+[2016-12-17 16:41:52] Calculating dependencies
+[2016-12-17 16:41:52] Merging
+[2016-12-17 16:41:52] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:42:05] Parsing
+[2016-12-17 16:42:05] Running local inference
+[2016-12-17 16:42:05] Merge prep
+[2016-12-17 16:42:05] Re-resolving directly dependent files
+[2016-12-17 16:42:05] Calculating dependencies
+[2016-12-17 16:42:05] Merging
+[2016-12-17 16:42:05] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:42:13] Parsing
+[2016-12-17 16:42:13] Running local inference
+[2016-12-17 16:42:13] remerge 1 dependent files:
+[2016-12-17 16:42:13] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:42:13] Merge prep
+[2016-12-17 16:42:13] Re-resolving directly dependent files
+[2016-12-17 16:42:13] Calculating dependencies
+[2016-12-17 16:42:13] Merging
+[2016-12-17 16:42:13] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:42:49] Parsing
+[2016-12-17 16:42:49] Running local inference
+[2016-12-17 16:42:50] remerge 1 dependent files:
+[2016-12-17 16:42:50] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:42:50] Merge prep
+[2016-12-17 16:42:50] Re-resolving directly dependent files
+[2016-12-17 16:42:50] Calculating dependencies
+[2016-12-17 16:42:50] Merging
+[2016-12-17 16:42:50] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:43:02] Parsing
+[2016-12-17 16:43:02] Running local inference
+[2016-12-17 16:43:02] remerge 1 dependent files:
+[2016-12-17 16:43:02] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:43:02] Merge prep
+[2016-12-17 16:43:02] Re-resolving directly dependent files
+[2016-12-17 16:43:02] Calculating dependencies
+[2016-12-17 16:43:02] Merging
+[2016-12-17 16:43:02] Done
+[2016-12-17 16:43:10] Status: OK
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:46:15] Parsing
+[2016-12-17 16:46:15] Running local inference
+[2016-12-17 16:46:15] remerge 1 dependent files:
+[2016-12-17 16:46:15] 1/1: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:46:15] Merge prep
+[2016-12-17 16:46:15] Re-resolving directly dependent files
+[2016-12-17 16:46:15] Calculating dependencies
+[2016-12-17 16:46:15] Merging
+[2016-12-17 16:46:15] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/_test/store.flow.js
+[2016-12-17 16:46:51] Parsing
+[2016-12-17 16:46:51] Running local inference
+[2016-12-17 16:46:51] remerge 3 dependent files:
+[2016-12-17 16:46:51] 1/3: /Users/sendoushi/work/public/bedrock/src/_test/actions.flow.js
+[2016-12-17 16:46:51] 2/3: /Users/sendoushi/work/public/bedrock/src/actions.js
+[2016-12-17 16:46:51] 3/3: /Users/sendoushi/work/public/bedrock/src/store.js
+[2016-12-17 16:46:51] Merge prep
+[2016-12-17 16:46:51] Re-resolving directly dependent files
+[2016-12-17 16:46:51] Calculating dependencies
+[2016-12-17 16:46:51] Merging
+[2016-12-17 16:46:52] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/state.js
+[2016-12-17 16:51:48] Parsing
+[2016-12-17 16:51:48] Running local inference
+[2016-12-17 16:51:48] Merge prep
+[2016-12-17 16:51:48] Re-resolving directly dependent files
+[2016-12-17 16:51:48] Calculating dependencies
+[2016-12-17 16:51:49] Merging
+[2016-12-17 16:51:49] Done
+recheck 1 modified, 0 deleted files
+modified files:
+1/1: /Users/sendoushi/work/public/bedrock/src/state.js
+[2016-12-17 16:52:00] Parsing
+[2016-12-17 16:52:00] Running local inference
+[2016-12-17 16:52:00] Merge prep
+[2016-12-17 16:52:00] Re-resolving directly dependent files
+[2016-12-17 16:52:00] Calculating dependencies
+[2016-12-17 16:52:00] Merging
+[2016-12-17 16:52:00] Done
+[2016-12-17 16:52:40] Status: Error
+[2016-12-17 16:52:40] Modified lib file: /Users/sendoushi/work/public/bedrock/src/_test/_interfaces.flow.js
+[2016-12-17 16:52:40] Lib files changed in an incompatible way. Exiting.
+
