@@ -1,9 +1,9 @@
 // @flow
 
-export type Handler = { id: string, listener: (any) => any };
+export type Handler = { id: string, listener: Function };
 export type Handlers =  { [key: string]: ?Handler[] };
 
-export type OnCb = (any) => any;
+export type OnCb = Function;
 export type On = (msg: string, id: string | OnCb, cb: OnCb | void) => string;
 
 export type Off = (msg: ?string, id: string) => ?void;
