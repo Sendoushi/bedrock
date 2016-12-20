@@ -1,4 +1,4 @@
-/* @flow *//* :: import type {Actions, Init} from './_test/actions.flow.js'; */
+/* @flow *//* :: import type {Actions, FnInit} from './_test/actions.flow.js'; */
 'use strict';
 
 // -----------------------------------------
@@ -10,7 +10,7 @@
  * @param  {object} actions
  * @return {object}
  */
-const init/* :: :Init */ = (store, actions) => {
+const init/* :: :FnInit */ = (store, actions) => {
     const keys/* :: :string[] */ = Object.keys(actions);
     const newActions/* :: :Actions */ = {};
 

@@ -3,8 +3,6 @@
 // State
 
 /*:: export type S = any;*/
-/*:: export type GetState = () => S;*/
-/*:: export type GetInitial = () => S;*/
 
 
 // From Redux!
@@ -17,6 +15,8 @@
     subscribe(listener: () => void): () => void;
     replaceReducer(nextReducer: any): void
 };*/
-/*:: export type Connect = (store: Store) => Function;*/
-/*:: export type Init = (storeReducers: StoreReducers, INITIAL_STATE: S) => Store;*/
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9fdGVzdC9zdG9yZS5mbG93LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRXFCOzs7Ozs7O0FBTXJCO0FBQ0EiLCJmaWxlIjoic3RvcmUuZmxvdy5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIEBmbG93XG5cbmV4cG9ydCB0eXBlIFMgPSBhbnk7IC8vIFN0YXRlXG5cbmV4cG9ydCB0eXBlIEdldFN0YXRlID0gKCkgPT4gUztcbmV4cG9ydCB0eXBlIEdldEluaXRpYWwgPSAoKSA9PiBTO1xuZXhwb3J0IHR5cGUgU3RvcmVSZWR1Y2VycyA9IHsgW2tleTogc3RyaW5nXTphbnkgfTtcblxuLy8gRnJvbSBSZWR1eCFcbi8vIFRPRE86IERlY2xhcmUgbW9kdWxlIGluc3RlYWQuLi5cbmV4cG9ydCB0eXBlIFN0b3JlID0ge1xuICAgIGRpc3BhdGNoOiBGdW5jdGlvbjtcbiAgICBnZXRTdGF0ZTogR2V0U3RhdGU7XG4gICAgZ2V0SW5pdGlhbDogR2V0SW5pdGlhbDsgLy8gVGhpcyBpcyBhZGRlZCB0byB0aGUgZ2VuZXJhbCBzdG9yZVxuICAgIHN1YnNjcmliZShsaXN0ZW5lcjogKCkgPT4gdm9pZCk6ICgpID0+IHZvaWQ7XG4gICAgcmVwbGFjZVJlZHVjZXIobmV4dFJlZHVjZXI6IGFueSk6IHZvaWRcbn07XG5cbmV4cG9ydCB0eXBlIENvbm5lY3QgPSAoc3RvcmU6IFN0b3JlKSA9PiBGdW5jdGlvbjtcbmV4cG9ydCB0eXBlIEluaXQgPSAoc3RvcmVSZWR1Y2VyczogU3RvcmVSZWR1Y2VycywgSU5JVElBTF9TVEFURTogUykgPT4gU3RvcmU7XG4iXX0=
+/*:: export type FnGetState = () => S;*/
+/*:: export type FnGetInitial = () => S;*/
+/*:: export type FnConnect = (store: Store) => Function;*/
+/*:: export type FnInit = (storeReducers: StoreReducers, INITIAL_STATE: S) => Store;*/
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9fdGVzdC9zdG9yZS5mbG93LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRXFCOzs7OztBQUlyQjtBQUNBIiwiZmlsZSI6InN0b3JlLmZsb3cuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBAZmxvd1xuXG5leHBvcnQgdHlwZSBTID0gYW55OyAvLyBTdGF0ZVxuXG5leHBvcnQgdHlwZSBTdG9yZVJlZHVjZXJzID0geyBba2V5OiBzdHJpbmddOmFueSB9O1xuXG4vLyBGcm9tIFJlZHV4IVxuLy8gVE9ETzogRGVjbGFyZSBtb2R1bGUgaW5zdGVhZC4uLlxuZXhwb3J0IHR5cGUgU3RvcmUgPSB7XG4gICAgZGlzcGF0Y2g6IEZ1bmN0aW9uO1xuICAgIGdldFN0YXRlOiBHZXRTdGF0ZTtcbiAgICBnZXRJbml0aWFsOiBHZXRJbml0aWFsOyAvLyBUaGlzIGlzIGFkZGVkIHRvIHRoZSBnZW5lcmFsIHN0b3JlXG4gICAgc3Vic2NyaWJlKGxpc3RlbmVyOiAoKSA9PiB2b2lkKTogKCkgPT4gdm9pZDtcbiAgICByZXBsYWNlUmVkdWNlcihuZXh0UmVkdWNlcjogYW55KTogdm9pZFxufTtcblxuZXhwb3J0IHR5cGUgRm5HZXRTdGF0ZSA9ICgpID0+IFM7XG5leHBvcnQgdHlwZSBGbkdldEluaXRpYWwgPSAoKSA9PiBTO1xuZXhwb3J0IHR5cGUgRm5Db25uZWN0ID0gKHN0b3JlOiBTdG9yZSkgPT4gRnVuY3Rpb247XG5leHBvcnQgdHlwZSBGbkluaXQgPSAoc3RvcmVSZWR1Y2VyczogU3RvcmVSZWR1Y2VycywgSU5JVElBTF9TVEFURTogUykgPT4gU3RvcmU7XG4iXX0=

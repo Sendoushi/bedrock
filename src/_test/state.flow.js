@@ -1,6 +1,8 @@
 // @flow
 
-export type GetNew = (oldState: { [key: any]: any }, newState: { [key: any]: any }) => {
+export type S = { [key: any]: any };
+
+export type FnGetNew = (oldState: S, newState: S) => {
     diff: Array<any> | boolean,
-    state: { [key: any]: any }
+    state: S
 };

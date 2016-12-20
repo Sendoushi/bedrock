@@ -1,7 +1,8 @@
 "use strict";
 
-/*:: export type GetNew = (oldState: { [key: any]: any }, newState: { [key: any]: any }) => {
+/*:: export type S = { [key: any]: any };*/
+/*:: export type FnGetNew = (oldState: S, newState: S) => {
     diff: Array<any> | boolean,
-    state: { [key: any]: any }
+    state: S
 };*/
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdGF0ZS5mbG93LmpzIiwic291cmNlc0NvbnRlbnQiOltdfQ==

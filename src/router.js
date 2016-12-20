@@ -1,4 +1,4 @@
-/* @flow *//* :: import type {Routes, Route, AddRoute, Add, CbRoute, Start} from './_test/router.flow.js'; */
+/* @flow *//* :: import type {Routes, Route, AddRoute, FnAdd, FnCbRoute, FnStart} from './_test/router.flow.js'; */
 'use strict';
 
 import page from 'page';
@@ -20,7 +20,7 @@ const DEFAULTS = {
  * @param  {object} route
  * @param  {object} ctx
  */
-const cbRoute/* :: :CbRoute */ = (route, ctx, next) => {
+const cbRoute/* :: :FnCbRoute */ = (route, ctx, next) => {
     for (let c/* :: :number */ = 0; c < route.cbs.length; c += 1) {
         route.cbs[c](ctx, next);
     }
@@ -31,7 +31,7 @@ const cbRoute/* :: :CbRoute */ = (route, ctx, next) => {
  * @param {string} route
  * @param {function} cb
  */
-const add/* :: :Add */ = (route, cb) => {
+const add/* :: :FnAdd */ = (route, cb) => {
     // Lets see if the route is already defined
     for (let i/* :: :number */ = 0; i < routes.length; i += 1) {
         if (routes[i].route === route) {
@@ -48,7 +48,7 @@ const add/* :: :Add */ = (route, cb) => {
  * Starts the router
  * @param  {object} opts
  */
-const start/* :: :Start */ = (opts) => {
+const start/* :: :FnStart */ = (opts) => {
     if (!routes.length) {
         return;
     }

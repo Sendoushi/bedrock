@@ -1,4 +1,4 @@
-/* @flow *//* :: import type {GetNew} from './_test/state.flow.js'; */
+/* @flow *//* :: import type {FnGetNew} from './_test/state.flow.js'; */
 'use strict';
 
 import cloneDeep from 'lodash/cloneDeep.js';
@@ -14,7 +14,7 @@ import { diff } from 'deep-diff';
  * @param  {*} newState
  * @return {object}
  */
-const getNew/* :: :GetNew */ = (oldState = {}, newState = {}) => {
+const getNew/* :: :FnGetNew */ = (oldState = {}, newState = {}) => {
     const newData = merge({}, cloneDeep(oldState), cloneDeep(newState));
     const isDiff = diff(oldState, newData);
 

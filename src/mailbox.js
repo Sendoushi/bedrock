@@ -1,4 +1,4 @@
-/* @flow *//* :: import type {Handlers, Handler, On, Off, Send, Reset} from './_test/mailbox.flow.js'; */
+/* @flow *//* :: import type {Handlers, Handler, FnOn, FnOff, FnSend, FnReset} from './_test/mailbox.flow.js'; */
 'use strict';
 
 let handlers/* :: :Handlers */ = {};
@@ -13,7 +13,7 @@ let handlers/* :: :Handlers */ = {};
  * @param  {function} cb
  * @return {string}
  */
-const on/* :: :On */ = (msg, id, cb) => {
+const on/* :: :FnOn */ = (msg, id, cb) => {
     if (typeof id === 'function') {
         cb = id;
         id = `${Math.random() * 100000}`;
@@ -42,7 +42,7 @@ const on/* :: :On */ = (msg, id, cb) => {
  * @param  {string} msg
  * @param  {string} id
  */
-const off/* :: :Off */ = (msg, id) => {
+const off/* :: :FnOff */ = (msg, id) => {
     if (!msg || !handlers[msg]) {
         return;
     }
@@ -61,7 +61,7 @@ const off/* :: :Off */ = (msg, id) => {
  * @param  {string} msg
  * @param  {object} data
  */
-const send/* :: :Send */ = (msg, data) => {
+const send/* :: :FnSend */ = (msg, data) => {
     const handler = handlers[msg];
 
     if (!handler) {
@@ -76,7 +76,7 @@ const send/* :: :Send */ = (msg, data) => {
 /**
  * Resets all listeners
  */
-const reset/* :: :Reset */ = () => { handlers = {}; };
+const reset/* :: :FnReset */ = () => { handlers = {}; };
 
 // --------------------------------
 // Export

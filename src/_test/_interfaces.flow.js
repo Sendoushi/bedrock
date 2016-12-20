@@ -1,11 +1,19 @@
 // @flow
 
-declare module 'jquery' {
-    declare function exports(args: any): any;
+declare type jQueryElement = {
+    context: Object,
+    length: number,
+    prevObject: Object,
+    selector: string,
+    [int: number]: Object
+};
+
+declare module "jQuery" {
+    declare function $(element: Element | string): jQueryElement;
 }
 
-declare module 'jQuery' {
-    declare function exports(args: any): any;
+declare module "jquery" {
+    declare function $(element: Element | string): jQueryElement;
 }
 
 declare module 'lodash/cloneDeep.js' {

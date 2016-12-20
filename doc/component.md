@@ -38,14 +38,14 @@ const init = (comp) => comp;
 const render = (comp) => component.render(comp);
 const destroy = (comp) => component.destroy(comp);
 
-module.exports = {
-    init: function (el, data) {
-        var comp = component.getComp(data, DEFAULTS);
+export default {
+    init: (el, data) => {
+        let comp = component.getComp(data, DEFAULTS);
         comp = component.init(el, comp);
         
         return (!el || !el.length) ? comp : init(comp);
     },
-    rende,
+    render,
     destroy
 };
 ```

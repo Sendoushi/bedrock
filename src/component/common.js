@@ -1,50 +1,24 @@
+/* @flow */
+/* :: import type {
+    Comp, Tmpl, NativeEl,
+    FnRender, FnDestroy, FnInit, FnGetComp
+} from './_test/common.flow.js' */
 'use strict';
 
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';
 
 const DEFAULTS = {
-    el: null,
+    el: undefined,
     els: {},
     comps: {},
     state: {},
-    tmpl: null
+    noRender: false,
+    tmpl: undefined
 };
 
 // -----------------------------------------
 // Functions
-
-/**
- * Renders
- * @param  {object} comp
- * @param  {object} state
- * @return {string}
- */
-const render = (comp, state) => {
-    let tmpl = comp.tmpl;
-
-    // Cache the data
-    // TODO: Should we check diffs in state?
-    comp.state = state || comp.state;
-
-    if (tmpl && typeof tmpl === 'function') {
-        tmpl = tmpl(comp, comp.state);
-    }
-
-    if (!tmpl || typeof tmpl !== 'string') {
-        return null;
-    }
-
-    // Maybe there aren't changes
-    if (tmpl !== comp.renderedTmpl) {
-        // Lets cache tmpl for future usage...
-        comp.renderedTmpl = tmpl;
-
-        return tmpl;
-    }
-
-    return null;
-};
 
 /**
  * Gets comp object
@@ -52,18 +26,74 @@ const render = (comp, state) => {
  * @param  {object} DEFAULTS
  * @return {object}
  */
-const getComp = (data = {}, DEFAULTS_COMP = {}) => {
-    const defaults = cloneDeep(DEFAULTS_COMP);
+const getComp/* :: :FnGetComp*/ = (data = {}, DEFAULTS_COMP = DEFAULTS) => {
     const compData = cloneDeep(data);
 
-    return merge({}, defaults, compData);
+    // Remove, we'll add it later
+    delete compData.els;
+    delete compData.comps;
+
+    const comp/* :: :Comp */ = merge({}, cloneDeep(DEFAULTS_COMP), compData);
+
+    comp.els = data.els || comp.els;
+    comp.comps = data.comps || comp.comps;
+
+    return comp;
+};
+
+/**
+ * Renders
+ * @param  {object} comp
+ * @param  {object} state
+ * @return {string}
+ */
+const render/* :: :FnRender*/ = (comp, state) => {
+    let tmpl/* :: :Tmpl */ = comp.tmpl;
+
+    // Cache the data
+    // TODO: Should we check diffs in state?
+    comp.state = state || comp.state;
+
+    if (tmpl !== undefined && typeof tmpl === 'function') {
+        tmpl = tmpl(comp, comp.state);
+    }
+
+    // At this stage, the string is needed!
+    if (!tmpl || tmpl === undefined || typeof tmpl !== 'string') {
+        return comp;
+    }
+
+    // Maybe there aren't changes
+    if (tmpl !== comp.renderedTmpl) {
+        // Lets cache tmpl for future usage...
+        comp.renderedTmpl = tmpl;
+
+        // Lets iterate per element
+        if (comp.el !== undefined) {
+            for (let i = 0; i < comp.el.length; i += 1) {
+                comp.el[i].innerHTML = tmpl;
+            }
+        }
+    }
+
+    return comp;
 };
 
 /**
  * Destroys component
  * @param  {object} comp
  */
-const destroy = (comp) => comp;
+const destroy/* :: :FnDestroy */ = (comp) => {
+    // Check el data
+    if (comp.el !== undefined && comp.tmpl !== undefined) {
+        // Lets remove the html!
+        for (let i = 0; i < comp.el.length; i += 1) {
+            comp.el[i].innerHTML = '';
+        }
+    }
+
+    return comp;
+};
 
 /**
  * Initializes
@@ -71,21 +101,18 @@ const destroy = (comp) => comp;
  * @param {object} comp
  * @returns {object}
  */
-const init = (comp) => comp;
+const init/* :: :FnInit */ = (comp) => comp;
 
 // --------------------------------
 // Export
 
 export default {
-    init: (el, data = {}) => {
-        const comp = getComp(data, DEFAULTS);
-
-        // Merge will mess with elements
+    init: (el/* :: :NativeEl */, data/* :: :Object */ = {}) => {
+        const comp/* :: :Comp */ = getComp(data);
         comp.el = el;
-        comp.els = data.els || comp.els;
-        comp.comps = data.comps || comp.comps;
 
-        return (!el) ? comp : init(comp);
+        return (!el || !el.length) ? comp : init(comp);
     },
-    getComp, render, destroy
+    getComp,
+    render, destroy
 };
