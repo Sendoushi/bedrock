@@ -1,5 +1,5 @@
-/* eslint-disable strict */'use strict';/* eslint-enable */
-/* global describe it beforeEach */
+'use strict';
+/* global describe it beforeEach afterEach before after */
 
 import { expect } from 'chai';
 import mailbox from '../../src/mailbox.js';

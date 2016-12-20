@@ -6,46 +6,123 @@ You may check the components already provided in the [bedrock-components](https:
 
 ### Usage
 
-```js
-import doT from 'dot';
-import component from 'bedrock/src/component/jquery.js';
+#### Simple component without DOM
 
-const tmpl = doT.template('<div></div>');
-const comp = component.init($('.foo'), {
-    tmpl: (comp, data) => tmpl(data), // String accepted. It is optional
-    state: { // It will render if no change happens in the render
+```js
+import {Component} from 'bedrock/src/component/common.js';
+
+const comp = new Comp(el, {
+    state: {
         bar: 'bar'
     }
-});
+})
+
+// Set the state
+comp.state = { foo: 'foo' }; // State = { bar: 'bar', foo: 'foo' }
+comp.state = { bar: '_bar' }; // State = { bar: '_bar', foo: 'foo' }
+
+// Cache components
+comp.comps.foo = new Comp(el);
+
+// Destroy the component and the nested ones
+comp.destroy();
+```
+
+#### Vanilla
+
+```js
+import doT from 'dot';
+import {Component} from 'bedrock/src/component/vanilla.js';
+
+const el = document.body;
+const tmpl = doT.template('<div></div>');
+const comp = new Comp(el, {
+    tmpl: (comp, state) => tmpl(state), // String accepted. It is optional,
+    render: true,
+    state: { // It will be available in the template
+        bar: 'bar'
+    }
+})
+
+// Set the state
+comp.state = { foo: 'foo' }; // State = { bar: 'bar', foo: 'foo' }
+comp.state = { bar: '_bar' }; // State = { bar: '_bar', foo: 'foo' }
 
 // It won't happen if you don't use template ability
-// It will change the bar value on the state and render it instead
-component.render(comp, { bar: 'foo' });
+comp.render();
 
-// Now you can cache elements
-comp.els.bar = comp.el.find('.bar');
+// Cache elements jquery and components
+comp.els.bar = document.getElementById('bar');;
+comp.comps.foo = new Comp(el);
 
-// And set new comps
-comp.comps.foo = component.init(comp.els.bar);
+// Destroy the component and the nested ones
+comp.destroy();
+```
+
+#### jQuery
+
+```js
+import $ from 'jquery';
+import doT from 'dot';
+import {Component} from 'bedrock/src/component/jquery.js';
+
+const el = $('.foo');
+const tmpl = doT.template('<div></div>');
+const comp = new Comp(el, {
+    tmpl: (comp, state) => tmpl(state), // String accepted. It is optional,
+    render: true,
+    state: { // It will be available in the template
+        bar: 'bar'
+    }
+})
+
+// Set the state
+comp.state = { foo: 'foo' }; // State = { bar: 'bar', foo: 'foo' }
+comp.state = { bar: '_bar' }; // State = { bar: '_bar', foo: 'foo' }
+
+// It won't happen if you don't use template ability
+comp.render();
+
+// Cache elements jquery and components
+comp.$els.bar = comp.el.find('.bar');
+comp.comps.foo = new Comp(el);
+
+// Destroy the component and the nested ones
+comp.destroy();
 ```
 
 ### Extend it...
 
 ```js
-import component from 'bedrock/src/component/jquery.js';
+import {Component as Comp} from 'bedrock/src/component/vanilla.js';
+class Component extends Comp {
+    // Constructor
+    constructor(el, data = {}) {
+        super(nativeEl, {
+            els: nativeEls,
+            tmpl: data.tmpl,
+            noRender: data.noRender,
+            comps: data.comps,
+            state: data.state
+        });
 
-const init = (comp) => comp;
-const render = (comp) => component.render(comp);
-const destroy = (comp) => component.destroy(comp);
+        // Lets cache some stuff
+        this._foo = data.foo;
+    }
 
-export default {
-    init: (el, data) => {
-        let comp = component.getComp(data, DEFAULTS);
-        comp = component.init(el, comp);
-        
-        return (!el || !el.length) ? comp : init(comp);
-    },
-    render,
-    destroy
-};
+    // Render
+    render() {
+        super.render();
+
+        return this;
+    }
+
+    // Destroy
+    destroy() {
+        super.destroy();
+
+        return this;
+    }
+}
+export { Component };
 ```

@@ -1,5 +1,5 @@
-/* eslint-disable strict */'use strict';/* eslint-enable */
-/* global describe it */
+'use strict';
+/* global describe it beforeEach afterEach before after */
 
 // import { expect } from 'chai';
 // import router from '../../src/router.js';
@@ -13,16 +13,22 @@
 describe('router', () => {
     // start
     describe('start', () => {
-        // TODO: ...
+        it.skip('should be tested', () => {
+            // ...
+        });
     });
 
     // add
     describe('add', () => {
-        // TODO: ...
+        it.skip('should be tested', () => {
+            // ...
+        });
     });
 
     // page
     describe('page', () => {
-        // TODO: ...
+        it.skip('should be tested', () => {
+            // ...
+        });
     });
 });

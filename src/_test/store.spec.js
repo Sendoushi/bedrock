@@ -1,5 +1,5 @@
-/* eslint-disable strict */'use strict';/* eslint-enable */
-/* global describe it */
+'use strict';
+/* global describe it beforeEach afterEach before after */
 
 // import { expect } from 'chai';
 // import store from '../../src/store.js';
@@ -13,11 +13,15 @@
 describe('store', () => {
     // init
     describe('init', () => {
-        // TODO: ...
+        it.skip('should be tested', () => {
+            // ...
+        });
     });
 
     // connect
     describe('connect', () => {
-        // TODO: ...
+        it.skip('should be tested', () => {
+            // ...
+        });
     });
 });

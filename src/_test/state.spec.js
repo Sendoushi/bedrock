@@ -1,5 +1,5 @@
-/* eslint-disable strict */'use strict';/* eslint-enable */
-/* global describe it */
+'use strict';
+/* global describe it beforeEach afterEach before after */
 
 import { expect } from 'chai';
 import state from '../../src/state.js';

@@ -12,3 +12,4 @@
 log.file=./flow-debug.log
 module.file_ext=.js
 module.name_mapper='redux.flow' -> '<PROJECT_ROOT>/flow-typed/npm/redux_v3.x.x.js'
+unsafe.enable_getters_and_setters=true

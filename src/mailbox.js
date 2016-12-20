@@ -68,7 +68,7 @@ const send/* :: :FnSend */ = (msg, data) => {
         return;
     }
 
-    for (let i/* :: :number */ = 0; i < handler.length; i += 1) {
+    for (let i = 0; i < handler.length; i += 1) {
         handler[i].listener(data);
     }
 };

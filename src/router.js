@@ -21,7 +21,7 @@ const DEFAULTS = {
  * @param  {object} ctx
  */
 const cbRoute/* :: :FnCbRoute */ = (route, ctx, next) => {
-    for (let c/* :: :number */ = 0; c < route.cbs.length; c += 1) {
+    for (let c = 0; c < route.cbs.length; c += 1) {
         route.cbs[c](ctx, next);
     }
 };
@@ -33,7 +33,7 @@ const cbRoute/* :: :FnCbRoute */ = (route, ctx, next) => {
  */
 const add/* :: :FnAdd */ = (route, cb) => {
     // Lets see if the route is already defined
-    for (let i/* :: :number */ = 0; i < routes.length; i += 1) {
+    for (let i = 0; i < routes.length; i += 1) {
         if (routes[i].route === route) {
             routes[i].cbs.push(cb);
             return;
@@ -54,7 +54,7 @@ const start/* :: :FnStart */ = (opts) => {
     }
 
     // Lets add all routers to the right places
-    for (let i/* :: :number */ = 0; i < routes.length; i += 1) {
+    for (let i = 0; i < routes.length; i += 1) {
         const route/* :: :Route */ = routes[i];
 
         // Lets finally set it in the "page"

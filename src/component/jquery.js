@@ -1,15 +1,8 @@
 /* @flow */
-/* :: import type {Comp, NativeEl} from './_test/common.flow.js' */
-/* :: import type {
-    jQueryComp,
-    FnRender, FnDestroy, FnInit, FnGetComp
-} from './_test/jquery.flow.js' */
+/* :: import type {CompData, FnGetNativeEl, FnGetNativeEls} from './_test/jquery.flow.js' */
 'use strict';
 
-import cloneDeep from 'lodash/cloneDeep.js';
-import common from './common.js';
-
-const DEFAULTS = {};
+import { Component as Comp } from './vanilla.js';
 
 // -----------------------------------------
 // Functions
@@ -17,16 +10,16 @@ const DEFAULTS = {};
 /**
  * Gets native el
  *
- * @param {element} el
+ * @param {element} $el
  * @returns {arr|undefined}
  */
-const getNativeEl/* :: :FnGetNativeEl */ = (el) => {
-    const nativeEl/* :: :NativeEl */ = [];
+const getNativeEl/* :: :FnGetNativeEl */ = ($el) => {
+    const nativeEl/* :: :HTMLElement[] */ = [];
 
     // Lets get the basic native el elements
-    if (el !== undefined) {
-        for (let i = 0; i < el.length; i += 1) {
-            nativeEl.push(el[i]);
+    if ($el !== undefined && $el !== null) {
+        for (let i = 0; i < $el.length; i += 1) {
+            nativeEl.push($el[i]);
         }
     }
 
@@ -40,77 +33,48 @@ const getNativeEl/* :: :FnGetNativeEl */ = (el) => {
 /**
  * Gets native el from object
  *
- * @param {object} els
+ * @param {object} $els
  * @returns {object}
  */
-const getNativeEls/* :: :FnGetNativeEls */ = (els) => {
-    const nativeEls/* :: :NativeEls */ = {};
-    const keys = Object.keys(els);
+const getNativeEls/* :: :FnGetNativeEls */ = ($els) => {
+    const nativeEls/* :: :{ [key: string]: ?HTMLElement[] } */ = {};
+    const keys = Object.keys($els);
 
     // Lets get the basic native els elements
     for (let c = 0; c < keys.length; c += 1) {
-        nativeEls[keys[c]] = getNativeEl(els[keys[c]]);
+        nativeEls[keys[c]] = getNativeEl($els[keys[c]]);
     }
 
     return nativeEls;
 };
 
-/**
- * Get super comp
- *
- * @param {object} comp
- * @returns {object}
- */
-const getSuperComp/* :: :FnGetSuperComp */ = (comp) => {
-    const compClone/* :: :jQueryComp|Comp */ = cloneDeep(comp);
-
-    compClone.el = getNativeEl(comp.el);
-    compClone.els = getNativeEls(comp.els);
-
-    const newComp/* :: :Comp */ = common.init(comp.el, compClone);
-
-    // Cache it for possible later use
-    comp.superComp = newComp;
-
-    return newComp;
-};
-
-/**
- * Renders
- * @param  {object} comp
- * @param  {object} state
- * @return {object}
- */
-const render/* :: :FnRender */ = (comp, state) => common.render(getSuperComp(comp), state);
-
-/**
- * Destroys component
- * @param  {object} comp
- * @returns {object}
- */
-const destroy/* :: :FnDestroy */ = (comp) => common.destroy(getSuperComp(comp));
-
-/**
- * Initializes
- *
- * @param {object} comp
- * @returns {object}
- */
-const init/* :: :FnInit */ = (comp) => comp;
-
 // --------------------------------
-// Export
+// Class
 
-export default {
-    init: (el/* :: :jQueryEl */, data) => {
-        const nativeEl/* :: :NativeEl */ = getNativeEl(el);
-        const comp/* :: :jQueryComp|Comp */ = common.getComp(data, DEFAULTS);
+class Component extends Comp {
+    // Vars
+    /* ::
+    _$el:?jQueryElement;
+    _$els:{ [key: string]: ?jQueryElement };
+    */
 
-        // Super ...
-        getSuperComp(common.init(nativeEl, comp));
+    // Constructor
+    constructor($el/* :: :?jQueryElement */, data/* :: :CompData */ = {}) {
+        const $els = data.els || {};
+        const nativeEls = getNativeEls($els);
+        const nativeEl = getNativeEl($el);
 
-        return (!el || !el.length) ? comp : init(comp);
-    },
-    getComp: common.getComp,
-    render, destroy
-};
+        super(nativeEl, {
+            els: nativeEls,
+            tmpl: data.tmpl,
+            noRender: data.noRender,
+            comps: data.comps,
+            state: data.state
+        });
+
+        // Lets cache the base element
+        this._$el = $el;
+        this._$els = $els;
+    }
+}
+export { Component };
