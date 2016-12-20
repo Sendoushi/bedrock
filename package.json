@@ -25,7 +25,6 @@
     "flow-bin": "^0.37.0",
     "flow-typed": "^2.0.0",
     "glob": "^7.1.1",
-    "jsdom": "^9.8.3",
     "mocha": "^3.2.0"
   },
   "dependencies": {
@@ -35,7 +34,7 @@
     "redux": "^3.6.0"
   },
   "scripts": {
-    "test": "npm run eslint-test; npm run mocha-test; npm run flow",
+    "test": "npm run eslint-test && npm run mocha-test && npm run flow",
     "flow": "flow stop; flow; test $? -eq 0 -o $? -eq 2",
     "flow-typed": "flow-typed install",
     "mocha-test": "mocha ./test/test.js --compilers js:babel-core/register",

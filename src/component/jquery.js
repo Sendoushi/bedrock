@@ -14,7 +14,7 @@ import { Component as Comp } from './vanilla.js';
  * @returns {arr|undefined}
  */
 const getNativeEl/* :: :FnGetNativeEl */ = ($el) => {
-    const nativeEl/* :: :HTMLElement[] */ = [];
+    const nativeEl/* :: :Element[] */ = [];
 
     // Lets get the basic native el elements
     if ($el !== undefined && $el !== null) {
@@ -37,7 +37,7 @@ const getNativeEl/* :: :FnGetNativeEl */ = ($el) => {
  * @returns {object}
  */
 const getNativeEls/* :: :FnGetNativeEls */ = ($els) => {
-    const nativeEls/* :: :{ [key: string]: ?HTMLElement[] } */ = {};
+    const nativeEls/* :: :{ [key: string]: ?Element[] } */ = {};
     const keys = Object.keys($els);
 
     // Lets get the basic native els elements

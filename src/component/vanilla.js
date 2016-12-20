@@ -72,15 +72,15 @@ export { destroy };
 class Component extends Comp {
     // Vars
     /* ::
-    _el:?HTMLElement[];
-    _els:{ [key: string]: ?HTMLElement[] };
+    _el:?Element[];
+    _els:{ [key: string]: ?Element[] };
     _tmpl:FnTmpl;
     _renderedTmpl:?string;
     _render:boolean;
     */
 
     // Constructor
-    constructor(el/* :: :?HTMLElement[] */, data/* :: :CompData */ = {}) {
+    constructor(el/* :: :?Element[] */, data/* :: :CompData */ = {}) {
         super({ comps: data.comps, state: data.state });
 
         // Lets cache stuff

@@ -14,9 +14,10 @@ npm install --save git://github.com/Sendoushi/bedrock.git#0.3.1
 
 ## Documentation
 
+- [actions](docs/actions.md)
+- [component](docs/component.md)
+- [is](docs/is.md)
 - [mailbox](docs/mailbox.md)
 - [router](docs/router.md)
 - [state](docs/state.md)
-- [component](docs/component.md)
 - [store](docs/store.md)
-- [actions](docs/actions.md)

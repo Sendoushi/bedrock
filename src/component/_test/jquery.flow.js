@@ -6,5 +6,5 @@ export type CompData = CommonCompData & {
     $els?: { [key: string]: ?jQueryElement }
 };
 
-export type FnGetNativeEl = ($el: ?jQueryElement) => ?HTMLElement[];
-export type FnGetNativeEls = ($els: { [key: string]: ?jQueryElement }) => { [key: string]: ?HTMLElement[] };
+export type FnGetNativeEl = ($el: ?jQueryElement) => ?Element[];
+export type FnGetNativeEls = ($els: { [key: string]: ?jQueryElement }) => { [key: string]: ?Element[] };

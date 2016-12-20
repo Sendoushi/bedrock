@@ -5,15 +5,23 @@ declare type jQueryElement = {
     length: number,
     prevObject: Object,
     selector: string,
+
+    // Now for the functions
+    find: (selector: Element|string) => jQueryElement,
+    is: (selector: string) => jQueryElement,
+
+    // For dictionary related
     [int: number]: Object
 };
 
 declare module "jQuery" {
-    declare function $(element: Element | string): jQueryElement;
+    // declare function $(element: Element | string): jQueryElement;
+    declare function exports(element: Element | string): jQueryElement;
 }
 
 declare module "jquery" {
-    declare function $(element: Element | string): jQueryElement;
+    // declare function $(element: Element | string): jQueryElement;
+    declare function exports(element: Element | string): jQueryElement;
 }
 
 declare module 'lodash/cloneDeep.js' {
