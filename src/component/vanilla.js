@@ -2,7 +2,7 @@
 'use strict';
 
 /* ::
-import type {CompData, FnTmpl, FnGetTmplFn, FnRender, FnDestroy} from './_test/vanilla.flow.js';
+import type {CompData, Tmpl, FnTmpl, FnGetTmplFn, FnRender, FnDestroy} from './_test/vanilla.flow.js';
 */
 
 import { Component as Comp } from './common.js';
