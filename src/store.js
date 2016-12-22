@@ -1,6 +1,9 @@
-/* @flow */
-/* :: import type {S, FnGetState, FnGetInitial, Store, FnConnect, FnInit} from './_test/store.flow.js'; */
+// @flow
 'use strict';
+
+/* ::
+import type {S, FnGetState, FnGetInitial, Store, FnConnect, FnInit} from './_test/store.flow.js';
+*/
 
 import redux from 'redux';
 import mailbox from './mailbox.js';

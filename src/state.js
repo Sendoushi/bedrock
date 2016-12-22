@@ -1,5 +1,9 @@
-/* @flow *//* :: import type {FnGetNew} from './_test/state.flow.js'; */
+// @flow
 'use strict';
+
+/* ::
+import type {FnGetNew} from './_test/state.flow.js';
+*/
 
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';

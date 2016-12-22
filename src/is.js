@@ -1,8 +1,11 @@
-/* @flow *//* :: import type {Node, Browser, Ie, Edge, Ios, Android, Mobile, Touch, Media, Url} from './_test/is.flow.js'; */
+// @flow
 'use strict';
 /* global $, window, document, module, process, navigator */
 
-/* :: import $ from 'jquery' */
+/* ::
+import $ from 'jquery';
+import type {Node, Browser, Ie, Edge, Ios, Android, Mobile, Touch, Media, Url} from './_test/is.flow.js';
+*/
 
 // -----------------------------------------
 // Functions

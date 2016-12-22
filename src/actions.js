@@ -1,5 +1,9 @@
-/* @flow *//* :: import type {Actions, FnInit} from './_test/actions.flow.js'; */
+// @flow
 'use strict';
+
+/* ::
+import type {Actions, FnInit} from './_test/actions.flow.js';
+*/
 
 // -----------------------------------------
 // Functions

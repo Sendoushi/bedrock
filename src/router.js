@@ -1,5 +1,9 @@
-/* @flow *//* :: import type {Routes, Route, AddRoute, FnAdd, FnCbRoute, FnStart} from './_test/router.flow.js'; */
+// @flow
 'use strict';
+
+/* ::
+import type {Routes, Route, AddRoute, FnAdd, FnCbRoute, FnStart} from './_test/router.flow.js';
+*/
 
 import page from 'page';
 import mailbox from './mailbox.js';

@@ -1,5 +1,9 @@
-/* @flow *//* :: import type {Handlers, Handler, FnOn, FnOff, FnSend, FnReset} from './_test/mailbox.flow.js'; */
+// @flow
 'use strict';
+
+/* ::
+import type {Handlers, Handler, FnOn, FnOff, FnSend, FnReset} from './_test/mailbox.flow.js';
+*/
 
 let handlers/* :: :Handlers */ = {};
 

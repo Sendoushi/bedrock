@@ -1,6 +1,9 @@
-/* @flow */
-/* :: import type {CompData, FnGetNativeEl, FnGetNativeEls} from './_test/jquery.flow.js' */
+// @flow
 'use strict';
+
+/* ::
+import type {CompData, FnGetNativeEl, FnGetNativeEls} from './_test/jquery.flow.js';
+*/
 
 import { Component as Comp } from './vanilla.js';
 
@@ -67,7 +70,7 @@ class Component extends Comp {
         super(nativeEl, {
             els: nativeEls,
             tmpl: data.tmpl,
-            noRender: data.noRender,
+            render: data.render,
             comps: data.comps,
             state: data.state
         });

@@ -1,6 +1,9 @@
-/* @flow */
-/* :: import type {CompData, FnTmpl, FnGetTmplFn, FnRender, FnDestroy} from './_test/vanilla.flow.js' */
+// @flow
 'use strict';
+
+/* ::
+import type {CompData, FnTmpl, FnGetTmplFn, FnRender, FnDestroy} from './_test/vanilla.flow.js';
+*/
 
 import { Component as Comp } from './common.js';
 
@@ -87,8 +90,13 @@ class Component extends Comp {
         this._el = el;
         this._els = data.els || this._els || {};
         this._render = data.render || this._render || false;
-        this._tmpl = getTmplFn(data.tmpl) || this._tmpl;
+
+        this.tmpl = data.tmpl;
     }
+
+    // Template...
+    set tmpl(tmpl/* :: :Tmpl */) { this._tmpl = getTmplFn(tmpl); }
+    get tmpl()/* :: :FnTmpl */ { return this._tmpl; }
 
     // Render
     render() {
@@ -104,12 +112,6 @@ class Component extends Comp {
 
     // Destroy
     destroy() {
-        // Lets destroy components underneath
-        const compsKeys = Object.keys(this._comps);
-        for (let i = 0; i < compsKeys.length; i += 1) {
-            this._comps[compsKeys[i]].destroy();
-        }
-
         // Finally destroy this
         this._render && destroy(this._el);
         super.destroy();
