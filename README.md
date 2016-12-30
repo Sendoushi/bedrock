@@ -9,7 +9,7 @@ It isn't a new framework, just a set of utils to work with.
 
 ## Examples of installation
 ```
-npm install --save git://github.com/Sendoushi/bedrock.git#0.3.3
+npm install --save git://github.com/Sendoushi/bedrock.git#0.3.4
 ```
 
 ## Documentation
