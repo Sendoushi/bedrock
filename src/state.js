@@ -3,7 +3,6 @@
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';
 import { diff } from 'deep-diff';
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 
 // -----------------------------------------
 // Functions
@@ -14,13 +13,9 @@ import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
  * @param  {*} newState
  * @return {object}
  */
-const getNewValidate = compileSchema(getSchema([
-    { title: 'oldState', properties: {}, required: true },
-    { title: 'newState', properties: {}, required: true }
-]));
+// { title: 'oldState', properties: {}, required: true },
+// { title: 'newState', properties: {}, required: true }
 const getNew = (oldState = {}, newState = {}) => {
-    getNewValidate([oldState, newState]);
-
     const newData = merge({}, cloneDeep(oldState), cloneDeep(newState));
     const isDiff = diff(oldState, newData);
 

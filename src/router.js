@@ -1,7 +1,6 @@
 'use strict';
 
 import page from 'page';
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import mailbox from './mailbox.js';
 
 const routes = [];
@@ -20,14 +19,10 @@ const DEFAULTS = {
  * @param  {object} route
  * @param  {object} ctx
  */
-const cbRouteValidate = compileSchema(getSchema([
-    { title: 'route', properties: { route: { type: 'string' }, cbs: [] }, required: true }
-    // { title: 'ctx' },
-    // { title: 'next' }
-]));
+// { title: 'route', properties: { route: { type: 'string' }, cbs: [] }, required: true }
+// { title: 'ctx', type: 'function' },
+// { title: 'next', type: 'function' }
 const cbRoute = (route, ctx, next) => {
-    cbRouteValidate([route]);
-
     for (let c = 0; c < route.cbs.length; c += 1) {
         route.cbs[c](ctx, next);
     }
@@ -38,13 +33,9 @@ const cbRoute = (route, ctx, next) => {
  * @param {string} route
  * @param {function} cb
  */
-const addValidate = compileSchema(getSchema([
-    { title: 'route', type: 'string', required: true }
-    // { title: 'cb' }
-]));
+// { title: 'route', type: 'string', required: true }
+// { title: 'cb', type: 'function' }
 const add = (route, cb) => {
-    addValidate([route]);
-
     // Lets see if the route is already defined
     for (let i = 0; i < routes.length; i += 1) {
         if (routes[i].route === route) {
@@ -61,12 +52,8 @@ const add = (route, cb) => {
  * Starts the router
  * @param  {object} opts
  */
-const startValidate = compileSchema(getSchema([
-    { title: 'opts', properties: {} }
-]));
+// { title: 'opts', properties: {} }
 const start = (opts) => {
-    startValidate([opts]);
-
     if (!routes.length) {
         return;
     }

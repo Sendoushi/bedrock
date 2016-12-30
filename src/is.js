@@ -1,8 +1,6 @@
 'use strict';
 /* global $, window, document, module, process, navigator */
 
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
-
 // -----------------------------------------
 // Functions
 
@@ -73,12 +71,7 @@ const touch = () => {
  * @param {string} target
  * @return {boolean}
  */
-const mediaValidate = compileSchema(getSchema([
-    { title: 'target', type: 'string', required: true }
-]));
 const media = (target) => {
-    mediaValidate([target]);
-
     if (!browser() || typeof $ === 'undefined' || !target || target.replace(/ /g, '') === '') {
         // TODO: We should try to do without $
         return false;
@@ -106,12 +99,7 @@ const media = (target) => {
  * @param {string} urlTest
  * @returns {boolean}
  */
-const urlItems = [{ title: 'urlTest', type: 'string', required: true }];
-const urlValidate = compileSchema(getSchema(urlItems));
-const url = (urlTest) => {
-    urlValidate([urlTest]);
-    return !!(/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/.test(urlTest));
-};
+const url = (urlTest) => !!(/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/.test(urlTest));
 
 // ------------------------------------
 // Export

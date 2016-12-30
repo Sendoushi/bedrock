@@ -1,6 +1,5 @@
 'use strict';
 
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import { Component as Comp } from './vanilla.js';
 
 // -----------------------------------------
@@ -12,12 +11,8 @@ import { Component as Comp } from './vanilla.js';
  * @param {element} $el
  * @returns {arr|undefined}
  */
-// const getNativeElValidate = compileSchema(getSchema([
-//     { title: '$el' }
-// ]));
+// { title: '$el', type: 'jQueryElement' }
 const getNativeEl = ($el) => {
-    // getNativeElValidate([$el]);
-
     const nativeEl = [];
 
     // Lets get the basic native el elements
@@ -40,12 +35,8 @@ const getNativeEl = ($el) => {
  * @param {object} $els
  * @returns {object}
  */
-// const getNativeElsValidate = compileSchema(getSchema([
-//     { title: '$els' }
-// ]));
+// { title: '$els', type: 'array', items: 'jQueryElement' }
 const getNativeEls = ($els) => {
-    // getNativeElsValidate([$els]);
-
     const nativeEls = {};
     const keys = Object.keys($els);
 
@@ -60,16 +51,11 @@ const getNativeEls = ($els) => {
 // --------------------------------
 // Class
 
-const constructorValidate = compileSchema(getSchema([
-    // { title: '$el' },
-    { title: 'data', properties: {} }
-]));
-
 class Component extends Comp {
     // Constructor
+    // { title: '$el' },
+    // { title: 'data', properties: {} }
     constructor($el, data = {}) {
-        constructorValidate([data]);
-
         const $els = data.els || {};
         const nativeEls = getNativeEls($els);
         const nativeEl = getNativeEl($el);

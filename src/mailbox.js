@@ -1,7 +1,5 @@
 'use strict';
 
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
-
 let handlers = {};
 
 // --------------------------------
@@ -14,14 +12,10 @@ let handlers = {};
  * @param  {function} cb
  * @return {string}
  */
-const onValidate = compileSchema(getSchema([
-    { title: 'msg', type: 'string', required: true },
-    { title: 'id', type: 'string', required: false },
-    // { title: 'cb' }
-]));
+// { title: 'msg', type: 'string', required: true },
+// { title: 'id', type: 'string', required: false },
+// { title: 'cb', type: 'function' }
 const on = (msg, id, cb) => {
-    onValidate([msg, id]);
-
     if (typeof id === 'function') {
         cb = id;
         id = `${Math.random() * 100000}`;
@@ -36,7 +30,7 @@ const on = (msg, id, cb) => {
     }
 
     // Lets see if the message is already defined and cache it
-    const msgHandler/* :: :Handler[] */ = handlers[msg] || [];
+    const msgHandler = handlers[msg] || [];
 
     // Now lets cache it
     msgHandler.push({ id, listener: cb });
@@ -50,13 +44,9 @@ const on = (msg, id, cb) => {
  * @param  {string} msg
  * @param  {string} id
  */
-const offValidate = compileSchema(getSchema([
-    { title: 'msg', type: 'string', required: true },
-    { title: 'id', type: 'string', required: false }
-]));
+// { title: 'msg', type: 'string', required: true },
+// { title: 'id', type: 'string', required: false }
 const off = (msg, id) => {
-    offValidate([msg, id]);
-
     if (!msg || !handlers[msg]) {
         return;
     }
@@ -75,13 +65,9 @@ const off = (msg, id) => {
  * @param  {string} msg
  * @param  {object} data
  */
-const sendValidate = compileSchema(getSchema([
-    { title: 'msg', type: 'string', required: true }
-    // { title: 'data' }
-]));
+// { title: 'msg', type: 'string', required: true }
+// { title: 'data' }
 const send = (msg, data) => {
-    sendValidate([msg]);
-
     const handler = handlers[msg];
 
     if (!handler) {

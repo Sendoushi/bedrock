@@ -7,7 +7,6 @@
         "production": {
             "plugins": [
                 ["remove-code", {
-                    "import": ["validate", "./validate.js"],
                     "var": ["__[^]+__"]
                 }]
             ]

@@ -1,7 +1,5 @@
 'use strict';
 
-import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
-
 // -----------------------------------------
 // Functions
 
@@ -10,17 +8,13 @@ import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
  * @param  {object} obj
  * @return {promise}
  */
-const actionValidate = compileSchema(getSchema([
-    { title: 'obj', properties: {
-        store: { properties: {} },
-        // request: { properties: {} },
-        action: { type: 'string' }
-        // middleware: {}
-    } }
-]));
+// { title: 'obj', properties: {
+//     store: { properties: {} },
+//     request: { properties: {} },
+//     action: { type: 'string' }
+//     middleware: {}
+// } }
 const action = (obj) => {
-    actionValidate([obj]);
-
     const store = obj.store;
     const requestMade = obj.request;
     const actionType = obj.action;
