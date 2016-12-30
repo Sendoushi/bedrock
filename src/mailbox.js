@@ -1,11 +1,8 @@
-// @flow
 'use strict';
 
-/* ::
-import type {Handlers, Handler, FnOn, FnOff, FnSend, FnReset} from './_test/mailbox.flow.js';
-*/
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 
-let handlers/* :: :Handlers */ = {};
+let handlers = {};
 
 // --------------------------------
 // Functions
@@ -17,7 +14,14 @@ let handlers/* :: :Handlers */ = {};
  * @param  {function} cb
  * @return {string}
  */
-const on/* :: :FnOn */ = (msg, id, cb) => {
+const onValidate = compileSchema(getSchema([
+    { title: 'msg', type: 'string', required: true },
+    { title: 'id', type: 'string', required: false },
+    // { title: 'cb' }
+]));
+const on = (msg, id, cb) => {
+    onValidate([msg, id]);
+
     if (typeof id === 'function') {
         cb = id;
         id = `${Math.random() * 100000}`;
@@ -46,7 +50,13 @@ const on/* :: :FnOn */ = (msg, id, cb) => {
  * @param  {string} msg
  * @param  {string} id
  */
-const off/* :: :FnOff */ = (msg, id) => {
+const offValidate = compileSchema(getSchema([
+    { title: 'msg', type: 'string', required: true },
+    { title: 'id', type: 'string', required: false }
+]));
+const off = (msg, id) => {
+    offValidate([msg, id]);
+
     if (!msg || !handlers[msg]) {
         return;
     }
@@ -65,7 +75,13 @@ const off/* :: :FnOff */ = (msg, id) => {
  * @param  {string} msg
  * @param  {object} data
  */
-const send/* :: :FnSend */ = (msg, data) => {
+const sendValidate = compileSchema(getSchema([
+    { title: 'msg', type: 'string', required: true }
+    // { title: 'data' }
+]));
+const send = (msg, data) => {
+    sendValidate([msg]);
+
     const handler = handlers[msg];
 
     if (!handler) {
@@ -80,7 +96,7 @@ const send/* :: :FnSend */ = (msg, data) => {
 /**
  * Resets all listeners
  */
-const reset/* :: :FnReset */ = () => { handlers = {}; };
+const reset = () => { handlers = {}; };
 
 // --------------------------------
 // Export

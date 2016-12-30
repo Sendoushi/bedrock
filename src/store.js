@@ -1,11 +1,7 @@
-// @flow
 'use strict';
 
-/* ::
-import type {S, FnGetState, FnGetInitial, Store, FnConnect, FnInit} from './_test/store.flow.js';
-*/
-
 import redux from 'redux';
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import mailbox from './mailbox.js';
 
 const DEFAULTS = {
@@ -24,9 +20,14 @@ const DEFAULTS = {
  * @param  {redux} store
  * @return {function}
  */
-const connect/* :: :FnConnect */ = (store) => {
-    const unsubscribe/* :: :Function */ = store.subscribe(() => {
-        const state/* :: :S */ = store.getState();
+const connectValidate = compileSchema(getSchema([
+    { title: 'store', properties: {}, required: true }
+]));
+const connect = (store) => {
+    connectValidate([store]);
+
+    const unsubscribe = store.subscribe(() => {
+        const state = store.getState();
 
         // Inform of changes
         mailbox.send(DEFAULTS.events.update, state);
@@ -34,7 +35,7 @@ const connect/* :: :FnConnect */ = (store) => {
 
     // Set general events
     mailbox.on(DEFAULTS.events.initialReq, (cb) => {
-        const stateFn/* :: :FnGetInitial|FnGetState */ = store.getInitial || store.getState;
+        const stateFn = store.getInitial || store.getState;
         cb(stateFn());
     });
     mailbox.on(DEFAULTS.events.get, (cb) => cb(store.getState()));
@@ -48,13 +49,19 @@ const connect/* :: :FnConnect */ = (store) => {
  * @param  {*} INITIAL_STATE
  * @return {object}
  */
-const init/* :: :FnInit */ = (storeReducers, INITIAL_STATE = {}) => {
-    const reducers/* :: :Function */ = redux.combineReducers(storeReducers);
-    const isDev/* :: :boolean */ = process && process.env && process.env.NODE_ENV === 'development' || false;
-    const devTools/* :: :?Function */ = window.devToolsExtension;
-    const finalCreateStore/* :: :Function */ = redux.compose((isDev && devTools) ? devTools() : (f) => f)(redux.createStore);
-    const store/* :: :Store */ = finalCreateStore(reducers);
-    const initialFn/* :: :FnGetInitial */ = () => INITIAL_STATE;
+const initValidate = compileSchema(getSchema([
+    { title: 'storeReducers', properties: {}, required: true }
+    // { title: 'INITIAL_STATE' }
+]));
+const init = (storeReducers, INITIAL_STATE = {}) => {
+    initValidate([storeReducers]);
+
+    const reducers = redux.combineReducers(storeReducers);
+    const isDev = process && process.env && process.env.NODE_ENV === 'development' || false;
+    const devTools = window.devToolsExtension;
+    const finalCreateStore = redux.compose((isDev && devTools) ? devTools() : (f) => f)(redux.createStore);
+    const store = finalCreateStore(reducers);
+    const initialFn = () => INITIAL_STATE;
 
     // Register more methods
     store.getInitial = initialFn;

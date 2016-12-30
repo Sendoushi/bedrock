@@ -14,6 +14,8 @@ describe('component.common', () => {
     // init
     describe('init', () => {
         it.skip('should be tested', () => {
+            bar(foo(foobar(batatas)));
+            expect(foo).to.be('string');
             // ...
         });
     });

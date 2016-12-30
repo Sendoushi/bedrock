@@ -1,12 +1,8 @@
-// @flow
 'use strict';
-
-/* ::
-import type {S, CompData} from './_test/common.flow.js';
-*/
 
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 
 // -----------------------------------------
 // Functions
@@ -14,15 +10,21 @@ import merge from 'lodash/merge.js';
 // --------------------------------
 // Class
 
-class Component {
-    // Vars
-    /* ::
-    _comps:{ [key: string]: any };
-    _state:S;
-    */
+const constructorValidate = compileSchema(getSchema([
+    { title: 'data', properties: {
+        comps: { properties: {} },
+        state: { properties: {} }
+    } }
+]));
+const setStateValidate = compileSchema(getSchema([
+    { title: 'state', properties: {} }
+]));
 
+class Component {
     // Constructor
-    constructor(data/* :: :CompData */ = {}) {
+    constructor(data = {}) {
+        constructorValidate([data]);
+
         // Lets cache stuff
         this._comps = data.comps || this._comps || {};
 
@@ -31,8 +33,12 @@ class Component {
 
     // State...
     // TODO: Should we check diffs in state?
-    set state(state/* :: :S */) { this._state = merge(this._state || {}, cloneDeep(state)); }
-    get state()/* :: :S */ { return this._state; }
+    set state(state) {
+        setStateValidate([state]);
+
+        this._state = merge(this._state || {}, cloneDeep(state));
+    }
+    get state() { return this._state; }
 
     // Destroy
     destroy() {

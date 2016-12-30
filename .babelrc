@@ -1,4 +1,16 @@
 {
     "presets": ["es2015"],
-    "plugins": ["syntax-flow", "transform-flow-comments", "transform-flow-strip-types"]
+    "plugins": [],
+    "env": {
+        "test": {},
+        "dev": {},
+        "production": {
+            "plugins": [
+                ["remove-code", {
+                    "import": ["validate", "./validate.js"],
+                    "var": ["__[^]+__"]
+                }]
+            ]
+        }
+    }
 }

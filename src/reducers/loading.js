@@ -1,5 +1,7 @@
 'use strict';
 
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
+
 // -----------------------------------------
 // Functions
 
@@ -8,11 +10,18 @@
  * @param  {boolean}  INITIAL_STATE
  * @return {function}
  */
-const reducer = (INITIAL_STATE = false) => (state = INITIAL_STATE, action = {}) => {
-    const type = action.type;
-    const diff = type.replace('_LOADING', '') !== type;
+const reducerValidate = compileSchema(getSchema([
+    { title: 'INITIAL_STATE', type: 'boolean', required: true }
+]));
+const reducer = (INITIAL_STATE = false) => {
+    reducerValidate([INITIAL_STATE]);
 
-    return diff ? action.loading : state;
+    return (state = INITIAL_STATE, action = {}) => {
+        const type = action.type;
+        const diff = type.replace('_LOADING', '') !== type;
+
+        return diff ? action.loading : state;
+    };
 };
 
 // -----------------------------------------

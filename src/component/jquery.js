@@ -1,10 +1,6 @@
-// @flow
 'use strict';
 
-/* ::
-import type {CompData, FnGetNativeEl, FnGetNativeEls} from './_test/jquery.flow.js';
-*/
-
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import { Component as Comp } from './vanilla.js';
 
 // -----------------------------------------
@@ -16,8 +12,13 @@ import { Component as Comp } from './vanilla.js';
  * @param {element} $el
  * @returns {arr|undefined}
  */
-const getNativeEl/* :: :FnGetNativeEl */ = ($el) => {
-    const nativeEl/* :: :Element[] */ = [];
+// const getNativeElValidate = compileSchema(getSchema([
+//     { title: '$el' }
+// ]));
+const getNativeEl = ($el) => {
+    // getNativeElValidate([$el]);
+
+    const nativeEl = [];
 
     // Lets get the basic native el elements
     if ($el !== undefined && $el !== null) {
@@ -39,8 +40,13 @@ const getNativeEl/* :: :FnGetNativeEl */ = ($el) => {
  * @param {object} $els
  * @returns {object}
  */
-const getNativeEls/* :: :FnGetNativeEls */ = ($els) => {
-    const nativeEls/* :: :{ [key: string]: ?Element[] } */ = {};
+// const getNativeElsValidate = compileSchema(getSchema([
+//     { title: '$els' }
+// ]));
+const getNativeEls = ($els) => {
+    // getNativeElsValidate([$els]);
+
+    const nativeEls = {};
     const keys = Object.keys($els);
 
     // Lets get the basic native els elements
@@ -54,15 +60,16 @@ const getNativeEls/* :: :FnGetNativeEls */ = ($els) => {
 // --------------------------------
 // Class
 
-class Component extends Comp {
-    // Vars
-    /* ::
-    _$el:?jQueryElement;
-    _$els:{ [key: string]: ?jQueryElement };
-    */
+const constructorValidate = compileSchema(getSchema([
+    // { title: '$el' },
+    { title: 'data', properties: {} }
+]));
 
+class Component extends Comp {
     // Constructor
-    constructor($el/* :: :?jQueryElement */, data/* :: :CompData */ = {}) {
+    constructor($el, data = {}) {
+        constructorValidate([data]);
+
         const $els = data.els || {};
         const nativeEls = getNativeEls($els);
         const nativeEl = getNativeEl($el);

@@ -1,13 +1,9 @@
-// @flow
 'use strict';
-
-/* ::
-import type {FnGetNew} from './_test/state.flow.js';
-*/
 
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';
 import { diff } from 'deep-diff';
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 
 // -----------------------------------------
 // Functions
@@ -18,7 +14,13 @@ import { diff } from 'deep-diff';
  * @param  {*} newState
  * @return {object}
  */
-const getNew/* :: :FnGetNew */ = (oldState = {}, newState = {}) => {
+const getNewValidate = compileSchema(getSchema([
+    { title: 'oldState', properties: {}, required: true },
+    { title: 'newState', properties: {}, required: true }
+]));
+const getNew = (oldState = {}, newState = {}) => {
+    getNewValidate([oldState, newState]);
+
     const newData = merge({}, cloneDeep(oldState), cloneDeep(newState));
     const isDiff = diff(oldState, newData);
 

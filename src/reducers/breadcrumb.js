@@ -1,6 +1,7 @@
 'use strict';
 
 import merge from 'lodash/merge.js';
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 
 // -----------------------------------------
 // Functions
@@ -11,7 +12,17 @@ import merge from 'lodash/merge.js';
  * @param  {object} crumb
  * @return {array}
  */
+const pushCrumbValidate = compileSchema(getSchema([
+    { title: 'breadcrumb', type: 'array', required: true },
+    { title: 'crumb', properties: {
+        // params: {},
+        type: { type: 'string' },
+        name: { type: 'string' }
+    }, required: true }
+]));
 const pushCrumb = (breadcrumb = [], crumb = {}) => {
+    pushCrumbValidate([breadcrumb, crumb]);
+
     const params = crumb.params;
     const type = crumb.type;
     const name = crumb.name;
@@ -30,7 +41,18 @@ const pushCrumb = (breadcrumb = [], crumb = {}) => {
  * @param  {object} schema
  * @return {array}
  */
+const setContentValidate = compileSchema(getSchema([
+    { title: 'action', properties: {
+        content: { properties: {
+            params: {},
+            type: { type: 'string' }
+        } }
+    }, required: true },
+    { title: 'schema', properties: {}, required: true }
+]));
 const setContent = (action, schema) => {
+    setContentValidate([action, schema]);
+
     const params = action.content.params;
     let breadcrumb = [];
     let type = action.content.type;
@@ -63,13 +85,21 @@ const setContent = (action, schema) => {
  * @param  {object} BREADCRUMB_SCHEMA
  * @return {function}
  */
-const reducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => (state = INITIAL_STATE, action = {}) => {
-    switch (action.type) {
-    case 'SET_CONTENT':
-        return setContent(action, BREADCRUMB_SCHEMA);
-    default:
-        return merge([], state);
-    }
+const reducerValidate = compileSchema(getSchema([
+    { title: 'INITIAL_STATE', type: 'array', required: true },
+    { title: 'BREADCRUMB_SCHEMA', properties: {}, required: true }
+]));
+const reducer = (INITIAL_STATE = [], BREADCRUMB_SCHEMA = {}) => {
+    reducerValidate([INITIAL_STATE, BREADCRUMB_SCHEMA]);
+
+    return (state = INITIAL_STATE, action = {}) => {
+        switch (action.type) {
+        case 'SET_CONTENT':
+            return setContent(action, BREADCRUMB_SCHEMA);
+        default:
+            return merge([], state);
+        }
+    };
 };
 
 // -----------------------------------------

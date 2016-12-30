@@ -1,14 +1,10 @@
-// @flow
-'use strict';
+// 'use strict';
 
-/* ::
-import type {CompData, Tmpl, FnTmpl, FnGetTmplFn, FnRender, FnDestroy} from './_test/vanilla.flow.js';
-*/
-
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import { Component as Comp } from './common.js';
 
-// -----------------------------------------
-// Functions
+// // -----------------------------------------
+// // Functions
 
 /**
  * Gets template function
@@ -16,13 +12,18 @@ import { Component as Comp } from './common.js';
  * @param {string|function} tmpl
  * @returns {function}
  */
-const getTmplFn/* :: :FnGetTmplFn*/ = (tmpl) => {
-    let tmplFn/* :: :FnTmpl */;
+// const getTmplFnValidate = compileSchema(getSchema([
+//     { title: 'tmpl' }
+// ]));
+const getTmplFn = (tmpl) => {
+    let tmplFn;
 
-    if (typeof tmpl !== 'function') {
+    if (typeof tmpl === 'string') {
         tmplFn = () => typeof tmpl === 'string' ? tmpl : '';
-    } else {
+    } else if (typeof tmpl === 'function') {
         tmplFn = tmpl;
+    } else {
+        throw new Error('Template needs to be a string or a function');
     }
 
     return tmplFn;
@@ -35,8 +36,16 @@ export { getTmplFn };
  * @param  {object} state
  * @return {string}
  */
-const render/* :: :FnRender*/ = (el, tmpl, state, renderedTmpl) => {
-    const finalTmpl/* :: :string */ = tmpl(state);
+const renderValidate = compileSchema(getSchema([
+    // { title: 'el' },
+    // { title: 'tmpl' },
+    { title: 'state', properties: {} },
+    { title: 'renderedTmpl', type: 'string' }
+]));
+const render = (el, tmpl, state = {}, renderedTmpl) => {
+    renderValidate([state, renderedTmpl]);
+
+    const finalTmpl = tmpl(state);
 
     // Maybe there aren't changes
     if (finalTmpl !== renderedTmpl || el !== undefined) {
@@ -58,7 +67,12 @@ export { render };
  * Destroys component
  * @param  {element} el
  */
-const destroy/* :: :FnDestroy */ = (el) => {
+// const renderValidate = compileSchema(getSchema([
+//     { title: 'el' }
+// ]));
+const destroy = (el) => {
+    // destroyValidate([el]);
+
     // Check el data
     if (el !== undefined && el !== null) {
         // Lets remove the html!
@@ -69,21 +83,25 @@ const destroy/* :: :FnDestroy */ = (el) => {
 };
 export { destroy };
 
-// --------------------------------
-// Class
+// // --------------------------------
+// // Class
+
+const constructorValidate = compileSchema(getSchema([
+    // { title: 'el' },
+    { title: 'data', properties: {
+        els: { properties: {} },
+        render: { type: 'boolean' }
+    } }
+]));
+// const setTmplValidate = compileSchema(getSchema([
+//     { title: 'tmpl' }
+// ]));
 
 class Component extends Comp {
-    // Vars
-    /* ::
-    _el:?Element[];
-    _els:{ [key: string]: ?Element[] };
-    _tmpl:FnTmpl;
-    _renderedTmpl:?string;
-    _render:boolean;
-    */
-
     // Constructor
-    constructor(el/* :: :?Element[] */, data/* :: :CompData */ = {}) {
+    constructor(el, data = {}) {
+        constructorValidate([data]);
+
         super({ comps: data.comps, state: data.state });
 
         // Lets cache stuff
@@ -95,8 +113,12 @@ class Component extends Comp {
     }
 
     // Template...
-    set tmpl(tmpl/* :: :Tmpl */) { this._tmpl = getTmplFn(tmpl); }
-    get tmpl()/* :: :FnTmpl */ { return this._tmpl; }
+    set tmpl(tmpl) {
+        // setTmplValidate([tmpl]);
+        this._tmpl = getTmplFn(tmpl);
+    }
+
+    get tmpl() { return this._tmpl; }
 
     // Render
     render() {

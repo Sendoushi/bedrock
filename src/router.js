@@ -1,14 +1,10 @@
-// @flow
 'use strict';
 
-/* ::
-import type {Routes, Route, AddRoute, FnAdd, FnCbRoute, FnStart} from './_test/router.flow.js';
-*/
-
 import page from 'page';
+import { compileSchema, getSchema } from 'bedrock-utils/src/validate.js';
 import mailbox from './mailbox.js';
 
-const routes/* :: :Routes */ = [];
+const routes = [];
 const DEFAULTS = {
     events: {
         add: 'router.add',
@@ -24,7 +20,14 @@ const DEFAULTS = {
  * @param  {object} route
  * @param  {object} ctx
  */
-const cbRoute/* :: :FnCbRoute */ = (route, ctx, next) => {
+const cbRouteValidate = compileSchema(getSchema([
+    { title: 'route', properties: { route: { type: 'string' }, cbs: [] }, required: true }
+    // { title: 'ctx' },
+    // { title: 'next' }
+]));
+const cbRoute = (route, ctx, next) => {
+    cbRouteValidate([route]);
+
     for (let c = 0; c < route.cbs.length; c += 1) {
         route.cbs[c](ctx, next);
     }
@@ -35,7 +38,13 @@ const cbRoute/* :: :FnCbRoute */ = (route, ctx, next) => {
  * @param {string} route
  * @param {function} cb
  */
-const add/* :: :FnAdd */ = (route, cb) => {
+const addValidate = compileSchema(getSchema([
+    { title: 'route', type: 'string', required: true }
+    // { title: 'cb' }
+]));
+const add = (route, cb) => {
+    addValidate([route]);
+
     // Lets see if the route is already defined
     for (let i = 0; i < routes.length; i += 1) {
         if (routes[i].route === route) {
@@ -52,14 +61,19 @@ const add/* :: :FnAdd */ = (route, cb) => {
  * Starts the router
  * @param  {object} opts
  */
-const start/* :: :FnStart */ = (opts) => {
+const startValidate = compileSchema(getSchema([
+    { title: 'opts', properties: {} }
+]));
+const start = (opts) => {
+    startValidate([opts]);
+
     if (!routes.length) {
         return;
     }
 
     // Lets add all routers to the right places
     for (let i = 0; i < routes.length; i += 1) {
-        const route/* :: :Route */ = routes[i];
+        const route = routes[i];
 
         // Lets finally set it in the "page"
         page(route.route, cbRoute.bind(null, route));
@@ -73,7 +87,7 @@ const start/* :: :FnStart */ = (opts) => {
 // Runtime
 
 mailbox.on(DEFAULTS.events.start, start);
-mailbox.on(DEFAULTS.events.add, (data/* :: :AddRoute */) => add(data.route, data.cb));
+mailbox.on(DEFAULTS.events.add, (data) => add(data.route, data.cb));
 
 // --------------------------------
 // Export

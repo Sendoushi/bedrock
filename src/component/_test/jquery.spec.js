@@ -14,6 +14,11 @@ describe('component.jquery', () => {
     // init
     describe('init', () => {
         it.skip('should be tested', () => {
+            var $ = function () {
+
+            };
+            modal.open(document.body);
+
             // ...
         });
     });
