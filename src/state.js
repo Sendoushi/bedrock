@@ -2,7 +2,7 @@
 
 import cloneDeep from 'lodash/cloneDeep.js';
 import merge from 'lodash/merge.js';
-import { diff } from 'deep-diff';
+import deepDiff from 'deep-diff';
 
 // -----------------------------------------
 // Functions
@@ -17,7 +17,7 @@ import { diff } from 'deep-diff';
 // { title: 'newState', properties: {}, required: true }
 const getNew = (oldState = {}, newState = {}) => {
     const newData = merge({}, cloneDeep(oldState), cloneDeep(newState));
-    const isDiff = diff(oldState, newData);
+    const isDiff = deepDiff.diff(oldState, newData);
 
     // Update data
     return {

@@ -35,6 +35,10 @@ class Component {
         // Lets destroy components underneath
         const compsKeys = Object.keys(this._comps);
         for (let i = 0; i < compsKeys.length; i += 1) {
+            if (!this._comps[compsKeys[i]] || !this._comps[compsKeys[i]].destroy) {
+                continue;
+            }
+
             this._comps[compsKeys[i]].destroy();
             this._comps[compsKeys[i]] = null;
         }

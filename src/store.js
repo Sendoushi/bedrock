@@ -1,6 +1,6 @@
 'use strict';
 
-import redux from 'redux';
+import { combineReducers, compose, createStore } from 'redux';
 import mailbox from './mailbox.js';
 
 const DEFAULTS = {
@@ -47,10 +47,10 @@ const connect = (store) => {
 // { title: 'storeReducers', properties: {}, required: true }
 // { title: 'INITIAL_STATE', default: {} }
 const init = (storeReducers, INITIAL_STATE = {}) => {
-    const reducers = redux.combineReducers(storeReducers);
+    const reducers = combineReducers(storeReducers);
     const isDev = process && process.env && process.env.NODE_ENV === 'development' || false;
     const devTools = window.devToolsExtension;
-    const finalCreateStore = redux.compose((isDev && devTools) ? devTools() : (f) => f)(redux.createStore);
+    const finalCreateStore = compose((isDev && devTools) ? devTools() : (f) => f)(createStore);
     const store = finalCreateStore(reducers);
     const initialFn = () => INITIAL_STATE;
 
